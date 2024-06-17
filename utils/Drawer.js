@@ -9,11 +9,11 @@ export class Drawer {
     }
 
     rect({
-        x = 0, y = 0, w = 10, h = 10, color = "#000000", filled = true
+        x = 0, y = 0, width = 10, height = 10, color = "#000000", filled = true
     }) {
         this.ctx.beginPath();
         this.ctx.fillStyle = color;
-        filled ? this.ctx.fillRect(x, y, w, h) : this.ctx.strokeRect(x, y, w, h);
+        filled ? this.ctx.fillRect(x, y, width, height) : this.ctx.strokeRect(x, y, width, height);
         this.ctx.closePath();
     }
 
@@ -21,12 +21,12 @@ export class Drawer {
         image = null,
         ax = 0,
         ay = 0,
-        aw = 10,
-        ah = 10,
+        awidth = 10,
+        aheight = 10,
         bx = null,
         by = null,
-        bw = null,
-        bh = null,
+        bwidth = null,
+        bheight = null,
     }) {
         if(!image) return;
         this.ctx.beginPath();
@@ -68,13 +68,13 @@ export class Drawer {
     }
 
     error({
-        x = 0, y = 0, w = 10, h = 10
+        x = 0, y = 0, width = 10, height = 10
     }) {
         this.ctx.beginPath();
         this.ctx.fillStyle = "#000000";
         this.ctx.strokeStyle = "#FF0000";
-        this.ctx.fillRect(x, y, w, h);
-        this.ctx.strokeRect(x+w*0.25, y+h*0.25, w*0.75, h*0.75);
+        this.ctx.fillRect(x, y, width, height);
+        this.ctx.strokeRect(x+width*0.25, y+height*0.25, width*0.75, height*0.75);
         this.ctx.closePath();
     }
 }

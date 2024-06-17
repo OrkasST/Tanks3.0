@@ -1,12 +1,15 @@
+import { Loading } from "../scenes/presets/loading.js";
 import { Drawer } from "../utils/Drawer.js";
 import { MediaLoader } from "../utils/MediaLoader.js";
 
 class TanksGame {
-    constructor(data) {
+    constructor(data = null) {
         this.data = data;
 
         this.SCREEN = null;
         this.drawer = null;
+
+        this.currentScene = null;
 
         this.START_BTN = document.createElement("button");
         this.START_BTN.innerText = "Start";
@@ -29,11 +32,31 @@ class TanksGame {
     }
 
     update(data, time) {
-
+        // console.log('time: ', time);
+        if (!this.currentScene) return;
+        this.currentScene.update(time);
+        if(this.currentScene.isFinished) this.currentScene = null;
     }
 
     render(data, time) {
         this.drawer.clear();
+        if (!this.currentScene) return;
+        if (typeof this.currentScene.background === 'string') 
+            this.drawer.rect({
+                x:0, y:0, width:this.SCREEN.width, height:this.SCREEN.height, color:this.currentScene.background
+            });
+        this.currentScene.objects.forEach(element => {
+            // console.log('element: ', element);
+            if (element.type === "text") this.drawer.text(element);
+            else if (typeof element.color === 'string') {
+                this.drawer.rect(element);
+                // if (element.name === "loadbar_back") debugger;
+            }
+            else {
+                this.drawer.image(element);
+                // if (element.name === "loadbar_back") debugger;
+            }
+        });
     }
 
     setup() {
@@ -41,15 +64,17 @@ class TanksGame {
         for (let i = 1; i <= 216; i++) {
             images[i] = '../media/images/test/0' + (i < 10 ? '00' + i : i < 100 ? '0' + i : i) + '.png';
         }
-        this.loader.setMedia(images);
+        // this.loader.setMedia(images);
         //console.log(this.loader.loadMedia());
-        this.loader.loadMedia().then(
-            (value) => console.log(value),
-            (reason) => {
-                console.clear();
-                console.log(reason);
-            }
-        );
+        // this.loader.loadMedia().then(
+        //     (value) => console.log(value),
+        //     (reason) => {
+        //         console.clear();
+        //         console.log(reason);
+        //     }
+        // );
+
+        if(!this.data) this.data = this.createDataObject();
 
         this.SCREEN = document.createElement("canvas");
         this.SCREEN.width = window.innerWidth;
@@ -67,6 +92,16 @@ class TanksGame {
         });
 
         this.drawer = new Drawer(this.SCREEN);
+        this.currentScene = new Loading(images, "gameMenu", 0);
+        console.log('this.currentScene: ', this.currentScene.name);
+        this.loop(this.data, 0);
+    }
+
+    createDataObject() {
+        return {
+            player: {},
+            gameSettings: {},
+        }
     }
 }
 

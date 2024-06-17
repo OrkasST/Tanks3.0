@@ -25,7 +25,7 @@ export class MediaLoader {
 
     _step() {
         this.percentLoaded++;
-        this.callback(this.percentLoaded);
+        if(this.callback)this.callback(this.percentLoaded);
     }
   
     _setup(name, src) {
