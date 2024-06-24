@@ -18,18 +18,20 @@ export class Drawer {
     }
 
     image({
-        image = null,
-        ax = 0,
-        ay = 0,
-        awidth = 10,
-        aheight = 10,
+        color = null,
+        x = 0,
+        y = 0,
+        width = 10,
+        height = 10,
         bx = null,
         by = null,
         bwidth = null,
         bheight = null,
     }) {
-        if(!image) return;
+        if(!color) return;
         this.ctx.beginPath();
+        if (bx && by && bwidth && bheight) this.ctx.drawImage(color, bx, by, bwidth, bheight, x, y, width, height);
+        else this.ctx.drawImage(color, x, y, width, height);
         this.ctx.closePath();
     }
 

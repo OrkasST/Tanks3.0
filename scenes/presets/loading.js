@@ -2,7 +2,7 @@ import { MediaLoader } from "../../utils/MediaLoader.js";
 import { Scene } from "../Scene.js";
 
 export class Loading extends Scene {
-    constructor(imagesList, nextScene, startTime) {
+    constructor(data, nextScene, startTime, background) {
         super({
             name: "Game Loading",
             objects: [
@@ -47,36 +47,51 @@ export class Loading extends Scene {
                     color: "#DDDDDD"
                 }
             ],
-            data: imagesList,
+            data,
             time: 10000, // Infinity
             nextScene,
-            startTime
+            startTime,
+            background
         });
-        this._onFinish = () => console.log("Loading is finished!");
-        this.loadAmmount = Object.keys(this.data).length;
+        this.loadAmmount = this.data.sceneImages.length;
         this.alreadyLoaded = 0;
 
         this.loader = new MediaLoader();
-        this.loader.setMedia(this.data);
+        this.loader.setMedia(this.data.sceneImages);
+        console.log('this.data.sceneImages: ', this.data.sceneImages);
         this.loader.loadMedia().then(
-            (value) => console.log(this.loader.loadedMedia),
+            (value) => {
+                console.log(this.loader.loadedMedia);
+                this.data.sceneImages = this.loader.loadedMedia;
+            },
             (reason) => {
                 console.clear();
                 console.log(reason);
             }
         );
+        this.loadingStep = 0;
+        this.textUpdateLastTime = 0;
     }
 
     _updateLoadbar(length) {
-        this.objects[3].width = this.objects[2].width / Object.keys(this.data).length * length;
+        this.objects[3].width = this.objects[2].width / this.loadAmmount * length;
         this.alreadyLoaded = length;
+    }
+
+    _updateText(time) {
+        if (time - this.textUpdateLastTime < 200 && this.textUpdateLastTime > 0) return;
+        this.objects[0].text = "Loading" + ".".repeat(this.loadingStep++);
+        if(this.loadingStep > 3) this.loadingStep = 0;
+        this.textUpdateLastTime = time;
     }
 
     update(time) {
         this._updateLoadbar(this.loader.percentLoaded);
+        this._updateText(time);
         if (this.loadAmmount === this.alreadyLoaded) {
             this.isFinished = true;
-            this._onFinish();
+            this.onFinish();
         }
+        this.lastTime = time;
     }
 }

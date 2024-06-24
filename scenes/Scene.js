@@ -22,7 +22,7 @@ export class Scene {
     time = 2000,
     nextScene = "",
     startTime = 0,
-    _onFinish = () => { },
+    onFinish = () => { },
     _update = null,
     physicIsOn = false,
   }) {
@@ -36,7 +36,7 @@ export class Scene {
     // this.media = media;
     this.nextScene = nextScene;
     this.startTime = null;
-    this._onFinish = _onFinish;
+    this.onFinish = onFinish;
     this.physicIsOn = physicIsOn;
     if (_update) this.update = _update;
   }
@@ -57,7 +57,6 @@ export class Scene {
   update(time) {
     if (time - this.startTime >= this.time) {
       this.isFinished = true;
-      this._onFinish();
     }
   }
 }
