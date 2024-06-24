@@ -68,6 +68,7 @@ class TanksGame {
         this.currentScene.objects.forEach(element => {
             // console.log('element: ', element);
             if (element.type === "text") this.drawer.text(element);
+            else if (element.type === "button") this.drawer.button(element);
             else if (typeof element.color === 'string') {
                 this.drawer.rect(element);
             }

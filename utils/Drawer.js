@@ -79,4 +79,16 @@ export class Drawer {
         this.ctx.strokeRect(x+width*0.25, y+height*0.25, width*0.75, height*0.75);
         this.ctx.closePath();
     }
+
+    button({
+        x = 10, y = 10,
+        width = 40, height = 15,
+        text="standartButton",
+        font="15px TimesNewRoman",
+        textX = 10, textY = 10,
+        color = "#FFFFFF", textColor = "#000000"
+    }) {
+        typeof color === "string" ? this.rect({x, y, width, height, color}) : this.image({x, y, width, height, color});
+        this.text({font, color: textColor, x: textX, y: textY, text});
+    }
 }

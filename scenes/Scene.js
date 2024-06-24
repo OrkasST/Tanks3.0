@@ -6,7 +6,7 @@ export class Scene {
     objects = [],
     /*
     {
-      type: "block", // "text"
+      type: "block", // "text" | "button" (Button())
       name: "logo",
       x: 10,
       y: 10,
