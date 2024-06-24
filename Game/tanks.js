@@ -1,6 +1,7 @@
 import { Menu } from "../scenes/presets/Menu.js";
 import { Loading } from "../scenes/presets/loading.js";
 import { Drawer } from "../utils/Drawer.js";
+import { EventHandler } from "../utils/EventHandler.js";
 import { MediaLoader } from "../utils/MediaLoader.js";
 import { SceneChanger } from "../utils/SceneChanger.js";
 
@@ -45,7 +46,8 @@ class TanksGame {
     update(data, time) {
         // console.log('time: ', time);
         if (!this.currentScene) return;
-        this.currentScene.update(time);
+        data.events = this.eventHandler.getLastEvents();
+        this.currentScene.update(time, data);
         if (this.currentScene.isFinished) {
             this.currentScene = this.currentScene.name === "Game Loading" 
                 ? this.sceneChanger.finishScene(this.currentScene)
@@ -104,7 +106,8 @@ class TanksGame {
 
         this.drawer = new Drawer(this.SCREEN);
         this.currentScene = this.sceneChanger.prepareScene("game_menu", 0);
-        // this.currentScene = new Loading(images, "gameMenu", 0, this.data.loading.background);
+
+        this.eventHandler = new EventHandler();
 
         this.loop(this.data, 0);
     }

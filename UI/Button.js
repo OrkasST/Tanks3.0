@@ -7,7 +7,7 @@ export class Button {
         textColor = "#000000",
         font = "TimesNewRoman",
         textHeight = 40, 
-        extX, textY,
+        textX, textY,
         action = null
     }) {
         this.name = name;
@@ -25,10 +25,11 @@ export class Button {
         this.type = "button";
         this.isUpdatable = true;
         this.isInteractive = true;
-
+        this.action = action;
     }
 
     isUnderPointer(x, y) {
+        // debugger;
         if (this.x <= x && this.y <= y && this.x + this.width >= x && this.y + this.height >= y) return true;
         else return false;
     }

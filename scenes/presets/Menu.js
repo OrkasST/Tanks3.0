@@ -60,6 +60,19 @@ export class Menu extends Scene {
                     color: data['levels'],
                     textColor: "#FFFFFF",
                     textX: 12
+                }),
+                new Button({
+                    name: "Level Start",
+                    text: "Level 2",
+                    x: window.innerWidth * 0.3 + 180,
+                    y: window.innerHeight * 0.3,
+                    width: 120,
+                    height: 40,
+                    font: "TimesNewRoman",
+                    textHeight: 35,
+                    color: data['levels'],
+                    textColor: "#FFFFFF",
+                    textX: 12
                 })
             ]
         }
@@ -69,5 +82,19 @@ export class Menu extends Scene {
         this.objects = this.pages[page];
     }
 
-    update(time) {}
+    update(time, data) {
+        if (data.events.mouse.length > 0) {
+            // debugger;
+            for (let i = 0; i < this.objects.length; i++) {
+                if (this.objects[i].isInteractive &&
+                    this.objects[i].isUnderPointer(
+                        data.events.mouse[data.events.mouse.length-1].clientX,
+                        data.events.mouse[data.events.mouse.length-1].clientY
+                    )
+                ) {
+                    this.objects[i].action();
+                }
+            }
+        }
+    }
 }
