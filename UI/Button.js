@@ -8,7 +8,8 @@ export class Button {
         font = "TimesNewRoman",
         textHeight = 40, 
         textX, textY,
-        action = null
+        isActive = true,
+        action = () => {console.log("Default Function in button")}
     }) {
         this.name = name;
         this.x = x;
@@ -25,12 +26,20 @@ export class Button {
         this.type = "button";
         this.isUpdatable = true;
         this.isInteractive = true;
+        this.isActive = isActive;
         this.action = action;
     }
 
     isUnderPointer(x, y) {
         // debugger;
-        if (this.x <= x && this.y <= y && this.x + this.width >= x && this.y + this.height >= y) return true;
+        if (this.isActive && this.x <= x && this.y <= y && this.x + this.width >= x && this.y + this.height >= y) return true;
         else return false;
+    }
+
+    activate() {
+        this.isActive = true;
+    }
+    deactivate() {
+        this.isActive = false;
     }
 }

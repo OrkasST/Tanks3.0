@@ -86,9 +86,11 @@ export class Drawer {
         text="standartButton",
         font="15px TimesNewRoman",
         textX = 10, textY = 10,
-        color = "#FFFFFF", textColor = "#000000"
+        color = "#FFFFFF", textColor = "#000000",
+        isActive
     }) {
         typeof color === "string" ? this.rect({x, y, width, height, color}) : this.image({x, y, width, height, color});
         this.text({font, color: textColor, x: textX, y: textY, text});
+        if (!isActive) this.rect({x, y, width, height, color: "#303030BF"})
     }
 }

@@ -6,6 +6,7 @@ export class SceneChanger{
     constructor(loadingImages) {
         this.list = scenes_info;
         this.loadingImages = loadingImages;
+        console.log('loadingImages: ', loadingImages);
     }
 
     prepareScene(sceneName, time) {

@@ -21,11 +21,12 @@ class TanksGame {
         document.body.appendChild(this.START_BTN);
 
         this.loader = new MediaLoader();
-        this.loader.setMedia({ back: '../media/images/loading/pexels-hristo-fidanov-1252890.jpg' });
+        this.loader.setMedia([['back', '../media/images/loading/pexels-hristo-fidanov-1252890.jpg']]);
         this.loader.loadMedia(true).then((image) => {
+            console.log('image: ', image);
             this.sceneChanger = new SceneChanger(image);
             this.START_BTN.disabled = false;
-        });
+        }, (error) => console.log(error));
 
         this.START_BTN.addEventListener("click", () => {
             this.setup();

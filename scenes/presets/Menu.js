@@ -72,7 +72,8 @@ export class Menu extends Scene {
                     textHeight: 35,
                     color: data['levels'],
                     textColor: "#FFFFFF",
-                    textX: 12
+                    textX: 12,
+                    isActive: false
                 })
             ]
         }
