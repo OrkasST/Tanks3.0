@@ -41,7 +41,7 @@ export class Menu extends Scene {
                     textX: 12,
                     action: () => this.changePage("levels")
                 })
-                
+
             ],
             startTime,
             background: "#000000"
@@ -63,34 +63,40 @@ export class Menu extends Scene {
                     textX: 8,
                     action: () => this.changePage('main')
                 }),
-                new LevelChoiseButton(() => this.changePage('main'), "Level 1", data['levels']),
-                new LevelChoiseButton(() => this.changePage('main'), "Level 2", data['levels'], false, {x: 180, y: 0}),
+                new LevelChoiseButton(() => this.chooseLevel("level_1"), "Level 1", data['levels']),
+                new LevelChoiseButton(() => this.changePage('main'), "Level 2", data['levels'], false, { x: 180, y: 0 }),
 
             ]
         }
+        this.nextScene = null;
     }
 
-    changePage(page) {
-        if (page !== "main") this.objects = this.pages[page];
-        else this.objects = this.mainPage;
+    // changePage(page) {
+    //     if (page !== "main") this.objects = this.pages[page];
+    //     else this.objects = this.mainPage;
 
-        console.log(this.objects);
-        console.log(typeof this.objects);
+    //     console.log(this.objects);
+    //     console.log(typeof this.objects);
+    // }
+
+    chooseLevel(levelName) {
+        this.nextScene = levelName;
+        this.isFinished = true;
     }
 
     update(time, data) {
-        if (data.events.mouse.length > 0) {
-            // debugger;
+        if (!this.isFinished && data.events.mouse.length > 0) {
             for (let i = 0; i < this.objects.length; i++) {
                 if (this.objects[i].isInteractive &&
                     this.objects[i].isUnderPointer(
-                        data.events.mouse[data.events.mouse.length-1].clientX,
-                        data.events.mouse[data.events.mouse.length-1].clientY
+                        data.events.mouse[data.events.mouse.length - 1].clientX,
+                        data.events.mouse[data.events.mouse.length - 1].clientY
                     )
                 ) {
                     this.objects[i].action();
                 }
             }
         }
+        if (this.isFinished) { data.nextScene = this.nextScene; }
     }
 }

@@ -1,3 +1,5 @@
+import { Scene } from "../Scene.js";
+
 export class GameLevel extends Scene {
     constructor(name, startTime, data) {
         super({
@@ -14,9 +16,9 @@ export class GameLevel extends Scene {
         }
     }
 
-    changePage(page) {
-        this.objects = this.pages[page];
-    }
+    // changePage(page) {
+    //     this.objects = this.pages[page];
+    // }
 
     update(time, data) {
         if (data.events.mouse.length > 0) {

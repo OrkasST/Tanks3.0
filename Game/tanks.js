@@ -65,6 +65,7 @@ class TanksGame {
             this.drawer.rect({
                 x: 0, y: 0, width: this.SCREEN.width, height: this.SCREEN.height, color: this.currentScene.background
             });
+
         else {
             this.drawer.image({ x: 0, y: 0, width: this.SCREEN.width, height: this.SCREEN.height, color: this.currentScene.background });
         }

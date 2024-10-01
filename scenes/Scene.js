@@ -50,6 +50,11 @@ export class Scene {
     // console.groupEnd();
   }
 
+  changePage(page) {
+    if (page !== "main") this.objects = this.pages[page];
+    else this.objects = this.mainPage;
+  }
+
   setData(data) {
     this.data = data;
   }

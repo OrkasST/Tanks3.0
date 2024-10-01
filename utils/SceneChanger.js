@@ -1,5 +1,6 @@
 import { scenes_info } from "../scenes/info.js";
 import { Menu } from "../scenes/presets/Menu.js";
+import { GameLevel } from "../scenes/presets/gameLevel.js";
 import { Loading } from "../scenes/presets/loading.js";
 
 export class SceneChanger{
@@ -18,8 +19,10 @@ export class SceneChanger{
     }
 
     finishScene(loadingScene, time) {
-        if (this.nextScene = "game_menu") {
+        if (this.nextScene === "game_menu") {
             return new Menu(time, loadingScene.data.sceneImages);
+        } else if (this.nextScene === "level_1") {
+            return new GameLevel(loadingScene.nextScene, time, loadingScene.data.sceneImages)
         }
     }
 }
