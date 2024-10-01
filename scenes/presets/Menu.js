@@ -1,4 +1,5 @@
 import { Button } from "../../UI/Button.js";
+import { LevelChoiseButton } from "../../UI/LevelChoiseButton.js";
 import { Scene } from "../Scene.js";
 
 export class Menu extends Scene {
@@ -45,42 +46,36 @@ export class Menu extends Scene {
             startTime,
             background: "#000000"
         });
-        this.mainPage = {...this.objects};
+        this.mainPage = [...this.objects];
         this.pages = {
             levels: [
                 new Button({
-                    name: "Level Start",
-                    text: "Level 1",
-                    x: window.innerWidth * 0.3,
-                    y: window.innerHeight * 0.3,
-                    width: 120,
+                    name: "Return",
+                    text: "Back",
+                    x: window.innerWidth * 0.1,
+                    y: window.innerHeight * 0.1,
+                    width: 88,
                     height: 40,
                     font: "TimesNewRoman",
                     textHeight: 35,
                     color: data['levels'],
                     textColor: "#FFFFFF",
-                    textX: 12
+                    textX: 8,
+                    action: () => this.changePage('main')
                 }),
-                new Button({
-                    name: "Level Start",
-                    text: "Level 2",
-                    x: window.innerWidth * 0.3 + 180,
-                    y: window.innerHeight * 0.3,
-                    width: 120,
-                    height: 40,
-                    font: "TimesNewRoman",
-                    textHeight: 35,
-                    color: data['levels'],
-                    textColor: "#FFFFFF",
-                    textX: 12,
-                    isActive: false
-                })
+                new LevelChoiseButton(() => this.changePage('main'), "Level 1", data['levels']),
+                new LevelChoiseButton(() => this.changePage('main'), "Level 2", data['levels'], false, {x: 180, y: 0}),
+
             ]
         }
     }
 
     changePage(page) {
-        this.objects = this.pages[page];
+        if (page !== "main") this.objects = this.pages[page];
+        else this.objects = this.mainPage;
+
+        console.log(this.objects);
+        console.log(typeof this.objects);
     }
 
     update(time, data) {

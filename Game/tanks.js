@@ -36,6 +36,12 @@ class TanksGame {
 
         this.gameId = null;
         this.deltaTime = 0;
+
+        let a = "9";
+        for (let i = 0; i < 38-17; i++) {
+            a= a + "9";
+        }
+        console.log(a);
     }
 
     loop(data, time) {

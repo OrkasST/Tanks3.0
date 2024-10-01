@@ -1,7 +1,7 @@
 export class GameLevel extends Scene {
-    constructor(startTime, data) {
+    constructor(name, startTime, data) {
         super({
-            name: "Game Level" + data.name,
+            name,
             objects: [
                   
             ],

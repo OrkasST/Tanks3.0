@@ -10,7 +10,7 @@ export const scenes_info = {
 
         ],
         dataList: [
-
+            ["player", {x: 20, y: 20}] 
         ]
     }
 }
