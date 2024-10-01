@@ -36,12 +36,6 @@ class TanksGame {
 
         this.gameId = null;
         this.deltaTime = 0;
-
-        let a = "9";
-        for (let i = 0; i < 38-17; i++) {
-            a= a + "9";
-        }
-        console.log(a);
     }
 
     loop(data, time) {
@@ -56,7 +50,7 @@ class TanksGame {
         data.events = this.eventHandler.getLastEvents();
         this.currentScene.update(time, data);
         if (this.currentScene.isFinished) {
-            this.currentScene = this.currentScene.name === "Game Loading" 
+            this.currentScene = this.currentScene.name === "Game Loading"
                 ? this.sceneChanger.finishScene(this.currentScene)
                 : this.sceneChanger.prepareScene(data.nextScene, time);
             // this.currentScene.onFinish();
