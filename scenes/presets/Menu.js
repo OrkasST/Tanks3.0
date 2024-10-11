@@ -30,17 +30,32 @@ export class Menu extends Scene {
                 new Button({
                     name: "Level Choose",
                     text: "Levels",
-                    x: window.innerWidth * 0.5 - 60,
+                    x: window.innerWidth * 0.5 - 64,
                     y: window.innerHeight * 0.2 + 250,
-                    width: 120,
+                    width: 128,
                     height: 40,
                     font: "TimesNewRoman",
                     textHeight: 35,
                     color: data['levels'],
                     textColor: "#FFFFFF",
-                    textX: 12,
+                    textX: 16,
                     action: () => this.changePage("levels")
+                }),
+                new Button({
+                    name: "Game Settings",
+                    text: "Settings",
+                    x: window.innerWidth * 0.5 - 64,
+                    y: window.innerHeight * 0.2 + 310,
+                    width: 128,
+                    height: 40,
+                    font: "TimesNewRoman",
+                    textHeight: 35,
+                    color: data['levels'],
+                    textColor: "#FFFFFF",
+                    textX: 7,
+                    action: () => this.changePage("settings")
                 })
+
 
             ],
             startTime,
@@ -64,8 +79,44 @@ export class Menu extends Scene {
                     action: () => this.changePage('main')
                 }),
                 new LevelChoiseButton(() => this.chooseLevel("level_1"), "Level 1", data['levels']),
-                new LevelChoiseButton(() => this.changePage('main'), "Level 2", data['levels'], false, { x: 180, y: 0 }),
+                new LevelChoiseButton(() => this.chooseLevel("level_2"), "Level 2", data['levels'], false, { x: 180, y: 0 }),
+                new LevelChoiseButton(() => this.chooseLevel("level_3"), "Level 3", data['levels'], false, { x: 180 * 2, y: 0 }),
+                new LevelChoiseButton(() => this.chooseLevel("level_4"), "Level 4", data['levels'], false, { x: 180 * 3, y: 0 }),
+                new LevelChoiseButton(() => this.chooseLevel("level_5"), "Level 5", data['levels'], false, { x: 0, y: 50 }),
+                new LevelChoiseButton(() => this.chooseLevel("level_6"), "Level 6", data['levels'], false, { x: 180, y: 50 }),
 
+            ],
+            settings: [
+                new Button({
+                    name: "Return",
+                    text: "Back",
+                    x: window.innerWidth * 0.1,
+                    y: window.innerHeight * 0.1,
+                    width: 88,
+                    height: 40,
+                    font: "TimesNewRoman",
+                    textHeight: 35,
+                    color: data['levels'],
+                    textColor: "#FFFFFF",
+                    textX: 8,
+                    action: () => this.changePage('main')
+                }),
+                new Button({
+                    name: "Toggle fullscreen",
+                    text: "Fullscreen: ON",
+                    x: window.innerWidth * 0.5 - 64,
+                    y: window.innerHeight * 0.2 + 310,
+                    width: 240,
+                    height: 40,
+                    font: "TimesNewRoman",
+                    textHeight: 35,
+                    color: data['levels'],
+                    textColor: "#FFFFFF",
+                    textX: 14,
+                    action: () => {
+                        //data.changeSettings.toggleFullscreen(); //not ready (11:09 05.10.2024)
+                    }
+                })
             ]
         }
         this.nextScene = null;
@@ -86,16 +137,17 @@ export class Menu extends Scene {
 
     update(time, data) {
         if (!this.isFinished && data.events.mouse.length > 0) {
-            for (let i = 0; i < this.objects.length; i++) {
-                if (this.objects[i].isInteractive &&
-                    this.objects[i].isUnderPointer(
-                        data.events.mouse[data.events.mouse.length - 1].clientX,
-                        data.events.mouse[data.events.mouse.length - 1].clientY
-                    )
-                ) {
-                    this.objects[i].action();
+            if (data.events.mouse[data.events.mouse.length - 1].type !== "contextmenu")
+                for (let i = 0; i < this.objects.length; i++) {
+                    if (this.objects[i].isInteractive &&
+                        this.objects[i].isUnderPointer(
+                            data.events.mouse[data.events.mouse.length - 1].clientX,
+                            data.events.mouse[data.events.mouse.length - 1].clientY
+                        )
+                    ) {
+                        this.objects[i].action();
+                    }
                 }
-            }
         }
         if (this.isFinished) { data.nextScene = this.nextScene; }
     }

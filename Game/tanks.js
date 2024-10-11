@@ -1,3 +1,4 @@
+import { eventList } from "../media/data/common/events.js";
 import { Menu } from "../scenes/presets/Menu.js";
 import { Loading } from "../scenes/presets/loading.js";
 import { Drawer } from "../utils/Drawer.js";
@@ -29,6 +30,7 @@ class TanksGame {
         }, (error) => console.log(error));
 
         this.START_BTN.addEventListener("click", () => {
+            document.documentElement.requestFullscreen();
             this.setup();
             this.START_BTN.disabled = true;
             this.START_BTN.hidden = true;
@@ -109,7 +111,7 @@ class TanksGame {
         this.drawer = new Drawer(this.SCREEN);
         this.currentScene = this.sceneChanger.prepareScene("game_menu", 0);
 
-        this.eventHandler = new EventHandler();
+        this.eventHandler = new EventHandler(eventList);
 
         this.loop(this.data, 0);
     }

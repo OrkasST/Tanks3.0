@@ -1,3 +1,5 @@
+import { MapLoader } from "./MapLoader.js";
+
 export class MediaLoader {
     constructor(callback) {
       this.mediaToLoad = null;
@@ -35,6 +37,8 @@ export class MediaLoader {
             ? document.createElement("video")
             : name.split("_")[0] === "music"
             ? document.createElement("audio")
+            : name.split("_")[0] === "map"
+            ? new MapLoader()
             : new Image();
   
         this.loadedMedia[name] = img;
@@ -42,10 +46,12 @@ export class MediaLoader {
           ? (img.oncanplaythrough = () => {this._step(); resolve(isSendingImage ? img : name)})
           : name.split("_")[0] === "music"
           ? (img.oncanplaythrough = () => {this._step(); resolve(isSendingImage ? img : name)})
+          : name.split("_")[0] === "map"
+          ? (img.onmapinfoloaded = () => {this._step(); resolve(isSendingImage ? img : name)})
           : (img.onload = () => {this._step(); resolve(isSendingImage ? img : name)});
         img.onerror = (error) => reject(error);
         // console.log(window.location.origin + src);
-        img.src = src;
+        name.split("_")[0] === "map" ? img.load(src) : img.src = src;
       });
     }
   }

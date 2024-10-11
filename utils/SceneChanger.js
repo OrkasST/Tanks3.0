@@ -13,15 +13,16 @@ export class SceneChanger{
     prepareScene(sceneName, time) {
         this.nextScene = sceneName;
         let sceneImages = this.list[sceneName].sceneImages;
-        console.log('sceneImages: ', sceneImages);
+        console.log('sceneChanger.preparescene >>>>\n\tsceneImages: ', sceneImages);
         let data = this.list[sceneName].dataList;
+        console.log('sceneChanger.preparescene >>>>\n\tdata: ', data);
         return new Loading(this.list[sceneName], sceneName, time, this.loadingImages[0]);
     }
 
     finishScene(loadingScene, time) {
         if (this.nextScene === "game_menu") {
             return new Menu(time, loadingScene.data.sceneImages);
-        } else if (this.nextScene === "level_1") {
+        } else if (this.nextScene.split("_")[0] === "level") {
             return new GameLevel(loadingScene.nextScene, time, loadingScene.data.sceneImages)
         }
     }

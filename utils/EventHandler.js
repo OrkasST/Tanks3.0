@@ -3,11 +3,12 @@ export class EventHandler {
         mouse: ["click"]
     }) {
         this.lastEvents = {};
-        for (let name in eventList) {
-            this.lastEvents[name] = [];
-            for (let i = 0; i < eventList[name].length; i++) {
-                window.addEventListener(eventList[name][i], (evt) => {
-                    this.lastEvents[name].push(evt);
+        for (let type in eventList) {
+            this.lastEvents[type] = [];
+            for (let name in eventList[type]) {
+                window.addEventListener(name, (evt) => {
+                    this.lastEvents[type].push(evt);
+                    if (eventList[type][name]) evt.preventDefault();
                 })
             }
         }
@@ -17,10 +18,10 @@ export class EventHandler {
     getLastEvents() {
         let events = {};
         events.number = 0;
-        for (let name in this.lastEvents) {
-            events[name] = [...this.lastEvents[name]];
-            this.lastEvents[name] = [];
-            events.number += events[name].length;
+        for (let type in this.lastEvents) {
+            events[type] = [...this.lastEvents[type]];
+            this.lastEvents[type] = [];
+            events.number += events[type].length;
         }
 
         return events;
