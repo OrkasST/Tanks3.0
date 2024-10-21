@@ -1,4 +1,5 @@
 import { MediaLoader } from "../../utils/MediaLoader.js";
+import { ObjectCreator } from "../../utils/ObjectCreator.js";
 import { Scene } from "../Scene.js";
 
 export class Loading extends Scene {
@@ -70,6 +71,12 @@ export class Loading extends Scene {
                 console.log(reason);
             }
         );
+        if (this.data.dataList) {
+            this.creator = new ObjectCreator();
+            for (let i = 0; i < this.data.dataList[i]; i++) {
+                this.creator.create(this.data.dataList[i][0], this.data.dataList[i][1], this.data.sceneImages);
+            }
+        }
         this.loadingStep = 0;
         this.textUpdateLastTime = 0;
     }
@@ -82,7 +89,7 @@ export class Loading extends Scene {
     _updateText(time) {
         if (time - this.textUpdateLastTime < 200 && this.textUpdateLastTime > 0) return;
         this.objects[0].text = "Loading" + ".".repeat(this.loadingStep++);
-        if(this.loadingStep > 3) this.loadingStep = 0;
+        if (this.loadingStep > 3) this.loadingStep = 0;
         this.textUpdateLastTime = time;
     }
 

@@ -23,7 +23,7 @@ export class SceneChanger{
         if (this.nextScene === "game_menu") {
             return new Menu(time, loadingScene.data.sceneImages);
         } else if (this.nextScene.split("_")[0] === "level") {
-            return new GameLevel(loadingScene.nextScene, time, loadingScene.data.sceneImages)
+            return new GameLevel(loadingScene.nextScene, time, loadingScene.data)
         }
     }
 }

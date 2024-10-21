@@ -1,5 +1,5 @@
-import { GameObject } from "../Objects/GameObject.js";
-import { SpriteSheet } from "./SpriteSheet.js";
+import { GameObject } from "../GameObject.js";
+// import { SpriteSheet } from "./SpriteSheet.js";
 
 export class Map {
   constructor(name, src) {
@@ -27,7 +27,9 @@ export class Map {
   //   // console.log("Map Created");
   //   return true;
   // }
-  createMap(GS) {
+
+  /*
+  createMap() {
     this.screen.width = this.mapData.width * this.mapData.tilewidth;
     this.screen.height = this.mapData.height * this.mapData.tileheight;
     let tileset = new SpriteSheet({
@@ -118,4 +120,5 @@ export class Map {
     this.hitboxes = hitboxes;
     // console.log(this.spawnPoints);
   }
+    */
 }

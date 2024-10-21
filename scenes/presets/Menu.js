@@ -113,6 +113,7 @@ export class Menu extends Scene {
                     color: data['levels'],
                     textColor: "#FFFFFF",
                     textX: 14,
+                    isActive: false,
                     action: () => {
                         //data.changeSettings.toggleFullscreen(); //not ready (11:09 05.10.2024)
                     }

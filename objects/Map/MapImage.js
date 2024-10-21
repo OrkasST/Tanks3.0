@@ -1,9 +1,14 @@
 import { GameObject } from "../GameObject.js";
 
 export class MapImage extends GameObject {
-    constructor(image) {
+    constructor(image, width, height) {
         super({
-            tag: "map_image",
+            tag: "special",
+            x: 0,
+            y: 0,
+            width,
+            height,
+            
         })
     }
 }

@@ -9,7 +9,7 @@ export class GameLevel extends Scene {
 
             ],
             startTime,
-            background: data.background
+            background: data.sceneImages.background
         });
         this.mainPage = { ...this.objects };
         this.pages = {

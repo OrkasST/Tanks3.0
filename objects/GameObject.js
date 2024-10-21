@@ -20,14 +20,12 @@ export class GameObject {
 
     shape = "rectangle", // "circle" , {type:0/1, x...}
 
-    //temporary
-    movement = {
-      direction: "none",
-      prevDirection: "none",
-      speed: 5,
-      status: "stop",
-      steps: 0,
-    },
+    direction = "none",
+    prevDirection = "none",
+    speed = 5,
+    status = "stop",
+    steps = 0,
+    
     time = 0,
     lifeTime = Infinity,
   }) {
@@ -48,8 +46,12 @@ export class GameObject {
 
     this.activeTextures = [];
 
-    //temp
-    this.movement = movement;
+    this.direction = direction;
+    this.prevDirection = prevDirection;
+    this.speed = speed;
+    this.status = status;
+    this.steps = steps;
+
     this.time = time;
     this.lifeTime = lifeTime;
   }

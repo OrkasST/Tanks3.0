@@ -1,10 +1,15 @@
-import { Bullet } from "../objects/Bullet.js";
+import { Bullet } from "../objects/Bullet/Bullet.js";
+import { Spawner } from "../objects/Enemy/Spawner.js";
 import { GameObject } from "../objects/GameObject.js";
+import { Map } from "../objects/Map/Map.js";
+import { Player } from "../objects/Player/Player.js";
 import { CollisionBody } from "../physics/CollisionBody.js";
 import { Animation } from "./Animation.js";
+import { Camera } from "./Camera.js";
 
 export class ObjectCreator {
   create(
+    objectType,
     {
       objectData = {},
       textures = [],
@@ -25,15 +30,21 @@ export class ObjectCreator {
           isRotating: false,
           isInfinit: true,
         },
+        //{},
+        //{}, ...
       ],
     },
     loaded_textures
   ) {
     // if (objectData.type === "bullet") debugger;
-    let object =
-      objectData.type === "bullet"
-        ? new Bullet(objectData)
-        : new GameObject(objectData);
+    let object = null;
+    switch (objectType) {
+      case "player": object = new Player(objectData); break;
+      case "map": object = new Map(objectData); break;
+      case "camera": object = new Camera(objectData); break;
+      case "spawner": object = new Spawner(objectData); break;
+    }
+    /*
     let images = [];
     for (let i = 0; i < imagesCount; i++) {
       images[i] = {};
@@ -66,8 +77,11 @@ export class ObjectCreator {
           y2: object.y + object.height,
         }
       );
+    */
+
     return object;
   }
+
   destroy(object) {
     for (let i = 0; i < object.images.length; i++)
       object.images[i].image.remove();
