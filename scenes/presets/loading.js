@@ -67,7 +67,7 @@ export class Loading extends Scene {
                 this.data.sceneImages = this.loader.loadedMedia;
             },
             (reason) => {
-                console.clear();
+                // console.clear();
                 console.log(reason);
             }
         );
