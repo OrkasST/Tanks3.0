@@ -3,6 +3,7 @@ import { GameObject } from "../GameObject.js";
 
 export class Map {
   constructor(name, src) {
+    console.log("CREATING MAP_____");
     this.type = "map";
     this.screen = document.createElement("canvas");
     // this.screen.width = width;

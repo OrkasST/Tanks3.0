@@ -10,5 +10,5 @@ export class MapLoader {
         this.onmapinfoloaded();
     }
 
-    onmapinfoloaded() { }
+    onmapinfoloaded() { null }
 }

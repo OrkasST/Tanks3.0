@@ -73,7 +73,8 @@ export class Loading extends Scene {
         );
         if (this.data.dataList) {
             this.creator = new ObjectCreator();
-            for (let i = 0; i < this.data.dataList[i]; i++) {
+            for (let i = 0; i < this.data.dataList[i].length; i++) {
+                console.log(`this.data.dataList[${i}]: `, this.data.dataList[i]);
                 this.creator.create(this.data.dataList[i][0], this.data.dataList[i][1], this.data.sceneImages);
             }
         }

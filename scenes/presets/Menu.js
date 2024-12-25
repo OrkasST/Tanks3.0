@@ -62,6 +62,7 @@ export class Menu extends Scene {
             background: "#000000"
         });
         this.mainPage = [...this.objects];
+        console.log('Menu.constructor>>>this.objects: ', this.objects);
         this.pages = {
             levels: [
                 new Button({
@@ -132,8 +133,9 @@ export class Menu extends Scene {
     // }
 
     chooseLevel(levelName) {
-        this.nextScene = levelName;
-        this.isFinished = true;
+        super.switchScene(levelName)
+        // this.nextScene = levelName;
+        // this.isFinished = true;
     }
 
     update(time, data) {

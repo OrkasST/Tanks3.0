@@ -10,30 +10,31 @@ import { Camera } from "./Camera.js";
 export class ObjectCreator {
   create(
     objectType,
-    {
-      objectData = {},
-      textures = [],
-      colisionBodyShape = 0,
-      imagesSize = [],
-      imagesCount,
-      animationData = [
-        {
-          framelist: "",
-          frameListHeight,
-          frameListWidth,
-          frameWidth,
-          frameHeight,
-          duration,
-          frameX,
-          frameY,
-          startFrame: 0,
-          isRotating: false,
-          isInfinit: true,
-        },
-        //{},
-        //{}, ...
-      ],
-    },
+    objectData,
+    // {
+    //   //objectData = {},
+    //   textures = [],
+    //   colisionBodyShape = 0,
+    //   imagesSize = [],
+    //   imagesCount,
+    //   animationData = [
+    //     {
+    //       framelist: "",
+    //       frameListHeight,
+    //       frameListWidth,
+    //       frameWidth,
+    //       frameHeight,
+    //       duration,
+    //       frameX,
+    //       frameY,
+    //       startFrame: 0,
+    //       isRotating: false,
+    //       isInfinit: true,
+    //     },
+    //     //{},
+    //     //{}, ...
+    //   ],
+    // },
     loaded_textures
   ) {
     // if (objectData.type === "bullet") debugger;

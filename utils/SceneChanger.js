@@ -12,6 +12,7 @@ export class SceneChanger{
 
     prepareScene(sceneName, time) {
         this.nextScene = sceneName;
+        console.log('sceneChanger.preparescene >>>>\n\tsceneName: ', sceneName);
         let sceneImages = this.list[sceneName].sceneImages;
         console.log('sceneChanger.preparescene >>>>\n\tsceneImages: ', sceneImages);
         let data = this.list[sceneName].dataList;
@@ -20,6 +21,7 @@ export class SceneChanger{
     }
 
     finishScene(loadingScene, time) {
+        console.log('SceneChanger.finishScene >>>>>\n\tloadingScene: ', loadingScene);
         if (this.nextScene === "game_menu") {
             return new Menu(time, loadingScene.data.sceneImages);
         } else if (this.nextScene.split("_")[0] === "level") {

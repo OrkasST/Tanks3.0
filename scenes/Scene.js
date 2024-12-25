@@ -63,6 +63,12 @@ export class Scene {
     if (time - this.startTime >= this.time) {
       this.isFinished = true;
     }
+    if (this.isFinished) { data.nextScene = this.nextScene; }
+  }
+
+  switchScene(sceneName) {
+    this.nextScene = sceneName;
+    this.isFinished = true;
   }
 }
 
