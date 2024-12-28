@@ -67,6 +67,7 @@ export class Scene {
   }
 
   switchScene(sceneName) {
+    console.log('Scene.switchScene >>>>\n\t sceneName: ', sceneName);
     this.nextScene = sceneName;
     this.isFinished = true;
   }

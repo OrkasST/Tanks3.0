@@ -15,20 +15,24 @@ export class GameLevel extends Scene {
         this.mainPage = { ...this.objects };
         this.pages = {
             pauseMenu: [
-                // new Button({
-                //     name: "Return",
-                //     text: "Back",
-                //     x: window.innerWidth * 0.1,
-                //     y: window.innerHeight * 0.1,
-                //     width: 88,
-                //     height: 40,
-                //     font: "TimesNewRoman",
-                //     textHeight: 35,
-                //     color: "#AAAAAA",
-                //     textColor: "#FFFFFF",
-                //     textX: 8,
-                //     action: this.switchScene("game_menu")
-                // }),
+                new Button({
+                    name: "Return",
+                    text: "Back",
+                    x: window.innerWidth * 0.1,
+                    y: window.innerHeight * 0.1,
+                    width: 88,
+                    height: 40,
+                    font: "TimesNewRoman",
+                    textHeight: 35,
+                    color: "#AAAAAA",
+                    textColor: "#FFFFFF",
+                    textX: 8,
+                    action: () => {
+                        console.clear()
+                        this.switchScene("game_menu")
+                        console.log('switchScene: ', this.switchScene);
+                    }
+                }),
             ]
         }
     }
@@ -38,10 +42,7 @@ export class GameLevel extends Scene {
     // }
 
     update(time, data) {
-        if (this.isFinished) {
-            data.nextScene = this.nextScene;
-            console.log('GameLevel.update >>>>>\n\tdata: ', data);
-        }
+
         if (data.events.mouse.length > 0) {
             if (
                 data.events.mouse[data.events.mouse.length - 1].type === "contextmenu"
@@ -72,6 +73,12 @@ export class GameLevel extends Scene {
 
             console.log('data.events.keyboard: ', data.events.keyboard);
         }
+
+        if (this.isFinished) {
+            data.nextScene = this.nextScene;
+            console.log('>>>>>>>>>>>>>>>>>GameLevel.update >>>>>\n\tdata: ', data);
+        }
+        
     }
 
 

@@ -49,7 +49,7 @@ export class Loading extends Scene {
                     color: "#DDDDDD"
                 }
             ],
-            data,
+            data: {...data},
             time: 10000, // Infinity
             nextScene,
             startTime,
@@ -60,8 +60,8 @@ export class Loading extends Scene {
 
         this.loader = new MediaLoader();
         this.loader.setMedia(this.data.sceneImages);
-        console.log('this.data.sceneImages: ', this.data.sceneImages);
-        this.loader.loadMedia().then(
+        console.log('Loading >>>>>\n\tthis.data.sceneImages: ', this.data.sceneImages);
+        if (Array.isArray(this.data.sceneImages[0])) this.loader.loadMedia().then(
             (value) => {
                 console.log(this.loader.loadedMedia);
                 this.data.sceneImages = this.loader.loadedMedia;

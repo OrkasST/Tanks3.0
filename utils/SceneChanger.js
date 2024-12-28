@@ -14,6 +14,7 @@ export class SceneChanger{
         this.nextScene = sceneName;
         console.log('sceneChanger.preparescene >>>>\n\tsceneName: ', sceneName);
         let sceneImages = this.list[sceneName].sceneImages;
+        console.log('sceneChanger.preparescene >>>>\n\tthis.list: ', this.list);
         console.log('sceneChanger.preparescene >>>>\n\tsceneImages: ', sceneImages);
         let data = this.list[sceneName].dataList;
         console.log('sceneChanger.preparescene >>>>\n\tdata: ', data);
