@@ -1,7 +1,7 @@
 import { scenes_info } from "../scenes/info.js";
-import { Menu } from "../scenes/presets/Menu.js";
-import { GameLevel } from "../scenes/presets/gameLevel.js";
+import { GameLevel } from "../scenes/presets/gameLevel/gameLevel.js";
 import { Loading } from "../scenes/presets/loading.js";
+import { Menu } from "../scenes/presets/MainMenu/Menu.js";
 
 export class SceneChanger{
     constructor(loadingImages) {

@@ -2,6 +2,8 @@ export class Drawer {
     constructor(screen) {
         this.screen = screen;
         this.ctx = this.screen.getContext("2d");
+
+        this.logText = []
     }
 
     clear() {
@@ -87,10 +89,18 @@ export class Drawer {
         font="15px TimesNewRoman",
         textX = 10, textY = 10,
         color = "#FFFFFF", textColor = "#000000",
-        isActive
+        isActive = true,
+        log = null
     }) {
         typeof color === "string" ? this.rect({x, y, width, height, color}) : this.image({x, y, width, height, color});
         this.text({font, color: textColor, x: textX, y: textY, text});
+        if (log && log.lg) {
+            console.log(
+                'Drawer.button.text >>>>>>',
+                {font, color: textColor, x: textX, y: textY, text}
+            );
+            log.lg = false
+        }
         if (!isActive) this.rect({x, y, width, height, color: "#303030BF"})
     }
 }

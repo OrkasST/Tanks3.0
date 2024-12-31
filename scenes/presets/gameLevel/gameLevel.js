@@ -1,5 +1,7 @@
-import { Button } from "../../UI/Button.js";
-import { Scene } from "../Scene.js";
+import { Button } from "../../../UI/Button.js";
+import { Window } from "../../../UI/Window.js";
+import { Scene } from "../../Scene.js";
+import { PauseMenu } from "./pages/pauseMenu.js";
 
 export class GameLevel extends Scene {
     constructor(name, startTime, data) {
@@ -14,26 +16,14 @@ export class GameLevel extends Scene {
         });
         this.mainPage = { ...this.objects };
         this.pages = {
-            pauseMenu: [
-                new Button({
-                    name: "Return",
-                    text: "Back",
-                    x: window.innerWidth * 0.1,
-                    y: window.innerHeight * 0.1,
-                    width: 88,
-                    height: 40,
-                    font: "TimesNewRoman",
-                    textHeight: 35,
-                    color: "#AAAAAA",
-                    textColor: "#FFFFFF",
-                    textX: 8,
-                    action: () => {
-                        console.clear()
-                        this.switchScene("game_menu")
-                        console.log('switchScene: ', this.switchScene);
-                    }
-                }),
-            ]
+            pauseMenu: PauseMenu(
+                data,
+                () => {
+                    console.clear()
+                    this.switchScene("game_menu")
+                    console.log('switchScene: ', this.switchScene);
+                }
+            )
         }
     }
 
@@ -66,6 +56,7 @@ export class GameLevel extends Scene {
         if (data.events.keyboard.length > 0) {
             // data.events.keyboard[data.events.keyboard.length-1];
             if (data.events.keyboard[data.events.keyboard.length - 1].code === "Escape") {
+                console.log("ESCAPE");
             }
             if (data.events.keyboard[data.events.keyboard.length - 1].code === "KeyP") {
                 this.changePage("pauseMenu")

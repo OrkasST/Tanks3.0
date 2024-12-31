@@ -28,6 +28,10 @@ export class Button {
         this.isInteractive = true;
         this.isActive = isActive;
         this.action = action;
+
+        this.log = {
+            lg: true
+        }
     }
 
     isUnderPointer(x, y) {
