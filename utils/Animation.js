@@ -21,8 +21,8 @@ export class Animation {
       this.framelist = framelist;
       this.frameListHeight = frameListHeight;
       this.frameListWidth = frameListWidth;
-      this.frameWidth = frameWidth;
-      this.frameHeight = frameHeight;
+      this.frameWidth = frameWidth || frameListWidth;
+      this.frameHeight = frameHeight || frameListHeight;
       this.totalFrames = totalFrames;
       this.duration = duration;
       this.step = duration / totalFrames;

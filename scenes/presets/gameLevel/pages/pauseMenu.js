@@ -6,10 +6,10 @@ export function PauseMenu(data, ...callbacks) {
         new Window({}),
         new Button({
             name: "Return",
-            text: "Back",
+            text: "Quite Level",
             x: window.innerWidth * 0.1,
             y: window.innerHeight * 0.1,
-            width: 88,
+            width: 180,
             height: 40,
             font: "TimesNewRoman",
             textHeight: 35,

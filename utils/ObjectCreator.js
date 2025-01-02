@@ -83,6 +83,32 @@ export class ObjectCreator {
     return object;
   }
 
+  appendImages(images, objects) {
+    console.log("Object Creator Appender >>>>>>>");
+    console.log('objects: ', objects);
+    console.log('images: ', images);
+    let img;
+    let i;
+    for (img in images) {
+      // i = objects.
+      // if () {
+
+      // }
+      // switch (img.split("_")[0]) {
+      //   case "player":
+      //     this.packImage(images[img]);
+      //     // Player.images[]
+      //     break;
+      //   default:
+      //     break;
+      // }
+    }
+  }
+
+  packImage(image) {
+
+  }
+
   destroy(object) {
     for (let i = 0; i < object.images.length; i++)
       object.images[i].image.remove();

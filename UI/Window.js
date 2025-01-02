@@ -33,7 +33,7 @@ export class Window {
         if (tabs.length > 0) {
             switch (tabsPosition){
                 case "top":
-                    
+                    break;
             }
         }
 
