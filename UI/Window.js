@@ -1,13 +1,18 @@
 export class Window {
     constructor({
         name = "standartWindow",
-        x = window.innerWidth * 0.1, y = window.innerHeight * 0.1, width = window.innerWidth * 0.8, height = window.innerHeight * 0.8,
+        x = window.innerWidth * 0.1,
+        y = window.innerHeight * 0.1,
+        width = window.innerWidth * 0.8,
+        height = window.innerHeight * 0.8,
         color = "#FFFFFF",
         textColor = "#000000",
         font = "TimesNewRoman",
         textHeight = 40, 
         textX = 20, textY = 20,
-        text = "SAMPLE WINDOW TEXT"
+        text = "SAMPLE WINDOW TEXT",
+        tabs = [],
+        tabsPosition = "top" // left, right, bottom
     }) {
         this.name = name;
         this.x = x;
@@ -24,6 +29,13 @@ export class Window {
         this.type = "window";
         this.isUpdatable = true;
         this.isInteractive = true;
+
+        if (tabs.length > 0) {
+            switch (tabsPosition){
+                case "top":
+                    
+            }
+        }
 
         this.log = {
             lg: true

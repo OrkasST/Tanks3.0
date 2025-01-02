@@ -1,5 +1,5 @@
+import { BINDIGS } from "../media/data/common/Bindings.js";
 import { eventList } from "../media/data/common/events.js";
-import { Loading } from "../scenes/presets/loading.js";
 import { Drawer } from "../utils/Drawer.js";
 import { EventHandler } from "../utils/EventHandler.js";
 import { MediaLoader } from "../utils/MediaLoader.js";
@@ -8,6 +8,10 @@ import { SceneChanger } from "../utils/SceneChanger.js";
 class TanksGame {
     constructor(data = null) {
         this.data = data;
+
+        this.LOGGER = {
+            value: 1
+        }
 
         this.SCREEN = null;
         this.drawer = null;
@@ -46,6 +50,7 @@ class TanksGame {
     }
 
     update(data, time) {
+        // console.log('data: ', data);/
         // console.log('time: ', time);
         if (!this.currentScene) return;
         data.events = this.eventHandler.getLastEvents();
@@ -57,6 +62,7 @@ class TanksGame {
             // this.currentScene.onFinish();
             // this.currentScene = null;
         }
+        this.LOGGER.value += 1
     }
 
     render(data, time) {
@@ -112,15 +118,19 @@ class TanksGame {
 
         this.eventHandler = new EventHandler(eventList);
 
+        console.log('Game.data: ', this.data);
         this.loop(this.data, 0);
     }
 
     createDataObject() {
+        console.log("Create Data >>>>\n\tKey Bindings",BINDIGS);
         return {
             player: {},
-            gameSettings: {},
+            gameSettings: {
+                keyBindings: {...BINDIGS}
+            },
         }
     }
 }
 
-const OrkasTanks = new TanksGame({});
+const OrkasTanks = new TanksGame();

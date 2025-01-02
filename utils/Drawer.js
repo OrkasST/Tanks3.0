@@ -95,10 +95,10 @@ export class Drawer {
         typeof color === "string" ? this.rect({x, y, width, height, color}) : this.image({x, y, width, height, color});
         this.text({font, color: textColor, x: textX, y: textY, text});
         if (log && log.lg) {
-            console.log(
-                'Drawer.button.text >>>>>>',
-                {font, color: textColor, x: textX, y: textY, text}
-            );
+            // console.log(
+            //     'Drawer.button.text >>>>>>',
+            //     {font, color: textColor, x: textX, y: textY, text}
+            // );
             log.lg = false
         }
         if (!isActive) this.rect({x, y, width, height, color: "#303030BF"})

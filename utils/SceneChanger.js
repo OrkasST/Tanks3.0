@@ -12,12 +12,12 @@ export class SceneChanger{
 
     prepareScene(sceneName, time) {
         this.nextScene = sceneName;
-        console.log('sceneChanger.preparescene >>>>\n\tsceneName: ', sceneName);
-        let sceneImages = this.list[sceneName].sceneImages;
-        console.log('sceneChanger.preparescene >>>>\n\tthis.list: ', this.list);
-        console.log('sceneChanger.preparescene >>>>\n\tsceneImages: ', sceneImages);
-        let data = this.list[sceneName].dataList;
-        console.log('sceneChanger.preparescene >>>>\n\tdata: ', data);
+        // console.log('sceneChanger.preparescene >>>>\n\tsceneName: ', sceneName);
+        // let sceneImages = this.list[sceneName].sceneImages;
+        // console.log('sceneChanger.preparescene >>>>\n\tthis.list: ', this.list);
+        // console.log('sceneChanger.preparescene >>>>\n\tsceneImages: ', sceneImages);
+        // let data = this.list[sceneName].dataList;
+        // console.log('sceneChanger.preparescene >>>>\n\tdata: ', data);
         return new Loading(this.list[sceneName], sceneName, time, this.loadingImages[0]);
     }
 

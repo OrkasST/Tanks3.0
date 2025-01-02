@@ -33,6 +33,7 @@ export class Scene {
     this.time = time;
     this.isFinished = false;
     this.data = data;
+    this.currentPage = "main";
     // this.media = media;
     this.nextScene = nextScene;
     this.startTime = null;
@@ -53,6 +54,7 @@ export class Scene {
   changePage(page) {
     if (page !== "main") this.objects = this.pages[page];
     else this.objects = this.mainPage;
+    this.currentPage = page;
   }
 
   setData(data) {

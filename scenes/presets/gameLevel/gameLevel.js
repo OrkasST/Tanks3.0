@@ -5,7 +5,6 @@ import { PauseMenu } from "./pages/pauseMenu.js";
 
 export class GameLevel extends Scene {
     constructor(name, startTime, data) {
-        console.log('gamelevel.constructor >>> data: ', data);
         super({
             name,
             objects: [
@@ -14,7 +13,7 @@ export class GameLevel extends Scene {
             startTime,
             background: data.sceneImages.background
         });
-        this.mainPage = { ...this.objects };
+        this.mainPage = [ ...this.objects ];
         this.pages = {
             pauseMenu: PauseMenu(
                 data,
@@ -58,16 +57,17 @@ export class GameLevel extends Scene {
             if (data.events.keyboard[data.events.keyboard.length - 1].code === "Escape") {
                 console.log("ESCAPE");
             }
-            if (data.events.keyboard[data.events.keyboard.length - 1].code === "KeyP") {
-                this.changePage("pauseMenu")
+            if (data.events.keyboard[data.events.keyboard.length - 1].code === data.gameSettings.keyBindings.PauseMenu) {
+                if (this.currentPage === "main") this.changePage("pauseMenu");
+                else this.changePage("main");
             }
 
-            console.log('data.events.keyboard: ', data.events.keyboard);
+            // console.log('data.events.keyboard: ', data.events.keyboard);
         }
 
         if (this.isFinished) {
             data.nextScene = this.nextScene;
-            console.log('>>>>>>>>>>>>>>>>>GameLevel.update >>>>>\n\tdata: ', data);
+            // console.log('>>>>>>>>>>>>>>>>>GameLevel.update >>>>>\n\tdata: ', data);
         }
         
     }
