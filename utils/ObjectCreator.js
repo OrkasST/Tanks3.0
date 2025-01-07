@@ -90,23 +90,16 @@ export class ObjectCreator {
     let img;
     let i;
     for (img in images) {
-      // i = objects.
-      // if () {
-
-      // }
-      // switch (img.split("_")[0]) {
-      //   case "player":
-      //     this.packImage(images[img]);
-      //     // Player.images[]
-      //     break;
-      //   default:
-      //     break;
-      // }
+      console.log('img: ', img);
+      let objName = img.split("_")[0];
+      console.log('objName: ', objName);
+      if (objects[objName]) {
+        if (objName!=="map") objects[objName].appendTexture(img, images[img]);
+        else objects[objName].appendInfo(images[img].mapData);
+      } else if (objName === "tiles") {
+        objects.map.appendTexture(images[img]);
+      }
     }
-  }
-
-  packImage(image) {
-
   }
 
   destroy(object) {

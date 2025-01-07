@@ -4,6 +4,7 @@ export const eventList = {
         "contextmenu": true // default action will be prevented
     },
     keyboard: {
-        "keyup": false
+        "keyup": false,
+        "keydown": false
     },
 }

@@ -84,7 +84,14 @@ class TanksGame {
                 this.drawer.rect(element);
             }
             else {
-                this.drawer.image(element);
+                if (this.currentScene.name === "level_1") {
+                    console.log(element.y + this.currentScene.camera.position.y);
+                    this.drawer.image({
+                        ...element,
+                        x: element.x + this.currentScene.camera.position.x,
+                        y: element.y + this.currentScene.camera.position.y,
+                    }, this.currentScene.name === "level_1");
+                } else this.drawer.image(element);
             }
         });
         // debugger;

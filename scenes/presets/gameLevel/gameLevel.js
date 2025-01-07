@@ -5,15 +5,16 @@ import { PauseMenu } from "./pages/pauseMenu.js";
 
 export class GameLevel extends Scene {
     constructor(name, startTime, data) {
+        console.log('GameLevel.constructor>>>>>>>>>>data: ', data);
+        // debugger;
         super({
             name,
-            objects: [
-
-            ],
+            objects: data.dataList,
             startTime,
             background: data.sceneImages.background
         });
         this.mainPage = [ ...this.objects ];
+        this.camera = this.objects[this.objects.length -1]
         this.pages = {
             pauseMenu: PauseMenu(
                 data,
@@ -60,6 +61,18 @@ export class GameLevel extends Scene {
             if (data.events.keyboard[data.events.keyboard.length - 1].code === data.gameSettings.keyBindings.PauseMenu) {
                 if (this.currentPage === "main") this.changePage("pauseMenu");
                 else this.changePage("main");
+            }
+            if (data.events.keyboard[data.events.keyboard.length - 1].code === "KeyS") {
+                this.camera.position.y -= 10;
+            }
+            if (data.events.keyboard[data.events.keyboard.length - 1].code === "KeyW") {
+                this.camera.position.y += 10;
+            }
+            if (data.events.keyboard[data.events.keyboard.length - 1].code === "KeyA") {
+                this.camera.position.x += 10;
+            }
+            if (data.events.keyboard[data.events.keyboard.length - 1].code === "KeyD") {
+                this.camera.position.x -= 10;
             }
 
             // console.log('data.events.keyboard: ', data.events.keyboard);

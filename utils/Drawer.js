@@ -29,7 +29,8 @@ export class Drawer {
         by = null,
         bwidth = null,
         bheight = null,
-    }) {
+    },stop = false) {
+        if (stop) console.log('debugger: y: ', y);
         if(!color) return;
         this.ctx.beginPath();
         if (bx && by && bwidth && bheight) this.ctx.drawImage(color, bx, by, bwidth, bheight, x, y, width, height);

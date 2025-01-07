@@ -89,7 +89,10 @@ export class Loading extends Scene {
                     }
                 }
                 this.data.sceneImages = this.loader.loadedMedia;
-                if (this.data.dataList) this.creator.appendImages(this.loader.loadedMedia, this.data.dataList);
+                if (this.data.dataList) {
+                    this.creator.appendImages(this.loader.loadedMedia, this.data.dataList);
+                    this.data.dataList = [this.data.dataList.map, this.data.dataList.player, this.data.dataList.camera]
+                }
             },
             (reason) => {
                 // console.clear();

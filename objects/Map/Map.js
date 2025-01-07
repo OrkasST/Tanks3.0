@@ -1,19 +1,20 @@
 import { GameObject } from "../GameObject.js";
 // import { SpriteSheet } from "./SpriteSheet.js";
 
-export class Map {
+export class Map extends GameObject {
   constructor(name, src) {
+    super({
+      type: "map"
+    })
     console.log("CREATING MAP_____");
     this.type = "map";
     this.screen = document.createElement("canvas");
+    console.log('MAP>>>>>>\n\tscreen: ', this.screen);
     // this.screen.width = width;
     // this.screen.height = height;
     this.ctx = this.screen.getContext("2d");
     this.mapData = null;
-    this.texture = {
-      name: "map-tiles",
-      img: null,
-    };
+    this.tiles = null;
     this.image = null;
     this.spawnPoints = null;
     this.hitboxes = null;
@@ -29,15 +30,44 @@ export class Map {
   //   return true;
   // }
 
-  /*
+  _isLast() {
+    if (!this.lastAppending) this.lastAppending = true
+    else this.createMap()
+  }
+
+  appendTexture(image) {
+    this.tiles = image
+    this._isLast()
+  }
+
+  appendInfo(info) {
+    this.mapData = info;
+    console.log('info: ', info);
+    this._isLast()
+  }
+
+  getSourceX(index) {
+    let res = this.mapData.tilewidth * (index-1)
+    return res;
+  }
+  getSourceY(index) {
+    return 0 //this.mapData.tileHeight * (index-1)
+  }
+
+  
   createMap() {
     this.screen.width = this.mapData.width * this.mapData.tilewidth;
     this.screen.height = this.mapData.height * this.mapData.tileheight;
-    let tileset = new SpriteSheet({
-      imageName: "tiles",
-      imageWidth: 640,
-      imageHeight: 640,
-    });
+    // document.body.appendChild(this.screen)
+    // document.body.appendChild(this.tiles)
+    this.width = this.screen.width
+    this.height = this.screen.height
+
+    // let tileset = new SpriteSheet({
+    //   imageName: "tiles",
+    //   imageWidth: 640,
+    //   imageHeight: 640,
+    // });
     const hitboxes = [];
     const spawnPoints = [];
     let row, col;
@@ -47,10 +77,12 @@ export class Map {
         col = 0;
         layer.data.forEach((index) => {
           if (index > 0) {
+            this.ctx.beginPath();
+            console.log('MAP>>>>>>\n\tthis.tiles: ', this.tiles);
             this.ctx.drawImage(
-              this.texture.img,
-              tileset.getSourceX(index),
-              tileset.getSourceY(index),
+              this.tiles,
+              this.getSourceX(index),
+              this.getSourceY(index),
               this.mapData.tilewidth,
               this.mapData.tileheight,
               col * this.mapData.tilewidth,
@@ -58,6 +90,7 @@ export class Map {
               this.mapData.tilewidth,
               this.mapData.tileheight
             );
+            this.ctx.closePath();
           }
           col++;
           if (col > this.mapData.width - 1) {
@@ -95,31 +128,32 @@ export class Map {
     //     hitboxes: hitboxes
     // });
 
-    this.image = new GameObject({
-      type: "map_image",
-      position: {
-        x: 0,
-        y: 0,
-      },
-      color: "#000000",
-      texture: {
-        img: this.screen,
-        sx: 0,
-        sy: 0,
-      },
-      size: {
-        width: this.screen.width * GS,
-        height: this.screen.height * GS,
-      },
-      movement: {
-        disabled: "all",
-      },
-      isDisplayed: true,
-    });
-    this.image.collisionBody = false;
+    // this.image = new GameObject({
+    //   type: "map_image",
+    //   position: {
+    //     x: 0,
+    //     y: 0,
+    //   },
+    //   color: "#000000",
+    //   texture: {
+    //     img: this.screen,
+    //     sx: 0,
+    //     sy: 0,
+    //   },
+    //   size: {
+    //     width: this.screen.width * GS,
+    //     height: this.screen.height * GS,
+    //   },
+    //   movement: {
+    //     disabled: "all",
+    //   },
+    //   isDisplayed: true,
+    // });
+    // this.image.collisionBody = false;
     this.spawnPoints = spawnPoints;
     this.hitboxes = hitboxes;
+    this.color = this.screen;
     // console.log(this.spawnPoints);
   }
-    */
+    
 }
