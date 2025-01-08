@@ -49,12 +49,12 @@ export const scenes_info = {
 
             }],
             ["background", "media/images/game/level_01/pexels-johannes-plenio-1114900.jpg"],
-            ["map_01_info", "media/data/levels/Default_map.json"],
+            ["levelMap_01_info", "media/data/levels/Default_map.json"],
             ["tiles_for_map", "media/images/game/level_01/defaul_map_tiles.png"]
         ],
         dataList: [
-            ["player"],
-            ["map", "Default_map"],
+            ["player", {}],
+            ["levelMap", "Default_map"],
             ["camera"]
         ]
     }

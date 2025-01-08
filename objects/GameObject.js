@@ -13,6 +13,9 @@ export class GameObject {
     isSpheric = false,
     radius = 0,
 
+    color = null,
+    image = null,
+
     isStatic = true,
     isCollidable = false,
     isPlayer = false,
@@ -46,7 +49,7 @@ export class GameObject {
 
     this.activeTextures = [];
     this.textures = {};
-    this.color = "#00FF00";
+    this.color = color;
 
     this.direction = direction;
     this.prevDirection = prevDirection;
@@ -73,6 +76,11 @@ export class GameObject {
 
   setActiveTexture(imageNumber, texture) {
     this.activeTextures[imageNumber] = texture;
+  }
+
+  setPosition({x, y}) {
+    this.x = x;
+    this.y = y;
   }
 
   move() {

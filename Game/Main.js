@@ -8,6 +8,8 @@ import { SceneChanger } from "../utils/SceneChanger.js";
 class TanksGame {
     constructor(data = null) {
         this.data = data;
+        this.lastTime = 0;
+        this.timerTime = 0;
 
         this.LOGGER = {
             value: 1
@@ -46,6 +48,7 @@ class TanksGame {
     loop(data, time) {
         this.update(data, time);
         this.render(data, time);
+        this.lastTime = time;
         this.gameId = requestAnimationFrame((time) => this.loop(data, time));
     }
 
@@ -78,21 +81,23 @@ class TanksGame {
         }
         this.currentScene.objects.forEach(element => {
             // console.log('element: ', element);
-            if (element.type === "text") this.drawer.text(element);
+            if (this.currentScene.name.split("_")[0] === "level") {
+                // console.log(element.y + this.currentScene.camera.position.y);
+                if (element.color) this.drawer.rect({
+                    ...element,
+                    x: element.x + this.currentScene.camera.position.x,
+                    y: element.y + this.currentScene.camera.position.y,
+                });
+                else this.drawer.image({
+                    ...element,
+                    x: element.x + this.currentScene.camera.position.x,
+                    y: element.y + this.currentScene.camera.position.y,
+                });
+            } else if (element.type === "text") this.drawer.text(element);
             else if (element.type === "button" || element.type === "window") this.drawer.button(element);
-            else if (typeof element.color === 'string') {
+            else if (element.color && typeof element.color === 'string') {
                 this.drawer.rect(element);
-            }
-            else {
-                if (this.currentScene.name === "level_1") {
-                    console.log(element.y + this.currentScene.camera.position.y);
-                    this.drawer.image({
-                        ...element,
-                        x: element.x + this.currentScene.camera.position.x,
-                        y: element.y + this.currentScene.camera.position.y,
-                    }, this.currentScene.name === "level_1");
-                } else this.drawer.image(element);
-            }
+            } else this.drawer.image(element);
         });
         // debugger;
     }
@@ -123,18 +128,29 @@ class TanksGame {
         this.drawer = new Drawer(this.SCREEN);
         this.currentScene = this.sceneChanger.prepareScene("game_menu", 0);
 
-        this.eventHandler = new EventHandler(eventList);
+        this.eventHandler = new EventHandler(eventList, BINDIGS, this.getTime.bind(this));
 
         console.log('Game.data: ', this.data);
+        this._tick();
         this.loop(this.data, 0);
     }
 
+    async _tick() {
+        setInterval(() => {
+            this.timerTime += 1;
+        }, 1)
+    }
+
+    getTime() {
+        return this.timerTime;
+    }
+
     createDataObject() {
-        console.log("Create Data >>>>\n\tKey Bindings",BINDIGS);
+        console.log("Create Data >>>>\n\tKey Bindings", BINDIGS);
         return {
             player: {},
             gameSettings: {
-                keyBindings: {...BINDIGS}
+                keyBindings: { ...BINDIGS }
             },
         }
     }

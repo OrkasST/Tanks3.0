@@ -47,14 +47,14 @@ export class Map extends GameObject {
   }
 
   getSourceX(index) {
-    let res = this.mapData.tilewidth * (index-1)
+    let res = this.mapData.tilewidth * (index - 1)
     return res;
   }
   getSourceY(index) {
     return 0 //this.mapData.tileHeight * (index-1)
   }
 
-  
+
   createMap() {
     this.screen.width = this.mapData.width * this.mapData.tilewidth;
     this.screen.height = this.mapData.height * this.mapData.tileheight;
@@ -69,7 +69,7 @@ export class Map extends GameObject {
     //   imageHeight: 640,
     // });
     const hitboxes = [];
-    const spawnPoints = [];
+    // const spawnPoints = [];
     let row, col;
     this.mapData.layers.forEach((layer) => {
       if (layer.type === "tilelayer") {
@@ -78,7 +78,7 @@ export class Map extends GameObject {
         layer.data.forEach((index) => {
           if (index > 0) {
             this.ctx.beginPath();
-            console.log('MAP>>>>>>\n\tthis.tiles: ', this.tiles);
+            // console.log('MAP>>>>>>\n\tthis.tiles: ', this.tiles);
             this.ctx.drawImage(
               this.tiles,
               this.getSourceX(index),
@@ -100,21 +100,29 @@ export class Map extends GameObject {
         });
       }
       if (layer.type === "objectgroup") {
-        if (layer.id !== 21)
-          spawnPoints[layer.name] = [
-            ...layer.objects.map((obj) => ({ x: obj.x, y: obj.y })),
-          ];
-        else
-          hitboxes.push(
-            ...layer.objects.map((obj) => ({
-              x1: obj.x,
-              x2: obj.x + obj.width,
-              y1: obj.y,
-              y2: obj.y + obj.height,
-              type: obj.type,
-              id: obj.id,
-            }))
-          );
+        // if (layer.id !== 21)
+        //   spawnPoints[layer.name] = [
+        //     ...layer.objects.map((obj) => ({ x: obj.x, y: obj.y })),
+        //   ];
+        // else
+        if (layer.name == "Walls") hitboxes.push(
+          ...layer.objects.map((obj) => ({
+            x1: obj.x,
+            x2: obj.x + obj.width,
+            y1: obj.y,
+            y2: obj.y + obj.height,
+            type: obj.type,
+            id: obj.id,
+          }))
+        );
+        else if (layer.name === "PlayerSpawnPoint") {
+          this.playerSpawnPoints = this._decodeSpawnPoints(layer);
+          this.currentPlayerSpawnPoint = this.playerSpawnPoints[0]
+        } else if (layer.name === "EnemySpawners") {
+          this.enemySpawners = this._decodeSpawnPoints(layer);
+        } else if (layer.name === "EnemyPositions") {
+          this.enemyDefaultPositions = this._decodeSpawnPoints(layer);
+        }
       }
     });
 
@@ -150,10 +158,14 @@ export class Map extends GameObject {
     //   isDisplayed: true,
     // });
     // this.image.collisionBody = false;
-    this.spawnPoints = spawnPoints;
+    // this.spawnPoints = spawnPoints;
     this.hitboxes = hitboxes;
-    this.color = this.screen;
+    this.image = this.screen;
     // console.log(this.spawnPoints);
   }
-    
+
+  _decodeSpawnPoints(data) {
+    return data.objects.map((el, ind) => { return { x: el.x, y: el.y, id: ind } })
+  }
+
 }

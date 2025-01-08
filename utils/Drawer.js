@@ -20,6 +20,7 @@ export class Drawer {
     }
 
     image({
+        image = null,
         color = null,
         x = 0,
         y = 0,
@@ -31,10 +32,10 @@ export class Drawer {
         bheight = null,
     },stop = false) {
         if (stop) console.log('debugger: y: ', y);
-        if(!color) return;
+        if(!image && !color) return;
         this.ctx.beginPath();
-        if (bx && by && bwidth && bheight) this.ctx.drawImage(color, bx, by, bwidth, bheight, x, y, width, height);
-        else this.ctx.drawImage(color, x, y, width, height);
+        if (bx && by && bwidth && bheight) this.ctx.drawImage(image || color, bx, by, bwidth, bheight, x, y, width, height);
+        else this.ctx.drawImage(image || color, x, y, width, height);
         this.ctx.closePath();
     }
 

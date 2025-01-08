@@ -1,5 +1,6 @@
 import { Button } from "../../../UI/Button.js";
 import { Window } from "../../../UI/Window.js";
+import { ObjectCreator } from "../../../utils/ObjectCreator.js";
 import { Scene } from "../../Scene.js";
 import { PauseMenu } from "./pages/pauseMenu.js";
 
@@ -13,8 +14,36 @@ export class GameLevel extends Scene {
             startTime,
             background: data.sceneImages.background
         });
-        this.mainPage = [ ...this.objects ];
-        this.camera = this.objects[this.objects.length -1]
+
+        this.camera = this.objects.camera;
+        this.player = this.objects.player;
+        this.levelMap = this.objects.levelMap;
+        this.creator = new ObjectCreator();
+
+        this.player.setPosition(this.levelMap.currentPlayerSpawnPoint)
+        this.camera.setModifiers()
+        this.camera.setFocus(this.player)
+
+        this.enemies = this.levelMap.enemyDefaultPositions.map(position => {
+            return this.creator.create("enemy", position)
+        })
+        this.enemySpawners = this.levelMap.enemySpawners.map(position => {
+            return this.creator.create("spawner", {
+                position, type: "enemy",
+                createFunction: this.creator.create,
+                data: {},
+                time: startTime,
+                source: this.enemies
+            })
+        })
+        
+        this.objects = [
+            this.levelMap,
+            this.player,
+            // this.camera,
+            ...this.enemies
+        ]
+        this.mainPage = [];
         this.pages = {
             pauseMenu: PauseMenu(
                 data,
@@ -54,35 +83,48 @@ export class GameLevel extends Scene {
         }
 
         if (data.events.keyboard.length > 0) {
-            // data.events.keyboard[data.events.keyboard.length-1];
-            if (data.events.keyboard[data.events.keyboard.length - 1].code === "Escape") {
-                console.log("ESCAPE");
-            }
-            if (data.events.keyboard[data.events.keyboard.length - 1].code === data.gameSettings.keyBindings.PauseMenu) {
-                if (this.currentPage === "main") this.changePage("pauseMenu");
-                else this.changePage("main");
-            }
-            if (data.events.keyboard[data.events.keyboard.length - 1].code === "KeyS") {
-                this.camera.position.y -= 10;
-            }
-            if (data.events.keyboard[data.events.keyboard.length - 1].code === "KeyW") {
-                this.camera.position.y += 10;
-            }
-            if (data.events.keyboard[data.events.keyboard.length - 1].code === "KeyA") {
-                this.camera.position.x += 10;
-            }
-            if (data.events.keyboard[data.events.keyboard.length - 1].code === "KeyD") {
-                this.camera.position.x -= 10;
+            console.log('data.events.keyboard: ', data.events.keyboard);
+            let event = data.events.keyboard
+            for (let i = 0; i < event.length; i++) {
+
+                // data.events.keyboard[data.events.keyboard.length-1];
+                if (event[i].code === "Escape") {
+                    console.log("ESCAPE");
+                }
+                if (event[i].code === data.gameSettings.keyBindings.PauseMenu) {
+                    if (this.currentPage === "main") this.changePage("pauseMenu");
+                    else this.changePage("main");
+                }
+                if (event[i].code === "KeyS") {
+                    // this.camera.position.y -= 10;
+                    this.camera.isMoving("y", event[i].type === "keydown" ? -10 : 0)
+                }
+                if (event[i].code === "KeyW") {
+                    // this.camera.position.y += 10;
+                    this.camera.isMoving("y", event[i].type === "keydown" ? 10 : 0)
+                }
+                if (event[i].code === "KeyA") {
+                    // this.camera.position.x += 10;
+                    this.camera.isMoving("x", event[i].type === "keydown" ? 10 : 0)
+                }
+                if (event[i].code === "KeyD") {
+                    // this.camera.position.x -= 10;
+                    this.camera.isMoving("x", event[i].type === "keydown" ? -10 : 0)
+                }
             }
 
             // console.log('data.events.keyboard: ', data.events.keyboard);
         }
 
+        this.objects.forEach(obj => {
+            if (obj.update) obj.update();
+        })
+
         if (this.isFinished) {
             data.nextScene = this.nextScene;
             // console.log('>>>>>>>>>>>>>>>>>GameLevel.update >>>>>\n\tdata: ', data);
         }
-        
+
     }
 
 

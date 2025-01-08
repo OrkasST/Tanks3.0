@@ -37,21 +37,22 @@ export class MediaLoader {
             ? document.createElement("video")
             : name.split("_")[0] === "music"
             ? document.createElement("audio")
-            : name.split("_")[0] === "map"
+            : name.split("_")[0] === "levelMap"
             ? new MapLoader()
             : new Image();
   
         this.loadedMedia[name] = img;
         this.type === "video"
-          ? (img.oncanplaythrough = () => {this._step(); resolve(isSendingImage ? img : name)})
+          ? (img.oncanplaythrough = () => { this._step(); resolve(isSendingImage ? img : name) })
           : name.split("_")[0] === "music"
-          ? (img.oncanplaythrough = () => {this._step(); resolve(isSendingImage ? img : name)})
-          : name.split("_")[0] === "map"
-          ? (img.onmapinfoloaded = () => {this._step(); resolve(isSendingImage ? img : name)})
-          : (img.onload = () => {this._step(); resolve(isSendingImage ? img : name)});
+          ? (img.oncanplaythrough = () => {
+            this._step(); resolve(isSendingImage ? img : name) })
+          : name.split("_")[0] === "levelMap"
+          ? (img.onmapinfoloaded = () => { this._step(); resolve(isSendingImage ? img : name) })
+          : (img.onload = () => { this._step(); resolve(isSendingImage ? img : name) });
         img.onerror = (error) => reject(error);
         // console.log(window.location.origin + src);
-        name.split("_")[0] === "map" ? img.load(src) : img.src = src;
+        name.split("_")[0] === "levelMap" ? img.load(src) : img.src = src;
       });
     }
   }

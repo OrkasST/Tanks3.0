@@ -41,9 +41,10 @@ export class ObjectCreator {
     let object = null;
     switch (objectType) {
       case "player": object = new Player(objectData); break;
-      case "map": object = new Map(objectData); break;
+      case "levelMap": object = new Map(objectData); break;
       case "camera": object = new Camera(objectData); break;
       case "spawner": object = new Spawner(objectData); break;
+      default: object = {...objectData}; break;
     }
     /*
     let images = [];
@@ -94,10 +95,11 @@ export class ObjectCreator {
       let objName = img.split("_")[0];
       console.log('objName: ', objName);
       if (objects[objName]) {
-        if (objName!=="map") objects[objName].appendTexture(img, images[img]);
+        console.log('objects[objName]: ', objects[objName]);
+        if (objName!=="levelMap") objects[objName].appendTexture(img, images[img]);
         else objects[objName].appendInfo(images[img].mapData);
       } else if (objName === "tiles") {
-        objects.map.appendTexture(images[img]);
+        objects.levelMap.appendTexture(images[img]);
       }
     }
   }
