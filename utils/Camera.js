@@ -19,6 +19,7 @@ export class Camera {
   setFocus(obj) { this.focuseObj = obj }
 
   update() {
+    // camera mechanics update started 09.01.2025 0.31
     this.position.x = -this.focuseObj.x + this.modifiers.x - this.focuseObj.width/2;
     this.position.y = -this.focuseObj.y + this.modifiers.y - this.focuseObj.height/2;
   }
