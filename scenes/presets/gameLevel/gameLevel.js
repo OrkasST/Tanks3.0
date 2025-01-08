@@ -40,7 +40,8 @@ export class GameLevel extends Scene {
         this.objects = [
             this.levelMap,
             this.player,
-            ...this.enemies
+            ...this.enemies,
+            this.camera
         ]
         this.mainPage = [];
         this.pages = {
@@ -118,7 +119,7 @@ export class GameLevel extends Scene {
         this.objects.forEach(obj => {
             if (obj.update) obj.update();
         })
-        this.camera.update()
+        // this.camera.update()
 
         if (this.isFinished) {
             data.nextScene = this.nextScene;

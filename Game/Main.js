@@ -86,8 +86,18 @@ class TanksGame {
                 if (element.color) this.drawer.rect({
                     ...element,
                     x: element.x + this.currentScene.camera.position.x,
-                    y: element.y + this.currentScene.camera.position.y,
+                    y: element.y + this.currentScene.camera.position.y
                 });
+                else if (element.triggerFrame) {
+                    this.drawer.rect({
+                        x: element.triggerFrame.x1,
+                        y: element.triggerFrame.y1,
+                        width: element.triggerFrame.x2 - element.triggerFrame.x1,
+                        height: element.triggerFrame.y2 - element.triggerFrame.y1,
+                        color: "#acf233",
+                        filled: false,
+                    })
+                }
                 else this.drawer.image({
                     ...element,
                     x: element.x + this.currentScene.camera.position.x,

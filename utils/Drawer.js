@@ -15,6 +15,7 @@ export class Drawer {
     }) {
         this.ctx.beginPath();
         this.ctx.fillStyle = color;
+        if (!filled) this.ctx.strokeStyle = color;
         filled ? this.ctx.fillRect(x, y, width, height) : this.ctx.strokeRect(x, y, width, height);
         this.ctx.closePath();
     }
