@@ -28,7 +28,7 @@ export class GameObject {
     speed = 5,
     status = "stop",
     steps = 0,
-    
+
     time = 0,
     lifeTime = Infinity,
   }) {
@@ -57,6 +57,11 @@ export class GameObject {
     this.status = status;
     this.steps = steps;
 
+    this.movement = {
+      x: 0,
+      y: 0
+    }
+
     this.time = time;
     this.lifeTime = lifeTime;
   }
@@ -78,33 +83,44 @@ export class GameObject {
     this.activeTextures[imageNumber] = texture;
   }
 
-  setPosition({x, y}) {
+  setPosition({ x, y }) {
     this.x = x;
     this.y = y;
   }
 
-  move() {
-    if (this.movement.status === "moving") {
-      switch (this.movement.direction) {
-        case "up":
-          this.y -= this.movement.speed;
-          this.collider.move(0, -this.movement.speed);
-          break;
-        case "left":
-          this.x -= this.movement.speed;
-          this.collider.move(-this.movement.speed);
-          break;
-        case "down":
-          this.y += this.movement.speed;
-          this.collider.move(0, this.movement.speed);
-          break;
-        case "right":
-          this.x += this.movement.speed;
-          this.collider.move(this.movement.speed);
-          break;
-        default:
-          break;
-      }
+  update(time) {
+    if (!this.isStatic) {
+      this.x += this.movement.x
+      this.y += this.movement.y
     }
   }
+
+  isMoving(axis = "", multiply) { // multiply = 1, 0, -1
+    this.movement[axis] = this.speed * multiply
+  }
+
+  // move() {
+  //   if (this.movement.status === "moving") {
+  //     switch (this.movement.direction) {
+  //       case "up":
+  //         this.y -= this.movement.speed;
+  //         this.collider.move(0, -this.movement.speed);
+  //         break;
+  //       case "left":
+  //         this.x -= this.movement.speed;
+  //         this.collider.move(-this.movement.speed);
+  //         break;
+  //       case "down":
+  //         this.y += this.movement.speed;
+  //         this.collider.move(0, this.movement.speed);
+  //         break;
+  //       case "right":
+  //         this.x += this.movement.speed;
+  //         this.collider.move(this.movement.speed);
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //   }
+  // }
 }

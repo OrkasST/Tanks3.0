@@ -3,10 +3,10 @@ import { Hull } from "./TankHull.js";
 import { Tower } from "./TankTower.js";
 
 export class Tank extends GameObject{
-    constructor({color, width, height}) {
-        super({color, width, height})
-        this.hull = new Hull({color});
-        this.tower = new Tower({color});
+    constructor(data = {color, width, height, isStatic}) {
+        super(data)
+        this.hull = new Hull({color: data.color});
+        this.tower = new Tower({color: data.color});
         this.machine = [
             this.hull,
             this.tower

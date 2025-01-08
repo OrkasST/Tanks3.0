@@ -16,9 +16,11 @@ export class Camera {
     }
   }
 
-  setFocus(obj) {
-    this.position.x = -obj.x + this.modifiers.x - obj.width/2;
-    this.position.y = -obj.y + this.modifiers.y - obj.height/2;
+  setFocus(obj) { this.focuseObj = obj }
+
+  update() {
+    this.position.x = -this.focuseObj.x + this.modifiers.x - this.focuseObj.width/2;
+    this.position.y = -this.focuseObj.y + this.modifiers.y - this.focuseObj.height/2;
   }
 
   setModifiers(x, y) {
@@ -33,16 +35,6 @@ export class Camera {
         ? window.outerHeight / 2
         : window.outerWidth / 2;
         console.log('window.outerWidth: ', window.outerWidth);
-  }
-
-  update() {
-    console.log("MOVE IT MOVE IT MOVE IT");
-    this.position.x += this.movement.x
-    this.position.y += this.movement.y
-  }
-
-  isMoving(axis = "", speed) {
-    this.movement[axis] = speed
   }
 
 }

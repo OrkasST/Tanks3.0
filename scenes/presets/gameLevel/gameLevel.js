@@ -40,7 +40,6 @@ export class GameLevel extends Scene {
         this.objects = [
             this.levelMap,
             this.player,
-            // this.camera,
             ...this.enemies
         ]
         this.mainPage = [];
@@ -97,19 +96,19 @@ export class GameLevel extends Scene {
                 }
                 if (event[i].code === "KeyS") {
                     // this.camera.position.y -= 10;
-                    this.camera.isMoving("y", event[i].type === "keydown" ? -10 : 0)
+                    this.player.isMoving("y", event[i].type === "keydown" ? 1 : 0)
                 }
                 if (event[i].code === "KeyW") {
                     // this.camera.position.y += 10;
-                    this.camera.isMoving("y", event[i].type === "keydown" ? 10 : 0)
+                    this.player.isMoving("y", event[i].type === "keydown" ? -1 : 0)
                 }
                 if (event[i].code === "KeyA") {
                     // this.camera.position.x += 10;
-                    this.camera.isMoving("x", event[i].type === "keydown" ? 10 : 0)
+                    this.player.isMoving("x", event[i].type === "keydown" ? -1 : 0)
                 }
                 if (event[i].code === "KeyD") {
                     // this.camera.position.x -= 10;
-                    this.camera.isMoving("x", event[i].type === "keydown" ? -10 : 0)
+                    this.player.isMoving("x", event[i].type === "keydown" ? 1 : 0)
                 }
             }
 
@@ -119,6 +118,7 @@ export class GameLevel extends Scene {
         this.objects.forEach(obj => {
             if (obj.update) obj.update();
         })
+        this.camera.update()
 
         if (this.isFinished) {
             data.nextScene = this.nextScene;
