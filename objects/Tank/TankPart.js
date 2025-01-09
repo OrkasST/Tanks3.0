@@ -21,7 +21,7 @@ export class Part extends GameObject {
         this.offsetX = offsetX
         this.offsetY = offsetY
         this.name = name;
-        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\nname: ', name);
+        // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\nname: ', name);
     }
 
     rotate(deg = 0) {
@@ -29,8 +29,8 @@ export class Part extends GameObject {
     }
 
     appendTexture(name, image, width, height) {
-        console.log('Tank' + this.name + ' >>>>>> \n\tname: ', name);
-        console.log('\timage: ', image);
+        // console.log('Tank' + this.name + ' >>>>>> \n\tname: ', name);
+        // console.log('\timage: ', image);
         super.appendTexture(name, image)
         image.setImageDimensions("width", width)
         image.setImageDimensions("height", height)

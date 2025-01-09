@@ -15,7 +15,7 @@ export class Menu extends Scene {
             background: "#000000"
         });
         this.mainPage = [...this.objects];
-        console.log('Menu.constructor>>>this.objects: ', this.objects);
+        // console.log('Menu.constructor>>>this.objects: ', this.objects);
         this.pages = {
             levels: Levels(
                 data,

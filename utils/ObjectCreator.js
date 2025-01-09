@@ -86,7 +86,7 @@ export class ObjectCreator {
   }
 
   appendImages(images, objects) {
-    console.log("Object Creator Appender >>>>>>>");
+    // console.log("Object Creator Appender >>>>>>>");
     // console.log('objects: ', objects);
     // console.log('images: ', images);
     let img;
@@ -96,7 +96,7 @@ export class ObjectCreator {
       let objName = img.split("_")[0];
       // console.log('objName: ', objName);
       if (objects[objName]) {
-        console.log('objects['+objName+']: ', typeof objects[objName]);
+        // console.log('objects['+objName+']: ', typeof objects[objName]);
         if (objName!=="levelMap") objects[objName].appendTexture(img, images[img]);
         else objects[objName].appendInfo(images[img].mapData);
       } else if (objName === "tiles") {

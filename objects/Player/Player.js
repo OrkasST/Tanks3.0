@@ -5,7 +5,7 @@ export class Player extends Tank {
         super({color: "#FFFFFF", width: 128, height: 128, isStatic: false, time})
         this.images = {}
         this.isPlayer = true;
-        console.log("Player params >>>>>>>>\n\t", "w: ",this.width, "\th: ",this.height);
+        // console.log("Player params >>>>>>>>\n\t", "w: ",this.width, "\th: ",this.height);
         // player dev started
     }
 

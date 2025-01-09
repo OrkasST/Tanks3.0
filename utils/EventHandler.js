@@ -20,7 +20,7 @@ export class EventHandler {
                 window.addEventListener(name, (evt) => {
                     this.lastEvents[type].push(evt);
                     if (eventList[type][name]) evt.preventDefault();
-                    console.log(timeGetter());
+                    // console.log(timeGetter());
                 })
             }
         }

@@ -6,7 +6,7 @@ import { PauseMenu } from "./pages/pauseMenu.js";
 
 export class GameLevel extends Scene {
     constructor(name, startTime, data) {
-        console.log('GameLevel.constructor>>>>>>>>>>data: ', data);
+        // console.log('GameLevel.constructor>>>>>>>>>>data: ', data);
         // debugger;
         super({
             name,
@@ -48,9 +48,9 @@ export class GameLevel extends Scene {
             pauseMenu: PauseMenu(
                 data,
                 () => {
-                    console.clear()
+                    // console.clear()
                     this.switchScene("game_menu")
-                    console.log('switchScene: ', this.switchScene);
+                    // console.log('switchScene: ', this.switchScene);
                 }
             )
         }
@@ -66,7 +66,7 @@ export class GameLevel extends Scene {
             if (
                 data.events.mouse[data.events.mouse.length - 1].type === "contextmenu"
             ) {
-                console.log("gameLevel.update >>>>\n\tdata:\n", data);
+                // console.log("gameLevel.update >>>>\n\tdata:\n", data);
                 data.events.mouse[data.events.mouse.length - 1].preventDefault();
             }
             for (let i = 0; i < this.objects.length; i++) {
@@ -83,13 +83,13 @@ export class GameLevel extends Scene {
         }
 
         if (data.events.keyboard.length > 0) {
-            console.log('data.events.keyboard: ', data.events.keyboard);
+            // console.log('data.events.keyboard: ', data.events.keyboard);
             let event = data.events.keyboard
             for (let i = 0; i < event.length; i++) {
 
                 // data.events.keyboard[data.events.keyboard.length-1];
                 if (event[i].code === "Escape") {
-                    console.log("ESCAPE");
+                    // console.log("ESCAPE");
                 }
                 if (event[i].code === data.gameSettings.keyBindings.PauseMenu) {
                     if (this.currentPage === "main") this.changePage("pauseMenu");
