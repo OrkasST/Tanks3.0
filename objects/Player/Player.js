@@ -6,6 +6,7 @@ export class Player extends Tank {
         this.images = {}
         this.isPlayer = true;
         console.log("Player params >>>>>>>>\n\t", "w: ",this.width, "\th: ",this.height);
+        // player dev started
     }
 
     update() {
