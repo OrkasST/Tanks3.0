@@ -29,7 +29,7 @@ class TanksGame {
         this.loader = new MediaLoader();
         this.loader.setMedia([['back', 'media/images/loading/pexels-hristo-fidanov-1252890.jpg']]);
         this.loader.loadMedia(true).then((image) => {
-            console.log('image: ', image);
+            // console.log('image: ', image);
             this.sceneChanger = new SceneChanger(image);
             this.START_BTN.disabled = false;
         }, (error) => console.log(error));
@@ -83,10 +83,22 @@ class TanksGame {
             // console.log('element: ', element);
             if (this.currentScene.name.split("_")[0] === "level") {
                 // console.log(element.y + this.currentScene.camera.position.y);
-                if (element.color) this.drawer.rect({
+                if (element.image && Array.isArray(element.image)) {
+                    // console.log('RENDER>>>>>>>\n\telement.image: ', element.image);
+                    element.image.forEach(img => img.image ? this.drawer.image({
+                        ...element,
+                        x: element.x + this.currentScene.camera.position.x,
+                        y: element.y + this.currentScene.camera.position.y,
+                    }) : this.drawer.rect({
+                        ...img,
+                        x: img.x + this.currentScene.camera.position.x,
+                        y: img.y + this.currentScene.camera.position.y
+                    })
+                    )
+                }else if (element.image) this.drawer.image({
                     ...element,
                     x: element.x + this.currentScene.camera.position.x,
-                    y: element.y + this.currentScene.camera.position.y
+                    y: element.y + this.currentScene.camera.position.y,
                 });
                 else if (element.drawDebug) {
                     if (element.triggerFrame) {
@@ -98,7 +110,7 @@ class TanksGame {
                             color: "#acf233",
                             filled: false,
                         })
-                    } 
+                    }
                     if (element.startTriggerFrame) {
                         this.drawer.rect({
                             x: element.startTriggerFrame.x1,
@@ -110,10 +122,10 @@ class TanksGame {
                         })
                     }
                 }
-                else this.drawer.image({
+                else this.drawer.rect({
                     ...element,
                     x: element.x + this.currentScene.camera.position.x,
-                    y: element.y + this.currentScene.camera.position.y,
+                    y: element.y + this.currentScene.camera.position.y
                 });
             } else if (element.type === "text") this.drawer.text(element);
             else if (element.type === "button" || element.type === "window") this.drawer.button(element);
@@ -152,7 +164,7 @@ class TanksGame {
 
         this.eventHandler = new EventHandler(eventList, BINDIGS, this.getTime.bind(this));
 
-        console.log('Game.data: ', this.data);
+        // console.log('Game.data: ', this.data);
         this._tick();
         this.loop(this.data, 0);
     }
@@ -168,7 +180,7 @@ class TanksGame {
     }
 
     createDataObject() {
-        console.log("Create Data >>>>\n\tKey Bindings", BINDIGS);
+        // console.log("Create Data >>>>\n\tKey Bindings", BINDIGS);
         return {
             player: {},
             gameSettings: {

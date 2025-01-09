@@ -62,8 +62,10 @@ export class GameObject {
       y: 0
     }
 
-    this.time = time;
+    this.creationTime = time;
+    this.lastUpdateTime = time;
     this.lifeTime = lifeTime;
+    this.isToBeDestroyed = false;
   }
 
   // setImage(images, textures) {
@@ -92,6 +94,12 @@ export class GameObject {
     if (!this.isStatic) {
       this.x += this.movement.x
       this.y += this.movement.y
+    }
+    
+    if (!time) return;
+    this.lastUpdateTime = time;
+    if (this.lastUpdateTime - this.creationTime >= this.lifeTime) {
+      this.isToBeDestroyed = true;
     }
   }
 
