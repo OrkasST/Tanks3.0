@@ -88,15 +88,27 @@ class TanksGame {
                     x: element.x + this.currentScene.camera.position.x,
                     y: element.y + this.currentScene.camera.position.y
                 });
-                else if (element.triggerFrame) {
-                    this.drawer.rect({
-                        x: element.triggerFrame.x1,
-                        y: element.triggerFrame.y1,
-                        width: element.triggerFrame.x2 - element.triggerFrame.x1,
-                        height: element.triggerFrame.y2 - element.triggerFrame.y1,
-                        color: "#acf233",
-                        filled: false,
-                    })
+                else if (element.drawDebug) {
+                    if (element.triggerFrame) {
+                        this.drawer.rect({
+                            x: element.triggerFrame.x1,
+                            y: element.triggerFrame.y1,
+                            width: element.triggerFrame.x2 - element.triggerFrame.x1,
+                            height: element.triggerFrame.y2 - element.triggerFrame.y1,
+                            color: "#acf233",
+                            filled: false,
+                        })
+                    } 
+                    if (element.startTriggerFrame) {
+                        this.drawer.rect({
+                            x: element.startTriggerFrame.x1,
+                            y: element.startTriggerFrame.y1,
+                            width: element.startTriggerFrame.x2 - element.startTriggerFrame.x1,
+                            height: element.startTriggerFrame.y2 - element.startTriggerFrame.y1,
+                            color: "#38cf68",
+                            filled: false,
+                        })
+                    }
                 }
                 else this.drawer.image({
                     ...element,
