@@ -24,7 +24,7 @@ export class Tank extends GameObject {
     }
 s
     appendTexture(name, image) {
-        console.log('name: ', name);
+        // console.log('name: ', name);
 
         let nameKeys = name.split("_")
         let imageType = nameKeys[2]

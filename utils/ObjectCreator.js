@@ -92,7 +92,7 @@ export class ObjectCreator {
     let img;
     let i;
     for (img in images) {
-      console.log('img: ', img);
+      // console.log('img: ', img);
       let objName = img.split("_")[0];
       // console.log('objName: ', objName);
       if (objects[objName]) {
