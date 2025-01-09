@@ -49,8 +49,12 @@ export class Animation {
       this.image.width = imageWidth;
       this.image.height = imageHeight;
     }
+
+    setToStartFrame() {
+
+    }
   
-    frame(deltaTime, rotation, number) {
+    frame({deltaTime, rotation, number}) {
       if (this.totalFrames - 1 < this.currentFrame && this.duration > 0) return;
       // if (this.log) debugger;
       if (this.currentFrame > 0 && this.duration > 0) {
@@ -74,15 +78,16 @@ export class Animation {
       if (sx >= this.frameListWidth) sx -= this.frameListWidth * line;
       sx += this.offsetX;
       let sy = line * this.frameHeight + this.offsetY;
-      this.ctx.clearRect(
-        -this.image.width,
-        -this.image.height,
-        this.image.width * 2,
-        this.image.height * 2
-      );
-      if (this.isRotating) {
-        this.ctx.save();
-        this.ctx.translate(this.image.width / 2, this.image.height / 2);
+      // this.ctx.clearRect(
+      //   -this.image.width,
+      //   -this.image.height,
+      //   this.image.width * 2,
+      //   this.image.height * 2
+      // );
+      this.ctx.reset()
+      if (rotation && this.isRotating) {
+        // this.ctx.save();
+        this.ctx.translate(this.frameWidth / 2, this.frameWidth / 2);
         this.ctx.rotate(rotation);
       }
       if (this.log) {
@@ -98,14 +103,14 @@ export class Animation {
         this.framelist,
         sx,
         sy,
-        this.this.imageX || this.frameWidth,
-        this.this.imageY || this.frameHeight,
+        this.imageX || this.frameWidth,
+        this.imageY || this.frameHeight,
         this.frameX,
         this.frameY,
         this.frameWidth,
         this.frameHeight
       );
-      if (this.isRotating) this.ctx.restore();
+      if (rotation && this.isRotating) this.ctx.restore();
       if (!number && this.totalFrames - 1 > this.currentFrame)
         this.currentFrame++;
       if (this.totalFrames - 1 <= this.currentFrame && this.isInfinit)

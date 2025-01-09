@@ -16,7 +16,9 @@ export class Window {
     }) {
         this.name = name;
         this.x = x;
+        console.log('x: ', x);
         this.y = y;
+        console.log('y: ', y);
         this.width = width
         this.height = height
         this.color = color;

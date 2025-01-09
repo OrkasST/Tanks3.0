@@ -24,8 +24,9 @@ export class Part extends GameObject {
         // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\nname: ', name);
     }
 
-    rotate(deg = 0) {
-
+    rotate(rotation = 0) {
+        this.image.frame({rotation: this.rotation})
+        this.rotation += rotation;
     }
 
     appendTexture(name, image, width, height) {

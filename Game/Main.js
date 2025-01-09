@@ -35,7 +35,10 @@ class TanksGame {
         }, (error) => console.log(error));
 
         this.START_BTN.addEventListener("click", () => {
-            document.documentElement.requestFullscreen();
+            if (document.fullscreenEnabled) {
+                document.documentElement.requestFullscreen();
+                // navigator.keyboard.lock()
+            }
             this.setup();
             this.START_BTN.disabled = true;
             this.START_BTN.hidden = true;
@@ -58,6 +61,10 @@ class TanksGame {
         if (!this.currentScene) return;
         data.events = this.eventHandler.getLastEvents();
         this.currentScene.update(time, data);
+
+        if (data.hideCursor) this.SCREEN.style.cursor = "none";
+        if (!data.hideCursor && this.SCREEN.style.cursor === "none") this.SCREEN.style.cursor = "";
+
         if (this.currentScene.isFinished) {
             this.currentScene = this.currentScene.name === "Game Loading"
                 ? this.sceneChanger.finishScene(this.currentScene)
@@ -77,25 +84,47 @@ class TanksGame {
             });
 
         else {
-            this.drawer.image({ x: 0, y: 0, width: this.SCREEN.width, height: this.SCREEN.height, color: this.currentScene.background });
+            this.drawer.image({
+                x: 0, y: 0,
+                width: this.SCREEN.width, height: this.SCREEN.height,
+                color: this.currentScene.background
+            });
         }
+        // console.log('this.currentScene.objects: ', this.currentScene.objects);
         this.currentScene.objects.forEach(element => {
             // console.log('element: ', element);
-            if (this.currentScene.name.split("_")[0] === "level") {
+
+            if (this.currentScene.name.split("_")[0] === "level" &&
+                (element.type !== "UI" && element.type !== "window" && element.type !== "button" )
+            ) {
+                console.log(element.type);
                 // console.log(element.y + this.currentScene.camera.position.y);
+
                 if (element.image && Array.isArray(element.image)) {
-                    // console.log('RENDER>>>>>>>\n\telement.image: ', element.image);
-                    element.image.forEach(img => img.image ? this.drawer.image({
-                        ...element,
-                        x: element.x + this.currentScene.camera.position.x,
-                        y: element.y + this.currentScene.camera.position.y,
-                    }) : this.drawer.rect({
-                        ...img,
-                        x: img.x + this.currentScene.camera.position.x,
-                        y: img.y + this.currentScene.camera.position.y
+                    // console.log('RENDER>>>>>>>\n\telement: ', element, '\n\telement.image: ', element.image);
+
+                    element.image.forEach((img, ind) => {
+                        // console.log('img: ', img);
+
+                        img.image ? this.drawer.image({
+                            ...element,
+                            image: img.image.image,
+                            x: element.x + this.currentScene.camera.position.x,
+                            y: element.y + this.currentScene.camera.position.y,
+                        }) : this.drawer.rect({
+                            ...img,
+                            x: img.x + this.currentScene.camera.position.x,
+                            y: img.y + this.currentScene.camera.position.y
+                        })
+                        this.drawer.rect({
+                            x: element.x + this.currentScene.camera.position.x + ind * 3,
+                            y: element.y + this.currentScene.camera.position.y + ind * 3,
+                            width: element.width - ind * 6,
+                            height: element.height - ind * 6,
+                            filled: false
+                        })
                     })
-                    )
-                }else if (element.image) this.drawer.image({
+                } else if (element.image) this.drawer.image({
                     ...element,
                     x: element.x + this.currentScene.camera.position.x,
                     y: element.y + this.currentScene.camera.position.y,
@@ -128,7 +157,10 @@ class TanksGame {
                     y: element.y + this.currentScene.camera.position.y
                 });
             } else if (element.type === "text") this.drawer.text(element);
-            else if (element.type === "button" || element.type === "window") this.drawer.button(element);
+            else if (element.type === "button" || element.type === "window") {
+                this.drawer.button(element);
+                // console.log('element: ', element);
+            }
             else if (element.color && typeof element.color === 'string') {
                 this.drawer.rect(element);
             } else this.drawer.image(element);

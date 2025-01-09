@@ -1,3 +1,4 @@
+import { GameObject } from "../../../objects/GameObject.js";
 import { Button } from "../../../UI/Button.js";
 import { Window } from "../../../UI/Window.js";
 import { ObjectCreator } from "../../../utils/ObjectCreator.js";
@@ -20,6 +21,8 @@ export class GameLevel extends Scene {
         this.levelMap = this.objects.levelMap;
         this.creator = new ObjectCreator();
 
+        this.cursor = new GameObject({type: "UI", color: "#ff00ff", width: 10, height: 10})
+
         this.player.setPosition(this.levelMap.currentPlayerSpawnPoint)
         this.camera.setModifiers()
         this.camera.setFocus(this.player)
@@ -41,7 +44,8 @@ export class GameLevel extends Scene {
             this.levelMap,
             this.player,
             ...this.enemies,
-            this.camera
+            this.cursor,
+            this.camera,
         ]
         this.mainPage = [];
         this.pages = {
@@ -61,24 +65,32 @@ export class GameLevel extends Scene {
     // }
 
     update(time, data) {
+        if(!data.hideCursor) data.hideCursor = true;
+        else if (this.currentPage !== "main") data.hideCursor = false
 
         if (data.events.mouse.length > 0) {
+            let lastMouseEvent = data.events.mouse[data.events.mouse.length - 1];
+
             if (
-                data.events.mouse[data.events.mouse.length - 1].type === "contextmenu"
+                lastMouseEvent.type === "contextmenu"
             ) {
                 // console.log("gameLevel.update >>>>\n\tdata:\n", data);
-                data.events.mouse[data.events.mouse.length - 1].preventDefault();
+                lastMouseEvent.preventDefault();
             }
             for (let i = 0; i < this.objects.length; i++) {
                 if (this.objects[i].isInteractive &&
                     this.objects[i].isUnderPointer(
-                        data.events.mouse[data.events.mouse.length - 1].clientX,
-                        data.events.mouse[data.events.mouse.length - 1].clientY
+                        lastMouseEvent.clientX,
+                        lastMouseEvent.clientY
                     ) &&
-                    data.events.mouse[data.events.mouse.length - 1].type !== "contextmenu"
+                    lastMouseEvent.type === "click"
                 ) {
                     this.objects[i].action();
                 }
+            }
+            if (lastMouseEvent.type === "mousemove") {
+                this.cursor.x = lastMouseEvent.clientX - this.cursor.width / 2
+                this.cursor.y = lastMouseEvent.clientY - this.cursor.height / 2
             }
         }
 
@@ -89,9 +101,9 @@ export class GameLevel extends Scene {
 
                 // data.events.keyboard[data.events.keyboard.length-1];
                 if (event[i].code === "Escape") {
-                    // console.log("ESCAPE");
+                    console.log("ESCAPE");
                 }
-                if (event[i].code === data.gameSettings.keyBindings.PauseMenu) {
+                if (event[i].code === data.gameSettings.keyBindings.PauseMenu[0] && event[i].type === "keyup") {
                     if (this.currentPage === "main") this.changePage("pauseMenu");
                     else this.changePage("main");
                 }
@@ -123,6 +135,7 @@ export class GameLevel extends Scene {
 
         if (this.isFinished) {
             data.nextScene = this.nextScene;
+            data.hideCursor = false;
             // console.log('>>>>>>>>>>>>>>>>>GameLevel.update >>>>>\n\tdata: ', data);
         }
 

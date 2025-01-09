@@ -8,7 +8,9 @@ export class EventHandler {
     ) {
         this.lastEvents = {};
         this.bindings = {}
-        for (let code in keyBindings) {
+        for (let code in keyBindings) { 
+            if(keyBindings[code][1]) navigator.keyboard.lock([keyBindings[code][0]])
+                console.log('keyBindings[code][0]: ', keyBindings[code][0]);
             this.bindings[code] = {
                 status: false,
                 lastChange: 0
@@ -17,7 +19,7 @@ export class EventHandler {
         for (let type in eventList) {
             this.lastEvents[type] = [];
             for (let name in eventList[type]) {
-                window.addEventListener(name, (evt) => {
+                document.addEventListener(name, (evt) => {
                     this.lastEvents[type].push(evt);
                     if (eventList[type][name]) evt.preventDefault();
                     // console.log(timeGetter());

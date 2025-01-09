@@ -18,4 +18,8 @@ export class Tower extends Part {
     reload() {
 
     }
+    update(time) {
+        super.update(time);
+        this.rotate(0.01)
+    }
 }

@@ -18,8 +18,8 @@ export class Tank extends GameObject {
             time: this.time
         });
         this.image = [
-            this.hull.image,
-            this.tower.image
+            this.hull,
+            this.tower
         ]
     }
 s
@@ -34,6 +34,7 @@ s
             this.width, this.height
         )
         else if (imageType === "bullet") this.bulletImage = image
+        if (image.frame) image.frame({rotation: 0}); 
     }
 
     update(time) {

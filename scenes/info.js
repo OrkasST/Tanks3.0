@@ -29,6 +29,8 @@ export const scenes_info = {
                 duration: 0,
                 frameX: -256,
                 frameY: -256,
+                // frameX: 0,
+                // frameY: 0,
                 startFrame: 0,
                 isRotating: true,
                 isInfinit: false,
