@@ -11,6 +11,7 @@ export class ObjectCreator {
   create(
     objectType,
     objectData,
+    time,
     // {
     //   //objectData = {},
     //   textures = [],
@@ -35,15 +36,15 @@ export class ObjectCreator {
     //     //{}, ...
     //   ],
     // },
-    loaded_textures
+    // loaded_textures
   ) {
     // if (objectData.type === "bullet") debugger;
     let object = null;
     switch (objectType) {
-      case "player": object = new Player(objectData); break;
-      case "levelMap": object = new Map(objectData); break;
-      case "camera": object = new Camera(objectData); break;
-      case "spawner": object = new Spawner(objectData); break;
+      case "player": object = new Player({...objectData, time}); break;
+      case "levelMap": object = new Map({...objectData, time}); break;
+      case "camera": object = new Camera({...objectData, time}); break;
+      case "spawner": object = new Spawner({...objectData, time}); break;
       default: object = {...objectData}; break;
     }
     /*
@@ -85,17 +86,17 @@ export class ObjectCreator {
   }
 
   appendImages(images, objects) {
-    console.log("Object Creator Appender >>>>>>>");
-    console.log('objects: ', objects);
-    console.log('images: ', images);
+    // console.log("Object Creator Appender >>>>>>>");
+    // console.log('objects: ', objects);
+    // console.log('images: ', images);
     let img;
     let i;
     for (img in images) {
-      console.log('img: ', img);
+      // console.log('img: ', img);
       let objName = img.split("_")[0];
-      console.log('objName: ', objName);
+      // console.log('objName: ', objName);
       if (objects[objName]) {
-        console.log('objects[objName]: ', objects[objName]);
+        // console.log('objects['+objName+']: ', typeof objects[objName]);
         if (objName!=="levelMap") objects[objName].appendTexture(img, images[img]);
         else objects[objName].appendInfo(images[img].mapData);
       } else if (objName === "tiles") {

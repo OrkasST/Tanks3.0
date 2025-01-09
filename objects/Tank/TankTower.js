@@ -1,18 +1,25 @@
-import { GameObject } from "../GameObject.js";
+import { Part } from "./TankPart.js";
 
-export class Tower extends GameObject {
+export class Tower extends Part {
     constructor(data) {
-        super(data)
+        super({
+            ...data,
+            color: "#00FF00",
+            offsetX: -20,
+            offsetY: -20,
+            width: 200,
+            height: 40,
+        })
     }
-
-    rotate() {
-
-    }
+    
     shoot() {
 
     }
     reload() {
 
     }
-    
+    update(time) {
+        super.update(time);
+        this.rotate(0.01)
+    }
 }

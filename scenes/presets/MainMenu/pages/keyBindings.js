@@ -2,6 +2,7 @@ import { Button } from "../../../../UI/Button.js";
 
 export function KeyBindings(data, ...callbacks) {
     //Reworking
+    console.log('data: ', data);
     return [
         new Button({
             name: "Return",
@@ -29,7 +30,7 @@ export function KeyBindings(data, ...callbacks) {
         },
         new Button({
             name: "Switch Pause Button",
-            text: "P",
+            text: "Escape",
             x: window.innerWidth * 0.2 + 400,
             y: window.innerHeight * 0.3 - 36,
             width: 88,

@@ -1,3 +1,3 @@
 export const BINDIGS = {
-    "PauseMenu": "KeyP"
+    "PauseMenu": ["Escape", true]
 }

@@ -6,10 +6,10 @@ export class Map extends GameObject {
     super({
       type: "map"
     })
-    console.log("CREATING MAP_____");
+    // console.log("CREATING MAP_____");
     this.type = "map";
     this.screen = document.createElement("canvas");
-    console.log('MAP>>>>>>\n\tscreen: ', this.screen);
+    // console.log('MAP>>>>>>\n\tscreen: ', this.screen);
     // this.screen.width = width;
     // this.screen.height = height;
     this.ctx = this.screen.getContext("2d");
@@ -42,7 +42,7 @@ export class Map extends GameObject {
 
   appendInfo(info) {
     this.mapData = info;
-    console.log('info: ', info);
+    // console.log('info: ', info);
     this._isLast()
   }
 

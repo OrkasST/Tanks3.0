@@ -1,14 +1,15 @@
 import { Tank } from "../Tank/Tank.js";
 
 export class Player extends Tank {
-    constructor({}) {
-        super({color: "#FFFFFF", width: 128, height: 128, isStatic: false})
+    constructor({time}) {
+        super({color: "#FFFFFF", width: 512, height: 512, isStatic: false, time})
         this.images = {}
         this.isPlayer = true;
-        console.log("Player params >>>>>>>>\n\t", "w: ",this.width, "\th: ",this.height);
+        // console.log("Player params >>>>>>>>\n\t", "w: ",this.width, "\th: ",this.height);
+        // player dev started
     }
 
-    update() {
-        super.update()
+    update(time) {
+        super.update(time)
     }
 }

@@ -15,7 +15,7 @@ export class Menu extends Scene {
             background: "#000000"
         });
         this.mainPage = [...this.objects];
-        console.log('Menu.constructor>>>this.objects: ', this.objects);
+        // console.log('Menu.constructor>>>this.objects: ', this.objects);
         this.pages = {
             levels: Levels(
                 data,
@@ -59,7 +59,7 @@ export class Menu extends Scene {
 
     update(time, data) {
         if (!this.isFinished && data.events.mouse.length > 0) {
-            if (data.events.mouse[data.events.mouse.length - 1].type !== "contextmenu")
+            if (data.events.mouse[data.events.mouse.length - 1].type === "click")
                 for (let i = 0; i < this.objects.length; i++) {
                     if (this.objects[i].isInteractive &&
                         this.objects[i].isUnderPointer(

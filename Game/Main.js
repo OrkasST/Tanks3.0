@@ -29,13 +29,16 @@ class TanksGame {
         this.loader = new MediaLoader();
         this.loader.setMedia([['back', 'media/images/loading/pexels-hristo-fidanov-1252890.jpg']]);
         this.loader.loadMedia(true).then((image) => {
-            console.log('image: ', image);
+            // console.log('image: ', image);
             this.sceneChanger = new SceneChanger(image);
             this.START_BTN.disabled = false;
         }, (error) => console.log(error));
 
         this.START_BTN.addEventListener("click", () => {
-            document.documentElement.requestFullscreen();
+            if (document.fullscreenEnabled) {
+                document.documentElement.requestFullscreen();
+                // navigator.keyboard.lock()
+            }
             this.setup();
             this.START_BTN.disabled = true;
             this.START_BTN.hidden = true;
@@ -58,6 +61,10 @@ class TanksGame {
         if (!this.currentScene) return;
         data.events = this.eventHandler.getLastEvents();
         this.currentScene.update(time, data);
+
+        if (data.hideCursor) this.SCREEN.style.cursor = "none";
+        if (!data.hideCursor && this.SCREEN.style.cursor === "none") this.SCREEN.style.cursor = "";
+
         if (this.currentScene.isFinished) {
             this.currentScene = this.currentScene.name === "Game Loading"
                 ? this.sceneChanger.finishScene(this.currentScene)
@@ -77,24 +84,83 @@ class TanksGame {
             });
 
         else {
-            this.drawer.image({ x: 0, y: 0, width: this.SCREEN.width, height: this.SCREEN.height, color: this.currentScene.background });
+            this.drawer.image({
+                x: 0, y: 0,
+                width: this.SCREEN.width, height: this.SCREEN.height,
+                color: this.currentScene.background
+            });
         }
+        // console.log('this.currentScene.objects: ', this.currentScene.objects);
         this.currentScene.objects.forEach(element => {
             // console.log('element: ', element);
-            if (this.currentScene.name.split("_")[0] === "level") {
+
+            if (this.currentScene.name.split("_")[0] === "level" &&
+                (element.type !== "UI" && element.type !== "window" && element.type !== "button" )
+            ) {
+                console.log(element.type);
                 // console.log(element.y + this.currentScene.camera.position.y);
-                if (element.color) this.drawer.rect({
+
+                if (element.image && Array.isArray(element.image)) {
+                    // console.log('RENDER>>>>>>>\n\telement: ', element, '\n\telement.image: ', element.image);
+
+                    element.image.forEach((img, ind) => {
+                        // console.log('img: ', img);
+
+                        img.image ? this.drawer.image({
+                            ...element,
+                            image: img.image.image,
+                            x: element.x + this.currentScene.camera.position.x,
+                            y: element.y + this.currentScene.camera.position.y,
+                        }) : this.drawer.rect({
+                            ...img,
+                            x: img.x + this.currentScene.camera.position.x,
+                            y: img.y + this.currentScene.camera.position.y
+                        })
+                        this.drawer.rect({
+                            x: element.x + this.currentScene.camera.position.x + ind * 3,
+                            y: element.y + this.currentScene.camera.position.y + ind * 3,
+                            width: element.width - ind * 6,
+                            height: element.height - ind * 6,
+                            filled: false
+                        })
+                    })
+                } else if (element.image) this.drawer.image({
                     ...element,
                     x: element.x + this.currentScene.camera.position.x,
                     y: element.y + this.currentScene.camera.position.y,
                 });
-                else this.drawer.image({
+                else if (element.drawDebug) {
+                    if (element.triggerFrame) {
+                        this.drawer.rect({
+                            x: element.triggerFrame.x1,
+                            y: element.triggerFrame.y1,
+                            width: element.triggerFrame.x2 - element.triggerFrame.x1,
+                            height: element.triggerFrame.y2 - element.triggerFrame.y1,
+                            color: "#acf233",
+                            filled: false,
+                        })
+                    }
+                    if (element.startTriggerFrame) {
+                        this.drawer.rect({
+                            x: element.startTriggerFrame.x1,
+                            y: element.startTriggerFrame.y1,
+                            width: element.startTriggerFrame.x2 - element.startTriggerFrame.x1,
+                            height: element.startTriggerFrame.y2 - element.startTriggerFrame.y1,
+                            color: "#38cf68",
+                            filled: false,
+                        })
+                    }
+                }
+                else this.drawer.rect({
                     ...element,
                     x: element.x + this.currentScene.camera.position.x,
-                    y: element.y + this.currentScene.camera.position.y,
+                    y: element.y + this.currentScene.camera.position.y
                 });
             } else if (element.type === "text") this.drawer.text(element);
-            else if (element.type === "button" || element.type === "window") this.drawer.button(element);
+            else if (element.type === "button" || element.type === "window") {
+                this.drawer.button(element);
+                // console.log('element: ', element);
+            }
             else if (element.color && typeof element.color === 'string') {
                 this.drawer.rect(element);
             } else this.drawer.image(element);
@@ -130,7 +196,7 @@ class TanksGame {
 
         this.eventHandler = new EventHandler(eventList, BINDIGS, this.getTime.bind(this));
 
-        console.log('Game.data: ', this.data);
+        // console.log('Game.data: ', this.data);
         this._tick();
         this.loop(this.data, 0);
     }
@@ -146,7 +212,7 @@ class TanksGame {
     }
 
     createDataObject() {
-        console.log("Create Data >>>>\n\tKey Bindings", BINDIGS);
+        // console.log("Create Data >>>>\n\tKey Bindings", BINDIGS);
         return {
             player: {},
             gameSettings: {

@@ -5,7 +5,7 @@ import { Scene } from "../Scene.js";
 
 export class Loading extends Scene {
     constructor(data, nextScene, startTime, background) {
-        console.log('loading.constructor >>>>\n\tdata: ', data);
+        // console.log('loading.constructor >>>>\n\tdata: ', data);
         super({
             name: "Game Loading",
             objects: [
@@ -63,28 +63,33 @@ export class Loading extends Scene {
             this.creator = new ObjectCreator();
             let objects = {}
             for (let i = 0; i < this.data.dataList.length; i++) {
-                console.log(`this.data.dataList[${i}]: `, this.data.dataList[i]);
-                objects[this.data.dataList[i][0]] = this.creator.create(this.data.dataList[i][0], this.data.dataList[i][1], this.data.sceneImages);
+                // console.log(`this.data.dataList[${i}]: `, this.data.dataList[i]);
+                objects[this.data.dataList[i][0]] = this.creator.create(
+                    this.data.dataList[i][0],
+                    this.data.dataList[i][1],
+                    // this.data.sceneImages
+                    startTime
+                );
             }
             this.data.dataList = objects;
         }
 
         this.loader = new MediaLoader();
         this.loader.setMedia(this.data.sceneImages);
-        console.log('Loading >>>>>\n\tthis.data.sceneImages: ', this.data.sceneImages);
+        // console.log('Loading >>>>>\n\tthis.data.sceneImages: ', this.data.sceneImages);
         if (Array.isArray(this.data.sceneImages[0])) this.loader.loadMedia().then(
             (value) => {
-                console.log(this.loader.loadedMedia);
+                // console.log(this.loader.loadedMedia);
                 let img;
                 for (img in this.loader.loadedMedia) {
-                    console.log('img: ', img);
+                    // console.log('img: ', img);
                     let imgData = this.data.sceneImages.filter(el => el[0] === img && el[2]);
-                    console.log('imgData: ', imgData);
+                    // console.log('imgData: ', imgData);
                     // if (ind >= 0) console.log('this.data.sceneImages[ind][2]: ', this.data.sceneImages[ind][2]);
                     if (imgData.length > 0) {
                         this.loader.loadedMedia[img] = new Animation({
                             framelist: this.loader.loadedMedia[img],
-                            ...imgData[2]
+                            ...imgData[0][2]
                         })
                     }
                 }
@@ -93,7 +98,7 @@ export class Loading extends Scene {
                     this.creator.appendImages(this.loader.loadedMedia, this.data.dataList);
                     // this.data.dataList.player.setPosition(this.data.dataList.map.currentPlayerSpawnPoint)
                     // this.data.dataList = [this.data.dataList.map, this.data.dataList.player, this.data.dataList.camera]
-                    console.log('LOADING>>>>>>>>>>>\n\tthis.data.dataList: ', this.data.dataList);
+                    // console.log('LOADING>>>>>>>>>>>\n\tthis.data.dataList: ', this.data.dataList);
 
                 }
             },

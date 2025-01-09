@@ -13,6 +13,8 @@ export class Animation {
       offsetY = 0,
       imageX = 0,
       imageY = 0,
+      imageWidth = 128,
+      imageHeight = 128,
       startFrame = 0,
       isRotating = false,
       isInfinit = true,
@@ -41,9 +43,18 @@ export class Animation {
       this.column = -1;
       this.log = log;
       this.isAnimationEnded = false;
+
+      this.image = document.createElement("canvas");
+      this.ctx = this.image.getContext("2d");
+      this.image.width = imageWidth;
+      this.image.height = imageHeight;
+    }
+
+    setToStartFrame() {
+
     }
   
-    frame(image, context, deltaTime, rotation, number) {
+    frame({deltaTime, rotation, number}) {
       if (this.totalFrames - 1 < this.currentFrame && this.duration > 0) return;
       // if (this.log) debugger;
       if (this.currentFrame > 0 && this.duration > 0) {
@@ -67,27 +78,28 @@ export class Animation {
       if (sx >= this.frameListWidth) sx -= this.frameListWidth * line;
       sx += this.offsetX;
       let sy = line * this.frameHeight + this.offsetY;
-      context.clearRect(
-        -image.width,
-        -image.height,
-        image.width * 2,
-        image.height * 2
-      );
-      if (this.isRotating) {
-        context.save();
-        context.translate(image.width / 2, image.height / 2);
-        context.rotate(rotation);
+      // this.ctx.clearRect(
+      //   -this.image.width,
+      //   -this.image.height,
+      //   this.image.width * 2,
+      //   this.image.height * 2
+      // );
+      this.ctx.reset()
+      if (rotation && this.isRotating) {
+        // this.ctx.save();
+        this.ctx.translate(this.frameWidth / 2, this.frameWidth / 2);
+        this.ctx.rotate(rotation);
       }
       if (this.log) {
-        context.strokeStyle = "#FFFFFF";
-        context.strokeRect(
+        this.ctx.strokeStyle = "#FFFFFF";
+        this.ctx.strokeRect(
           this.frameX,
           this.frameY,
           this.frameWidth,
           this.frameHeight
         );
       }
-      context.drawImage(
+      this.ctx.drawImage(
         this.framelist,
         sx,
         sy,
@@ -98,7 +110,7 @@ export class Animation {
         this.frameWidth,
         this.frameHeight
       );
-      if (this.isRotating) context.restore();
+      if (rotation && this.isRotating) this.ctx.restore();
       if (!number && this.totalFrames - 1 > this.currentFrame)
         this.currentFrame++;
       if (this.totalFrames - 1 <= this.currentFrame && this.isInfinit)
@@ -124,6 +136,9 @@ export class Animation {
     }
     setColumn(column) {
       this.column = column;
+    }
+    setImageDimensions(dimension, value) {
+      this.image[dimension] = value
     }
   
     reset() {
