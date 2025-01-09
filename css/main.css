@@ -3,12 +3,57 @@
     padding: 0;
 }
 
+body {
+    width: 100vw;
+    height: 100vh;
+    background: url("../media/images/menu/heber-davis-g4tgJGTgsFU-unsplash.jpg");
+    background-size: cover;
+}
+
 .basicBtn {
-    width: 10vw;
-    height: 5vw;
-    border-radius: 10%;
-    border: 1px solid #000;
+    position: absolute;
+    top: 52vh;
+    left: 50vw;
+    transform: translate(-6.5vw);
+    width: 13vw;
+    height: 7vw;
+    border-radius: 1.5vw;
+    border: 0.1vw solid #996868;
+
+    background: #fffafaa7;
+
+    font-family: monospace;
+    font-size: 3vw;
+    color: #996868;
+
+    box-shadow: none;
 }
 .basicBtn:hover {
-    background-color: aqua;
+    /* background-color: rgba(100, 151, 175, 0.822);*/
+    /* background: linear-gradient(
+        90deg,
+        rgba(122,55,55,1) 4%,
+        rgba(133,92,223,0.6532038840926996) 30%,
+        rgba(133,92,223,0.6532038840926996) 70%,
+        rgba(122,55,55,1) 96%
+    );
+    */
+    background: radial-gradient(
+        circle,
+        rgba(140, 127, 170, 0.347) 49%,
+        rgba(206, 211, 63, 0.438) 96%
+    );
+    backdrop-filter: blur(0.6px);
+
+    color: rgba(38, 9, 9, 0.766);
+    font-weight: bolder;
+    text-shadow: 0.2vw 0.2vw #27285d7d;
+
+    border-bottom-color: rgba(188, 191, 205, 0.593);
+    border-top-color: rgba(64, 66, 75, 0.712);
+    border-left-color: rgba(100, 101, 106, 0.91);
+    border-right-color: rgba(100, 101, 106, 0.91);
+
+    box-shadow: 0 1.3vw 1.8vw 0.9vw rgba(30, 31, 46, 0.622);
+    cursor: pointer;
 }

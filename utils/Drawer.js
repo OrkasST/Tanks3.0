@@ -2,6 +2,8 @@ export class Drawer {
     constructor(screen) {
         this.screen = screen;
         this.ctx = this.screen.getContext("2d");
+
+        this.logText = []
     }
 
     clear() {
@@ -9,27 +11,32 @@ export class Drawer {
     }
 
     rect({
-        x = 0, y = 0, w = 10, h = 10, color = "#000000", filled = true
+        x = 0, y = 0, width = 10, height = 10, color = "#000000", filled = true
     }) {
         this.ctx.beginPath();
         this.ctx.fillStyle = color;
-        filled ? this.ctx.fillRect(x, y, w, h) : this.ctx.strokeRect(x, y, w, h);
+        if (!filled) this.ctx.strokeStyle = color;
+        filled ? this.ctx.fillRect(x, y, width, height) : this.ctx.strokeRect(x, y, width, height);
         this.ctx.closePath();
     }
 
     image({
         image = null,
-        ax = 0,
-        ay = 0,
-        aw = 10,
-        ah = 10,
+        color = null,
+        x = 0,
+        y = 0,
+        width = 10,
+        height = 10,
         bx = null,
         by = null,
-        bw = null,
-        bh = null,
-    }) {
-        if(!image) return;
+        bwidth = null,
+        bheight = null,
+    },stop = false) {
+        if (stop) console.log('debugger: y: ', y);
+        if(!image && !color) return;
         this.ctx.beginPath();
+        if (bx && by && bwidth && bheight) this.ctx.drawImage(image || color, bx, by, bwidth, bheight, x, y, width, height);
+        else this.ctx.drawImage(image || color, x, y, width, height);
         this.ctx.closePath();
     }
 
@@ -68,13 +75,35 @@ export class Drawer {
     }
 
     error({
-        x = 0, y = 0, w = 10, h = 10
+        x = 0, y = 0, width = 10, height = 10
     }) {
         this.ctx.beginPath();
         this.ctx.fillStyle = "#000000";
         this.ctx.strokeStyle = "#FF0000";
-        this.ctx.fillRect(x, y, w, h);
-        this.ctx.strokeRect(x+w*0.25, y+h*0.25, w*0.75, h*0.75);
+        this.ctx.fillRect(x, y, width, height);
+        this.ctx.strokeRect(x+width*0.25, y+height*0.25, width*0.75, height*0.75);
         this.ctx.closePath();
+    }
+
+    button({
+        x = 10, y = 10,
+        width = 40, height = 15,
+        text="standartButton",
+        font="15px TimesNewRoman",
+        textX = 10, textY = 10,
+        color = "#FFFFFF", textColor = "#000000",
+        isActive = true,
+        log = null
+    }) {
+        typeof color === "string" ? this.rect({x, y, width, height, color}) : this.image({x, y, width, height, color});
+        this.text({font, color: textColor, x: textX, y: textY, text});
+        if (log && log.lg) {
+            // console.log(
+            //     'Drawer.button.text >>>>>>',
+            //     {font, color: textColor, x: textX, y: textY, text}
+            // );
+            log.lg = false
+        }
+        if (!isActive) this.rect({x, y, width, height, color: "#303030BF"})
     }
 }

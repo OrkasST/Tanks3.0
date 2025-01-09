@@ -2,7 +2,7 @@ import { CollisionBody } from "../physics/CollisionBody.js";
 
 export class GameObject {
   constructor({
-    tag = "block", //"entity" | "projectile" | "special"
+    type = "block", //"entity" | "projectile" | "special"
     relation = "ignor", // "fear" | "agressive" | "neutral"
 
     x = 0,
@@ -13,6 +13,9 @@ export class GameObject {
     isSpheric = false,
     radius = 0,
 
+    color = null,
+    image = null,
+
     isStatic = true,
     isCollidable = false,
     isPlayer = false,
@@ -20,14 +23,12 @@ export class GameObject {
 
     shape = "rectangle", // "circle" , {type:0/1, x...}
 
-    //temporary
-    movement = {
-      direction: "none",
-      prevDirection: "none",
-      speed: 5,
-      status: "stop",
-      steps: 0,
-    },
+    direction = "none",
+    prevDirection = "none",
+    speed = 5,
+    status = "stop",
+    steps = 0,
+
     time = 0,
     lifeTime = Infinity,
   }) {
@@ -37,7 +38,7 @@ export class GameObject {
     this.height = height;
     this.rotation = rotation;
     this.radius = radius;
-    this.tag = tag;
+    this.type = type;
     this.shape = shape;
 
     this.isSpheric = isSpheric;
@@ -47,48 +48,87 @@ export class GameObject {
     this.isPlayer = isPlayer;
 
     this.activeTextures = [];
+    this.textures = {};
+    this.color = color;
 
-    //temp
-    this.movement = movement;
-    this.time = time;
+    this.direction = direction;
+    this.prevDirection = prevDirection;
+    this.speed = speed;
+    this.status = status;
+    this.steps = steps;
+
+    this.movement = {
+      x: 0,
+      y: 0
+    }
+
+    this.creationTime = time;
+    this.lastUpdateTime = time;
     this.lifeTime = lifeTime;
+    this.isToBeDestroyed = false;
   }
 
-  setImage(images, textures) {
-    this.images = images;
-    this.textures = textures;
-  }
+  // setImage(images, textures) {
+  //   this.images = images;
+  //   this.textures = textures;
+  // }
 
-  setAnimation(animations) {
-    this.animations = animations;
+  // setAnimation(animations) {
+  //   this.animations = animations;
+  // }
+
+  appendTexture(name, image) {
+    this.textures[name] = image;
   }
 
   setActiveTexture(imageNumber, texture) {
     this.activeTextures[imageNumber] = texture;
   }
 
-  move() {
-    if (this.movement.status === "moving") {
-      switch (this.movement.direction) {
-        case "up":
-          this.y -= this.movement.speed;
-          this.collider.move(0, -this.movement.speed);
-          break;
-        case "left":
-          this.x -= this.movement.speed;
-          this.collider.move(-this.movement.speed);
-          break;
-        case "down":
-          this.y += this.movement.speed;
-          this.collider.move(0, this.movement.speed);
-          break;
-        case "right":
-          this.x += this.movement.speed;
-          this.collider.move(this.movement.speed);
-          break;
-        default:
-          break;
-      }
+  setPosition({ x, y }) {
+    this.x = x;
+    this.y = y;
+  }
+
+  update(time) {
+    if (!this.isStatic) {
+      this.x += this.movement.x
+      this.y += this.movement.y
+    }
+    
+    if (!time) return;
+    this.lastUpdateTime = time;
+    if (this.lastUpdateTime - this.creationTime >= this.lifeTime) {
+      this.isToBeDestroyed = true;
     }
   }
+
+  isMoving(axis = "", multiply) { // multiply = 1, 0, -1
+    this.movement[axis] = this.speed * multiply
+  }
+
+  // move() {
+  //   if (this.movement.status === "moving") {
+  //     switch (this.movement.direction) {
+  //       case "up":
+  //         this.y -= this.movement.speed;
+  //         this.collider.move(0, -this.movement.speed);
+  //         break;
+  //       case "left":
+  //         this.x -= this.movement.speed;
+  //         this.collider.move(-this.movement.speed);
+  //         break;
+  //       case "down":
+  //         this.y += this.movement.speed;
+  //         this.collider.move(0, this.movement.speed);
+  //         break;
+  //       case "right":
+  //         this.x += this.movement.speed;
+  //         this.collider.move(this.movement.speed);
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //   }
+  // }
 }

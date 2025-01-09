@@ -1,39 +1,53 @@
-import { Bullet } from "../objects/Bullet.js";
+import { Bullet } from "../objects/Bullet/Bullet.js";
+import { Spawner } from "../objects/Enemy/Spawner.js";
 import { GameObject } from "../objects/GameObject.js";
+import { Map } from "../objects/Map/Map.js";
+import { Player } from "../objects/Player/Player.js";
 import { CollisionBody } from "../physics/CollisionBody.js";
 import { Animation } from "./Animation.js";
+import { Camera } from "./Camera.js";
 
 export class ObjectCreator {
   create(
-    {
-      objectData = {},
-      textures = [],
-      colisionBodyShape = 0,
-      imagesSize = [],
-      imagesCount,
-      animationData = [
-        {
-          framelist: "",
-          frameListHeight,
-          frameListWidth,
-          frameWidth,
-          frameHeight,
-          duration,
-          frameX,
-          frameY,
-          startFrame: 0,
-          isRotating: false,
-          isInfinit: true,
-        },
-      ],
-    },
-    loaded_textures
+    objectType,
+    objectData,
+    time,
+    // {
+    //   //objectData = {},
+    //   textures = [],
+    //   colisionBodyShape = 0,
+    //   imagesSize = [],
+    //   imagesCount,
+    //   animationData = [
+    //     {
+    //       framelist: "",
+    //       frameListHeight,
+    //       frameListWidth,
+    //       frameWidth,
+    //       frameHeight,
+    //       duration,
+    //       frameX,
+    //       frameY,
+    //       startFrame: 0,
+    //       isRotating: false,
+    //       isInfinit: true,
+    //     },
+    //     //{},
+    //     //{}, ...
+    //   ],
+    // },
+    // loaded_textures
   ) {
     // if (objectData.type === "bullet") debugger;
-    let object =
-      objectData.type === "bullet"
-        ? new Bullet(objectData)
-        : new GameObject(objectData);
+    let object = null;
+    switch (objectType) {
+      case "player": object = new Player({...objectData, time}); break;
+      case "levelMap": object = new Map({...objectData, time}); break;
+      case "camera": object = new Camera({...objectData, time}); break;
+      case "spawner": object = new Spawner({...objectData, time}); break;
+      default: object = {...objectData}; break;
+    }
+    /*
     let images = [];
     for (let i = 0; i < imagesCount; i++) {
       images[i] = {};
@@ -66,8 +80,31 @@ export class ObjectCreator {
           y2: object.y + object.height,
         }
       );
+    */
+
     return object;
   }
+
+  appendImages(images, objects) {
+    // console.log("Object Creator Appender >>>>>>>");
+    // console.log('objects: ', objects);
+    // console.log('images: ', images);
+    let img;
+    let i;
+    for (img in images) {
+      // console.log('img: ', img);
+      let objName = img.split("_")[0];
+      // console.log('objName: ', objName);
+      if (objects[objName]) {
+        // console.log('objects['+objName+']: ', typeof objects[objName]);
+        if (objName!=="levelMap") objects[objName].appendTexture(img, images[img]);
+        else objects[objName].appendInfo(images[img].mapData);
+      } else if (objName === "tiles") {
+        objects.levelMap.appendTexture(images[img]);
+      }
+    }
+  }
+
   destroy(object) {
     for (let i = 0; i < object.images.length; i++)
       object.images[i].image.remove();

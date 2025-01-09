@@ -1,59 +1,78 @@
 export class Scene {
-    constructor({
-      name = "Default Loading Scene",
-      type = "loading", // "gameLevel" | "loading" | "video"
-      background = "#000000", // Map() | Texture()
-      objects = [],
-    //   {
-    //     main: {
-    //       text: {
-    //         font: "40px TimesNewRoman",
-    //         color: "#FFFFFF",
-    //         x: 100,
-    //         y: 100,
-    //         text: "Loading...",
-    //       },
-    //     },
-    //   },
-      media = {},
-      time = 2000,
-      nextScene = "",
-      _onFinish = () => {},
-      _update = null,
-    }) {
-      this.name = name;
-      this.type = type;
-      this.background = background;
-      this.objects = objects;
-      this.time = time;
-      this.isFinished = false;
-      this.data = [];
-      this.media = media;
-      this.nextScene = nextScene;
-      this.startTime = null;
-      this._onFinish = _onFinish;
-      if (_update) this.update = _update;
-    }
-  
-    setStartTime(time) {
-      // console.group("Set Start Time");
-      // console.log("start time set");
-      // console.log("time: ", time);
-      this.startTime = time || 0;
-      // console.log("startTime: ", this.startTime);
-      // console.groupEnd();
-    }
-  
-    setData(data) {
-      this.data = data;
-    }
-  
-    update(time) {
-      if (time - this.startTime >= this.time) {
-        this.isFinished = true;
-        this._onFinish();
-      }
-    }
+  constructor({
+    name = "Default Loading Scene",
+    type = "loading", // "gameLevel" | "loading" | "video" | "menu"
+    background = "#000000", // Map() | Texture()
+    objects = [],
+    /*
+    {
+      type: "block", // "text" | "button" (Button())
+      name: "logo",
+      x: 10,
+      y: 10,
+      width: 10,
+      height: 10,
+      isUpdatable: false, // true
+      font: "40px TimesNewRoman",
+      text: "Loading...",
+      color: "#000000" // Image()
+    },
+  */
+    data = {},
+    time = 2000,
+    nextScene = "",
+    startTime = 0,
+    onFinish = () => { },
+    _update = null,
+    physicIsOn = false,
+  }) {
+    this.name = name;
+    this.type = type;
+    this.background = background;
+    this.objects = objects;
+    this.time = time;
+    this.isFinished = false;
+    this.data = data;
+    this.currentPage = "main";
+    // this.media = media;
+    this.nextScene = nextScene;
+    this.startTime = null;
+    this.onFinish = onFinish;
+    this.physicIsOn = physicIsOn;
+    if (_update) this.update = _update;
   }
-  
-  //start 17.06.2024 22:03
+
+  setStartTime(time) {
+    // console.group("Set Start Time");
+    // console.log("start time set");
+    // console.log("time: ", time);
+    this.startTime = time || 0;
+    // console.log("startTime: ", this.startTime);
+    // console.groupEnd();
+  }
+
+  changePage(page) {
+    if (page !== "main") this.objects = this.pages[page];
+    else this.objects = this.mainPage;
+    this.currentPage = page;
+  }
+
+  setData(data) {
+    this.data = data;
+  }
+
+  update(time) {
+    if (time - this.startTime >= this.time) {
+      this.isFinished = true;
+    }
+    if (this.isFinished) { data.nextScene = this.nextScene; }
+  }
+
+  switchScene(sceneName) {
+    // console.log('Scene.switchScene >>>>\n\t sceneName: ', sceneName);
+    this.nextScene = sceneName;
+    this.isFinished = true;
+  }
+}
+
+//start 17.06.2024 22:03
