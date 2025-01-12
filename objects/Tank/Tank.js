@@ -25,6 +25,14 @@ export class Tank extends GameObject {
             this.tower
         ]
     }
+
+    move(direction) {
+        this.hull.drive(direction)
+        this.isMoving(this.hull.movementMultiply)
+    }
+    turn(direction) {
+        this.hull.turn(direction)
+    }
 s
     appendTexture(name, image) {
         // console.log('name: ', name);

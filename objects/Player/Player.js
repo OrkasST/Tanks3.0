@@ -1,7 +1,7 @@
 import { Tank } from "../Tank/Tank.js";
 
 export class Player extends Tank {
-    constructor({ time, speed = 5, rotation = 90 }) {
+    constructor({ time, speed = 1, rotation = 270 }) {
         super({
             color: "#FFFFFF",
             width: 256, height: 256,
@@ -32,6 +32,13 @@ export class Player extends Tank {
         // console.log("count+deg: ", count + deg);
         this.tower.rotation = (Math.PI / 2) * count + deg;
         // console.log('rotation: ', this.tower.rotation);
+    }
+
+    onControlButtonEvent(code, isReleased) {
+        if (code == "KeyW") this.move(isReleased ? 0 : 1)
+        else if (code == "KeyS") this.move(isReleased ? 0 : -1)
+        else if (code == "KeyA") this.turn(isReleased ? 0 : -1)
+        else if (code == "KeyD") this.turn(isReleased ? 0 : 1)
     }
 
     update(time) {

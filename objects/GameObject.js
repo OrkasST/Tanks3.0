@@ -108,8 +108,9 @@ export class GameObject {
     }
   }
 
-  isMoving(axis = "", multiply) { // multiply = 1, 0, -1
-    this.movement[axis] = this.speed * multiply
+  isMoving(multiply = {x: 0, y: 0}) { // multiply = 1, 0, -1
+    this.movement.x = this.speed * multiply.x
+    this.movement.y = this.speed * multiply.y
   }
 
   // move() {

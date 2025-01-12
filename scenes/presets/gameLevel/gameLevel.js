@@ -111,22 +111,29 @@ export class GameLevel extends Scene {
                     if (this.currentPage === "main") this.changePage("pauseMenu");
                     else this.changePage("main");
                 }
-                if (event[i].code === "KeyS") {
+                if (
+                    event[i].code === "KeyS" ||
+                    event[i].code === "KeyW" ||
+                    event[i].code === "KeyA" ||
+                    event[i].code === "KeyD"
+                ) {
+                    console.log('event: ', event.length);
                     // this.camera.position.y -= 10;
-                    this.player.isMoving("y", event[i].type === "keydown" ? 1 : 0)
+                    // this.player.isMoving("y", event[i].type === "keydown" ? 1 : 0)
+                    this.player.onControlButtonEvent(event[i].code, event[i].type === "keyup")
                 }
-                if (event[i].code === "KeyW") {
+                // if (event[i].code === "KeyW") {
                     // this.camera.position.y += 10;
-                    this.player.isMoving("y", event[i].type === "keydown" ? -1 : 0)
-                }
-                if (event[i].code === "KeyA") {
+                    // this.player.isMoving("y", event[i].type === "keydown" ? -1 : 0)
+                // }
+                // if (event[i].code === "KeyA") {
                     // this.camera.position.x += 10;
-                    this.player.isMoving("x", event[i].type === "keydown" ? -1 : 0)
-                }
-                if (event[i].code === "KeyD") {
+                    // this.player.isMoving("x", event[i].type === "keydown" ? -1 : 0)
+                // }
+                // if (event[i].code === "KeyD") {
                     // this.camera.position.x -= 10;
-                    this.player.isMoving("x", event[i].type === "keydown" ? 1 : 0)
-                }
+                    // this.player.isMoving("x", event[i].type === "keydown" ? 1 : 0)
+                // }
             }
 
             // console.log('data.events.keyboard: ', data.events.keyboard);
