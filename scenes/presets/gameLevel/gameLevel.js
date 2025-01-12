@@ -47,7 +47,7 @@ export class GameLevel extends Scene {
             this.cursor,
             this.camera,
         ]
-        this.mainPage = [];
+        this.mainPage = [...this.objects];
         this.pages = {
             pauseMenu: PauseMenu(
                 data,

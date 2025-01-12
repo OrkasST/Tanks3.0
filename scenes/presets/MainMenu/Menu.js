@@ -1,13 +1,14 @@
-import { Button } from "../../../UI/Button.js";
-import { LevelChoiseButton } from "../../../UI/LevelChoiseButton.js";
 import { Scene } from "../../Scene.js";
+import { PauseMenu } from "../gameLevel/pages/pauseMenu.js";
 import { KeyBindings } from "./pages/keyBindings.js";
 import { Levels } from "./pages/levels.js";
 import { Settings } from "./pages/Settings.js";
 import { StartMenu } from "./pages/startMenu.js";
 
 export class Menu extends Scene {
-    constructor(startTime, data) {
+    constructor(startTime, data, gameSettings) {
+        console.log('gameSettings: ', gameSettings);
+        console.log('data: ', data);
         super({
             name: "Game Menu",
             objects: StartMenu(data, () => this.changePage("levels"), () => this.changePage("settings")),
@@ -16,6 +17,9 @@ export class Menu extends Scene {
         });
         this.mainPage = [...this.objects];
         // console.log('Menu.constructor>>>this.objects: ', this.objects);
+
+        this.editKeys = gameSettings.settingsFunctions.changeBinding;
+
         this.pages = {
             levels: Levels(
                 data,
@@ -29,6 +33,7 @@ export class Menu extends Scene {
             ),
             settings: Settings(
                 data,
+                gameSettings,
                 () => this.changePage('main'),
                 () => {
                     //data.changeSettings.toggleFullscreen(); //not ready (11:09 05.10.2024)
@@ -37,7 +42,14 @@ export class Menu extends Scene {
             ),
             keyBindings: KeyBindings(
                 data,
+                gameSettings.keyBindings,
                 () => this.changePage("settings"),
+                () => {
+                    // gameSettings.keyBindings["PauseMenu"][0] = ''
+                    console.log("ON KEYCHANGE click >>>", this);
+                    this.editKeys()()
+                    this.isKeyEditing = true;
+                }
             )
         }
         this.nextScene = null;
@@ -58,7 +70,14 @@ export class Menu extends Scene {
     }
 
     update(time, data) {
-        if (!this.isFinished && data.events.mouse.length > 0) {
+        console.log(">>>>> Menu Is Updating");
+        if (this.isFinishing) {
+            console.log("<<<<<<< Menu Is Finished");
+            data.nextScene = this.nextScene;
+            this.isFinished = true;
+            return;
+        }
+        if (data.events.mouse.length > 0) {
             if (data.events.mouse[data.events.mouse.length - 1].type === "click")
                 for (let i = 0; i < this.objects.length; i++) {
                     if (this.objects[i].isInteractive &&
@@ -71,6 +90,9 @@ export class Menu extends Scene {
                     }
                 }
         }
-        if (this.isFinished) { data.nextScene = this.nextScene; }
+        if (data.events.keyboard.length > 0 && this.isKeyEditing) {
+            // this.
+        }
+        console.log("<<<<< Menu Stopped Updating");
     }
 }

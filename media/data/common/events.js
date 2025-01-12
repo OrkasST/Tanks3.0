@@ -1,4 +1,4 @@
-export const eventList = {
+export const EVENT_LIST = {
     mouse: {
         "click": false, 
         "contextmenu": true, // default action will be prevented

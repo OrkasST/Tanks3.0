@@ -1,4 +1,4 @@
-export const scenes_info = {
+export const SCENES_INFO = {
     game_menu: {
         sceneImages: [
             ["lable_image", "media/images/menu/tank.png"],
@@ -9,7 +9,7 @@ export const scenes_info = {
         sceneImages: [
             ["player_tank_hull", "media/images/game/player/Hull.png", {
                 frameListHeight: 512,
-                frameListWidth: 2048,
+                frameListWidth: 512,
                 frameWidth: 512,
                 frameHeight: 512,
                 duration: 0,

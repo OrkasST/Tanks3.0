@@ -1,6 +1,6 @@
 import { Button } from "../../../../UI/Button.js";
 
-export function KeyBindings(data, ...callbacks) {
+export function KeyBindings(data, bindings, ...callbacks) {
     //Reworking
     console.log('data: ', data);
     return [
@@ -30,7 +30,7 @@ export function KeyBindings(data, ...callbacks) {
         },
         new Button({
             name: "Switch Pause Button",
-            text: "Escape",
+            text: bindings["PauseMenu"][0],
             x: window.innerWidth * 0.2 + 400,
             y: window.innerHeight * 0.3 - 36,
             width: 88,
@@ -40,7 +40,7 @@ export function KeyBindings(data, ...callbacks) {
             color: '#FFFFFF',
             textColor: "#000000",
             textX: 36,
-            action: callbacks[0]
+            action: callbacks[1]
         })
     ]
 }

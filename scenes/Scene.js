@@ -32,6 +32,7 @@ export class Scene {
     this.objects = objects;
     this.time = time;
     this.isFinished = false;
+    this.isFinishing = false;
     this.data = data;
     this.currentPage = "main";
     // this.media = media;
@@ -65,13 +66,18 @@ export class Scene {
     if (time - this.startTime >= this.time) {
       this.isFinished = true;
     }
-    if (this.isFinished) { data.nextScene = this.nextScene; }
+    if (this.isFinishing) {
+      data.nextScene = this.nextScene;
+      console.log('data: ', data);
+      this.isFinished = true;
+      return
+    }
   }
 
   switchScene(sceneName) {
-    // console.log('Scene.switchScene >>>>\n\t sceneName: ', sceneName);
+    console.log('\t___Scene.switchScene >>>>\n\t sceneName: ', sceneName);
     this.nextScene = sceneName;
-    this.isFinished = true;
+    this.isFinishing = true;
   }
 }
 

@@ -1,5 +1,7 @@
 import { BINDIGS } from "../media/data/common/Bindings.js";
-import { eventList } from "../media/data/common/events.js";
+import { EVENT_LIST } from "../media/data/common/events.js";
+import { SCENES_INFO } from "../media/data/common/scenes_info.js";
+
 import { Drawer } from "../utils/Drawer.js";
 import { EventHandler } from "../utils/EventHandler.js";
 import { MediaLoader } from "../utils/MediaLoader.js";
@@ -37,7 +39,6 @@ class TanksGame {
         this.START_BTN.addEventListener("click", () => {
             if (document.fullscreenEnabled) {
                 document.documentElement.requestFullscreen();
-                // navigator.keyboard.lock()
             }
             this.setup();
             this.START_BTN.disabled = true;
@@ -56,6 +57,8 @@ class TanksGame {
     }
 
     update(data, time) {
+        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        console.log(">>>>>> UPDATE >>>>>>");
         // console.log('data: ', data);/
         // console.log('time: ', time);
         if (!this.currentScene) return;
@@ -66,13 +69,16 @@ class TanksGame {
         if (!data.hideCursor && this.SCREEN.style.cursor === "none") this.SCREEN.style.cursor = "";
 
         if (this.currentScene.isFinished) {
+            console.log("\t___this.data", this.data);
+            console.log('\t___data: ', data);
             this.currentScene = this.currentScene.name === "Game Loading"
-                ? this.sceneChanger.finishScene(this.currentScene)
-                : this.sceneChanger.prepareScene(data.nextScene, time);
+                ? this.sceneChanger.finishScene(this.currentScene, time, this.data.gameSettings)
+                : this.sceneChanger.prepareScene(data.nextScene, time, this.data.gameSettings);
             // this.currentScene.onFinish();
             // this.currentScene = null;
         }
         this.LOGGER.value += 1
+        console.log("<<<<<<< UPDATE IS FINISHED");
     }
 
     render(data, time) {
@@ -95,9 +101,8 @@ class TanksGame {
             // console.log('element: ', element);
 
             if (this.currentScene.name.split("_")[0] === "level" &&
-                (element.type !== "UI" && element.type !== "window" && element.type !== "button" )
+                (element.type !== "UI" && element.type !== "window" && element.type !== "button")
             ) {
-                console.log(element.type);
                 // console.log(element.y + this.currentScene.camera.position.y);
 
                 if (element.image && Array.isArray(element.image)) {
@@ -190,14 +195,24 @@ class TanksGame {
             // console.log('this.drawer.screen.width: ', this.drawer.screen.width);
             // console.log('this.drawer.screen.height: ', this.drawer.screen.height);
         });
+        window.addEventListener("beforeunload", (e) => {
+            let confirmationMessage = "\o/";
+            if (this.isSaving) {
+                (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+                return confirmationMessage;
+            }                            //Webkit, Safari, Chrome
+        });
 
         this.drawer = new Drawer(this.SCREEN);
-        this.currentScene = this.sceneChanger.prepareScene("game_menu", 0);
 
-        this.eventHandler = new EventHandler(eventList, BINDIGS, this.getTime.bind(this));
+        console.log(">>>>>>>>SETUP>>>>>>>>");
+        this.currentScene = this.sceneChanger.prepareScene("game_menu", 0, this.data.gameSettings);
+
+        this.eventHandler = new EventHandler(EVENT_LIST, BINDIGS, this.getTime.bind(this));
 
         // console.log('Game.data: ', this.data);
         this._tick();
+        // this.save();
         this.loop(this.data, 0);
     }
 
@@ -205,6 +220,27 @@ class TanksGame {
         setInterval(() => {
             this.timerTime += 1;
         }, 1)
+    }
+
+    async save() {
+        this.isSaving = true;
+        let x = 1;
+        let saivingAnounce = setInterval(() => {
+            console.clear();
+            console.log("Saving...", x);
+            x++;
+        }, 1000)
+        setTimeout(()=>{
+            this.isSaving = false;
+            console.log("SAVED");
+            clearInterval(saivingAnounce);
+        },20000)
+        // let save = this.data;
+        // save = JSON.stringify(save);
+        // localStorage.clear();
+        // localStorage.setItem("save", save);
+        // // console.log("Data saved");
+        // this.dataLogged = true;
     }
 
     getTime() {
@@ -216,8 +252,17 @@ class TanksGame {
         return {
             player: {},
             gameSettings: {
-                keyBindings: { ...BINDIGS }
+                keyBindings: { ...BINDIGS },
+                events: { ...EVENT_LIST },
+                scenesInfo: { ...SCENES_INFO },
+                settingsFunctions: {
+                    changeBinding: (actionName) => (keyCode) => { 
+                        console.log(this);
+                    },
+                    toggleFullscreenMode: (isOn) => { }
+                }
             },
+            nextScene: null
         }
     }
 }
