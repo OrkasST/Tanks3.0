@@ -70,9 +70,9 @@ export class Menu extends Scene {
     }
 
     update(time, data) {
-        console.log(">>>>> Menu Is Updating");
+        // console.log(">>>>> Menu Is Updating");
         if (this.isFinishing) {
-            console.log("<<<<<<< Menu Is Finished");
+            // console.log("<<<<<<< Menu Is Finished");
             data.nextScene = this.nextScene;
             this.isFinished = true;
             return;
@@ -93,6 +93,6 @@ export class Menu extends Scene {
         if (data.events.keyboard.length > 0 && this.isKeyEditing) {
             // this.
         }
-        console.log("<<<<< Menu Stopped Updating");
+        // console.log("<<<<< Menu Stopped Updating");
     }
 }

@@ -9,12 +9,12 @@ export class SceneChanger{
     }
 
     prepareScene(sceneName, time, data) {
-        console.group(">>>>> Preparing Scene");
-        console.log('\t___sceneName: ', sceneName)
-        console.log("\t___data", data);
+        // console.group(">>>>> Preparing Scene");
+        // console.log('\t___sceneName: ', sceneName)
+        // console.log("\t___data", data);
         this.nextScene = sceneName;
-        console.log('\t___sceneName: ', sceneName);
-        console.log('\t___data.scenesInfo[sceneName]: ', data.scenesInfo[sceneName]);
+        // console.log('\t___sceneName: ', sceneName);
+        // console.log('\t___data.scenesInfo[sceneName]: ', data.scenesInfo[sceneName]);
         // console.log('sceneChanger.preparescene >>>>\n\tsceneName: ', sceneName);
         // let sceneImages = this.list[sceneName].sceneImages;
         // console.log('sceneChanger.preparescene >>>>\n\tthis.list: ', this.list);
@@ -26,7 +26,7 @@ export class SceneChanger{
     }
 
     finishScene(loadingScene, time, gameSettings) {
-        console.log("<<<<< Finishing Scene");
+        // console.log("<<<<< Finishing Scene");
         // console.log('SceneChanger.finishScene >>>>>\n\tloadingScene: ', loadingScene);
         if (this.nextScene === "game_menu") {
             return new Menu(time, loadingScene.data.sceneImages, gameSettings);

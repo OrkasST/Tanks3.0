@@ -54,7 +54,7 @@ export class Animation {
 
     }
   
-    frame({deltaTime, rotation, number}) {
+    frame({deltaTime, rotation=-1, number}) {
       if (this.totalFrames - 1 < this.currentFrame && this.duration > 0) return;
       // if (this.log) debugger;
       if (this.currentFrame > 0 && this.duration > 0) {
@@ -85,7 +85,7 @@ export class Animation {
       //   this.image.height * 2
       // );
       this.ctx.reset()
-      if (rotation && this.isRotating) {
+      if (rotation >= 0 && this.isRotating) {
         // this.ctx.save();
         this.ctx.translate(this.frameWidth / 2, this.frameWidth / 2);
         this.ctx.rotate(rotation);
@@ -110,7 +110,7 @@ export class Animation {
         this.frameWidth,
         this.frameHeight
       );
-      if (rotation && this.isRotating) this.ctx.restore();
+      if (rotation >= 0 && this.isRotating) this.ctx.restore();
       if (!number && this.totalFrames - 1 > this.currentFrame)
         this.currentFrame++;
       if (this.totalFrames - 1 <= this.currentFrame && this.isInfinit)

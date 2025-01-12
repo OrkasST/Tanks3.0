@@ -15,18 +15,19 @@ export class Part extends GameObject {
             y: sourceY + offsetY,
             width,
             height,
-            time
+            time,
+            rotation: 0
         })
         this.image = null;
         this.offsetX = offsetX
         this.offsetY = offsetY
         this.name = name;
-        // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\nname: ', name);
+        // console.log('>>>>>>>>>>>>\nname: ', name);
     }
 
-    rotate(rotation = 0) {
+    rotate(rotation = null) {
+        if (rotation) this.rotation = rotation;
         this.image.frame({rotation: this.rotation})
-        this.rotation += rotation;
     }
 
     appendTexture(name, image, width, height) {

@@ -8,7 +8,7 @@ export class Tower extends Part {
             offsetX: -20,
             offsetY: -20,
             width: 200,
-            height: 40,
+            height: 40
         })
     }
     
@@ -20,6 +20,6 @@ export class Tower extends Part {
     }
     update(time) {
         super.update(time);
-        this.rotate(0.01)
+        this.rotate(this.rotation)
     }
 }

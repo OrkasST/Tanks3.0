@@ -5,7 +5,7 @@ import { Scene } from "../Scene.js";
 
 export class Loading extends Scene {
     constructor(data, nextScene, startTime, background) {
-        console.log('loading.constructor >>>>\n\tdata: ', data);
+        // console.log('loading.constructor >>>>\n\tdata: ', data);
         super({
             name: "Game Loading",
             objects: [

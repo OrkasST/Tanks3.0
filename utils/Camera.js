@@ -19,7 +19,7 @@ export class Camera {
       x: false,
       y: false
     }
-    this.drawDebug = false
+    this.drawDebug = true
   }
 
   setFocus(obj) {

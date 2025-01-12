@@ -91,6 +91,10 @@ export class GameLevel extends Scene {
             if (lastMouseEvent.type === "mousemove") {
                 this.cursor.x = lastMouseEvent.clientX - this.cursor.width / 2
                 this.cursor.y = lastMouseEvent.clientY - this.cursor.height / 2
+                this.player.onMouseMove(
+                    lastMouseEvent.clientX, lastMouseEvent.clientY,
+                    this.camera.position.x, this.camera.position.y
+                )
             }
         }
 

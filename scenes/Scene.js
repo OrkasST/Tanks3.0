@@ -68,14 +68,14 @@ export class Scene {
     }
     if (this.isFinishing) {
       data.nextScene = this.nextScene;
-      console.log('data: ', data);
+      // console.log('data: ', data);
       this.isFinished = true;
       return
     }
   }
 
   switchScene(sceneName) {
-    console.log('\t___Scene.switchScene >>>>\n\t sceneName: ', sceneName);
+    // console.log('\t___Scene.switchScene >>>>\n\t sceneName: ', sceneName);
     this.nextScene = sceneName;
     this.isFinishing = true;
   }

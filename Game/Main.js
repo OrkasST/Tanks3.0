@@ -57,8 +57,8 @@ class TanksGame {
     }
 
     update(data, time) {
-        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        console.log(">>>>>> UPDATE >>>>>>");
+        // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        // console.log(">>>>>> UPDATE >>>>>>");
         // console.log('data: ', data);/
         // console.log('time: ', time);
         if (!this.currentScene) return;
@@ -69,8 +69,8 @@ class TanksGame {
         if (!data.hideCursor && this.SCREEN.style.cursor === "none") this.SCREEN.style.cursor = "";
 
         if (this.currentScene.isFinished) {
-            console.log("\t___this.data", this.data);
-            console.log('\t___data: ', data);
+            // console.log("\t___this.data", this.data);
+            // console.log('\t___data: ', data);
             this.currentScene = this.currentScene.name === "Game Loading"
                 ? this.sceneChanger.finishScene(this.currentScene, time, this.data.gameSettings)
                 : this.sceneChanger.prepareScene(data.nextScene, time, this.data.gameSettings);
@@ -78,7 +78,7 @@ class TanksGame {
             // this.currentScene = null;
         }
         this.LOGGER.value += 1
-        console.log("<<<<<<< UPDATE IS FINISHED");
+        // console.log("<<<<<<< UPDATE IS FINISHED");
     }
 
     render(data, time) {
@@ -205,7 +205,7 @@ class TanksGame {
 
         this.drawer = new Drawer(this.SCREEN);
 
-        console.log(">>>>>>>>SETUP>>>>>>>>");
+        // console.log(">>>>>>>>SETUP>>>>>>>>");
         this.currentScene = this.sceneChanger.prepareScene("game_menu", 0, this.data.gameSettings);
 
         this.eventHandler = new EventHandler(EVENT_LIST, BINDIGS, this.getTime.bind(this));
