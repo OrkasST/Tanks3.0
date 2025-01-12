@@ -3,19 +3,22 @@ import { Hull } from "./TankHull.js";
 import { Tower } from "./TankTower.js";
 
 export class Tank extends GameObject {
-    constructor(data = { color, width, height, isStatic, time}) {
+    constructor(data = { color, width, height, isStatic, time, speed, rotation: 90}) {
         super(data)
         this.hull = new Hull({
             sourceX: this.x, sourceY: this.y,
             width: data.width, height: data.height,
             name: "hull",
-            time: this.time
+            time: this.time,
+            speed: data.speed,
+            rotation: data.rotation
         });
         this.tower = new Tower({
             sourceX: this.x, sourceY: this.y,
             width: data.width, height: data.height,
             name: "tower",
-            time: this.time
+            time: this.time,
+            rotation: data.rotation
         });
         this.image = [
             this.hull,
@@ -34,7 +37,7 @@ s
             this.width, this.height
         )
         else if (imageType === "bullet") this.bulletImage = image
-        if (image.frame) image.frame({rotation: 0}); 
+        if (image.frame) image.frame({rotation: image.rotation}); 
     }
 
     update(time) {

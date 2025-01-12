@@ -13,8 +13,8 @@ export class Animation {
       offsetY = 0,
       imageX = 0,
       imageY = 0,
-      imageWidth = 128,
-      imageHeight = 128,
+      imageWidth,
+      imageHeight,
       startFrame = 0,
       isRotating = false,
       isInfinit = true,
@@ -46,8 +46,8 @@ export class Animation {
 
       this.image = document.createElement("canvas");
       this.ctx = this.image.getContext("2d");
-      this.image.width = imageWidth;
-      this.image.height = imageHeight;
+      this.image.width = imageWidth || frameWidth;
+      this.image.height = imageHeight || frameHeight;
     }
 
     setToStartFrame() {
@@ -99,6 +99,9 @@ export class Animation {
           this.frameHeight
         );
       }
+
+      //ctx.drawImage(image, sx, sy, ORIGW, ORIGH, x, y, MAXW, MAXH);ctx.drawImage(image, sx, sy, ORIGW, ORIGH, x, y, MAXW, MAXH);
+
       this.ctx.drawImage(
         this.framelist,
         sx,
@@ -137,9 +140,9 @@ export class Animation {
     setColumn(column) {
       this.column = column;
     }
-    setImageDimensions(dimension, value) {
-      this.image[dimension] = value
-    }
+    // setImageDimensions(dimension, value) {
+    //   this.image[dimension] = value
+    // }
   
     reset() {
       this.currentFrame = 0 + this.startFrame;

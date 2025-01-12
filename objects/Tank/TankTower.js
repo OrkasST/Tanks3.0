@@ -10,6 +10,7 @@ export class Tower extends Part {
             width: 200,
             height: 40
         })
+        console.log("this.rotation", this.rotation);
     }
     
     shoot() {

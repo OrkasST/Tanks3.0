@@ -36,7 +36,7 @@ export class GameObject {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.rotation = rotation;
+    this.rotation = rotation < 0 ? -1 : (rotation * Math.PI / 180);
     this.radius = radius;
     this.type = type;
     this.shape = shape;
@@ -77,6 +77,11 @@ export class GameObject {
   //   this.animations = animations;
   // }
 
+  rotate(rotation = null) {
+    if (rotation) this.rotation = rotation;
+    this.image.frame({ rotation: this.rotation })
+  }
+
   appendTexture(name, image) {
     this.textures[name] = image;
   }
@@ -95,7 +100,7 @@ export class GameObject {
       this.x += this.movement.x
       this.y += this.movement.y
     }
-    
+
     if (!time) return;
     this.lastUpdateTime = time;
     if (this.lastUpdateTime - this.creationTime >= this.lifeTime) {

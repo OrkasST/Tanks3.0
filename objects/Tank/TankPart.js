@@ -7,7 +7,8 @@ export class Part extends GameObject {
         offsetX = -20, offsetY = -20,
         name = "",
         color = "#000000",
-        time = 0
+        time = 0,
+        rotation = 90
     }) {
         super({
             color,
@@ -16,7 +17,7 @@ export class Part extends GameObject {
             width,
             height,
             time,
-            rotation: 0
+            rotation
         })
         this.image = null;
         this.offsetX = offsetX
@@ -25,17 +26,8 @@ export class Part extends GameObject {
         // console.log('>>>>>>>>>>>>\nname: ', name);
     }
 
-    rotate(rotation = null) {
-        if (rotation) this.rotation = rotation;
-        this.image.frame({rotation: this.rotation})
-    }
-
-    appendTexture(name, image, width, height) {
-        // console.log('Tank' + this.name + ' >>>>>> \n\tname: ', name);
-        // console.log('\timage: ', image);
+    appendTexture(name, image) {
         super.appendTexture(name, image)
-        image.setImageDimensions("width", width)
-        image.setImageDimensions("height", height)
         if (name === this.name) this.image = image;
     }
 

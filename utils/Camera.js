@@ -19,7 +19,7 @@ export class Camera {
       x: false,
       y: false
     }
-    this.drawDebug = true
+    this.drawDebug = false
   }
 
   setFocus(obj) {
@@ -27,8 +27,8 @@ export class Camera {
     this.triggerFrame = {
       x1: this.modifiers.x * 0.7,
       x2: this.modifiers.x * 1.3,
-      y1: this.modifiers.y * 0.7,
-      y2: this.modifiers.y * 1.3,
+      y1: this.modifiers.y * 0.6,
+      y2: this.modifiers.y * 1.4,
     }
     this.position.x = -this.focuseObj.x + this.modifiers.x - this.focuseObj.width / 2;
     this.position.y = -this.focuseObj.y + this.modifiers.y - this.focuseObj.height / 2;

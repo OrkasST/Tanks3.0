@@ -10,9 +10,15 @@ export class Hull extends Part {
             width: 200,
             height: 120,
         })
+        console.log("this.rotation", this.rotation);
     }
 
-    drive() {
+    drive(direction = 1) {
+        
+    }
 
+    update(time) {
+        super.update(time);
+        this.rotate(this.rotation)
     }
 }
