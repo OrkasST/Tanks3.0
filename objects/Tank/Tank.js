@@ -18,7 +18,8 @@ export class Tank extends GameObject {
             width: data.width, height: data.height,
             name: "tower",
             time: this.time,
-            rotation: data.rotation
+            rotation: data.rotation,
+            reloadDuration: 2000
         });
         this.image = [
             this.hull,

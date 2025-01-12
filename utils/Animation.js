@@ -37,7 +37,6 @@ export class Animation {
       this.imageY = imageY;
       this.isInfinit = isInfinit;
       this.isRotating = isRotating;
-      this.startFrame = startFrame;
       this.currentFrame = 0 + startFrame;
       this.line = -1;
       this.column = -1;
@@ -49,16 +48,12 @@ export class Animation {
       this.image.width = imageWidth || frameWidth;
       this.image.height = imageHeight || frameHeight;
     }
-
-    setToStartFrame() {
-
-    }
   
     frame({deltaTime, rotation=-1, number}) {
       if (this.totalFrames - 1 < this.currentFrame && this.duration > 0) return;
-      // if (this.log) debugger;
+      if (this.log) debugger;
       if (this.currentFrame > 0 && this.duration > 0) {
-        this.currentFrame += Math.floor(deltaTime / this.step) - 1;
+        this.currentFrame = Math.floor(deltaTime / this.step) - 1;
         if (this.currentFrame >= this.totalFrames)
           this.currentFrame = this.totalFrames - 1;
       }
@@ -124,7 +119,7 @@ export class Animation {
         !this.isAnimationEnded
       ) {
         this.isAnimationEnded = true;
-        console.log("this.isAnimationEnded: ", this.isAnimationEnded);
+        // console.log("this.isAnimationEnded: ", this.isAnimationEnded);
       }
       // if (this.log) {
       //   console.log("this.currentFrame: ", this.currentFrame);
@@ -140,13 +135,15 @@ export class Animation {
     setColumn(column) {
       this.column = column;
     }
-    // setImageDimensions(dimension, value) {
-    //   this.image[dimension] = value
-    // }
+    
+    setDuration(duration) {
+      this.duration = duration;
+      this.step = duration / this.totalFrames;
+    }
   
     reset() {
       this.currentFrame = 0 + this.startFrame;
-      console.log("this.currentFrame: ", this.currentFrame);
+      // console.log("this.currentFrame: ", this.currentFrame);
       this.isAnimationEnded = false;
     }
   }

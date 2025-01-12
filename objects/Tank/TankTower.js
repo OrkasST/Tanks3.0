@@ -10,17 +10,34 @@ export class Tower extends Part {
             width: 200,
             height: 40
         })
-        console.log("this.rotation", this.rotation);
+        this.reloadDuration = data.reloadDuration
     }
     
-    shoot() {
-
+    shoot(time) {
+        if(this.isReloading) return;
+        this.image.setColumn(0)
+        this.reload(time)
     }
-    reload() {
-
+    reload(time) {
+        if (this.isReloading) {
+            if (time >= this.ReloadStartTime + this.reloadDuration) {
+                this.image.reset()
+                this.image = this.textures["tower"]
+                this.image.setColumn(1)
+                this.image.frame({rotation: this.rotation})
+                this.isReloading = false
+            }
+            return;
+        }
+        this.isReloading = true
+        this.ReloadStartTime = time
+        this.image = this.textures["tower_reload"]
+        this.image.setDuration(this.reloadDuration)
     }
-    update(time) {
-        super.update(time);
-        this.rotate(this.rotation)
+
+    update(x, y, time) {
+        this.rotate({deltaTime: time - this.ReloadStartTime})
+        if (this.isReloading) this.reload(time)
+        super.update(x, y, time)
     }
 }

@@ -77,6 +77,11 @@ export class GameLevel extends Scene {
                 // console.log("gameLevel.update >>>>\n\tdata:\n", data);
                 lastMouseEvent.preventDefault();
             }
+
+            if (lastMouseEvent.type === "click") {
+                this.player.tower.shoot(time)
+            }
+
             for (let i = 0; i < this.objects.length; i++) {
                 if (this.objects[i].isInteractive &&
                     this.objects[i].isUnderPointer(
@@ -128,7 +133,7 @@ export class GameLevel extends Scene {
         }
 
         this.objects.forEach(obj => {
-            if (obj.update) obj.update();
+            if (obj.update) obj.update(time);
         })
         // this.camera.update()
 

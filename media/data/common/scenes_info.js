@@ -23,7 +23,7 @@ export const SCENES_INFO = {
             }],
             ["player_tank_tower", "media/images/game/player/Tower_States.png", {
                 frameListHeight: 512,
-                frameListWidth: 512,
+                frameListWidth: 1024,
                 frameWidth: 512,
                 frameHeight: 512,
                 duration: 0,
@@ -31,9 +31,11 @@ export const SCENES_INFO = {
                 frameY: -256,
                 // frameX: 0,
                 // frameY: 0,
-                startFrame: 0,
+                startFrame: 1,
                 isRotating: true,
                 isInfinit: false,
+                totalFrames: 2,
+                // log: true
             }],
             ["player_tank_tower_reload", "media/images/game/player/Reload_Tiled.png", {
                 frameListHeight: 7680,
@@ -47,6 +49,7 @@ export const SCENES_INFO = {
                 startFrame: 0,
                 isRotating: true,
                 isInfinit: false,
+                // log: true
             }],
             ["player_tank_bullet", "media/images/game/player/Shot.png", {
                 frameListHeight: 256,

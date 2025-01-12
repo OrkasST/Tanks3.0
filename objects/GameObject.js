@@ -77,9 +77,9 @@ export class GameObject {
   //   this.animations = animations;
   // }
 
-  rotate(rotation = null) {
+  rotate({rotation = null, deltaTime = null}) {
     if (rotation) this.rotation = rotation;
-    this.image.frame({ rotation: this.rotation })
+    this.image.frame({deltaTime, rotation: this.rotation })
   }
 
   appendTexture(name, image) {
