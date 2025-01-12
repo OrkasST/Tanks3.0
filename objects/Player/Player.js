@@ -1,7 +1,7 @@
 import { Tank } from "../Tank/Tank.js";
 
 export class Player extends Tank {
-    constructor({ time, speed = 1, rotation = 270 }) {
+    constructor({ time, speed = 2, rotation = 270 }) {
         super({
             color: "#FFFFFF",
             width: 256, height: 256,
@@ -34,17 +34,17 @@ export class Player extends Tank {
         // console.log('rotation: ', this.tower.rotation);
     }
 
-    onControlButtonEvent(type, isReleased) {
+    onControlButtonEvent(type) {
         if (type == "MoveForward") {
-            this.move(isReleased ? 0 : 1)
+            this.move(1)
             this.isNotMoving = false
         }
         else if (type == "MoveBackward") {
-            this.move(isReleased ? 0 : -1)
+            this.move(-1)
             this.isNotMoving = false
         }
-        else if (type == "TurnCounterclockwise") this.turn(isReleased ? 0 : -1)
-        else if (type == "TurnClockwise") this.turn(isReleased ? 0 : 1)
+        else if (type == "TurnCounterclockwise") this.turn(-1)
+        else if (type == "TurnClockwise") this.turn(1)
     }
 
     stopMovement() {
@@ -52,6 +52,10 @@ export class Player extends Tank {
         this.movement.x = 0
         this.movement.y = 0
         this.isNotMoving = true
+    }
+
+    stopHullRotation() {
+        this.turn(0)
     }
 
     update(time) {

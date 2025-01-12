@@ -121,6 +121,7 @@ export class GameLevel extends Scene {
                 else this.player.stopMovement()
                 if (TurnClockwise.status || TurnCounterclockwise.status)
                     this._hadlePlayerInput("TurnClockwise", "TurnCounterclockwise", data)
+                else this.player.stopHullRotation()
             }
 
             // console.log('data.events.keyboard: ', data.events.keyboard);
@@ -140,7 +141,6 @@ export class GameLevel extends Scene {
     }
 
     _hadlePlayerInput(nameA, nameB, data) {
-        console.log('nameA: ', nameA);
         let actionA = data.gameSettings.keyBindings[nameA]
         let actionB = data.gameSettings.keyBindings[nameB]
         let type = ""
@@ -155,12 +155,7 @@ export class GameLevel extends Scene {
             type = actionA.status ? nameA : nameB
         }
 
-        this.player.onControlButtonEvent(type, !actionA.status && !actionB.status)
-        console.log('actionA.status: ', actionA.status);
-        console.log('actionB.status: ', actionB.status);
-        console.log('!actionA.status && !actionB.status: ', !actionA.status && !actionB.status);
-        
-        console.log('type: ', type);
+        this.player.onControlButtonEvent(type)
     }
 
 }
