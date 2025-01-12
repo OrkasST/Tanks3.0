@@ -1,7 +1,7 @@
 import { Part } from "./TankPart.js";
 
 export class Hull extends Part {
-    constructor(data, turningSpeed= 0.1) {
+    constructor(data, turningSpeed = 0.1) {
         super({
             ...data,
             color: "#0000FF",
@@ -25,19 +25,8 @@ export class Hull extends Part {
     }
 
     drive(direction = 1) { // 1 -- forward, -1 -- backward, 0 -- stop
-        if (this.rotation < this.edges[0]) {
-            this.movementMultiply.x = 1 * direction
-            this.movementMultiply.y = 1 * direction
-        } else if (this.rotation < this.edges[1]) {
-            this.movementMultiply.x = -1 * direction
-            this.movementMultiply.y = 1 * direction
-        } else if (this.rotation < this.edges[2]) {
-            this.movementMultiply.x = -1 * direction
-            this.movementMultiply.y = -1 * direction
-        } else if (this.rotation < this.edges[3]) {
-            this.movementMultiply.x = 1 * direction
-            this.movementMultiply.y = -1 * direction
-        }
+        this.movementMultiply.x = 1 * direction * Math.cos(this.rotation)
+        this.movementMultiply.y = 1 * direction * Math.sin(this.rotation)
     }
 
     turn(direction = 1) { // 1 -- clockwise, -1 -- counterclockwise
