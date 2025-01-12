@@ -21,7 +21,7 @@ export class GameLevel extends Scene {
         this.levelMap = this.objects.levelMap;
         this.creator = new ObjectCreator();
 
-        this.cursor = new GameObject({type: "UI", color: "#ff00ff", width: 10, height: 10})
+        this.cursor = new GameObject({ type: "UI", color: "#ff00ff", width: 10, height: 10 })
 
         this.player.setPosition(this.levelMap.currentPlayerSpawnPoint)
         this.camera.setModifiers()
@@ -39,7 +39,7 @@ export class GameLevel extends Scene {
                 source: this.enemies
             })
         })
-        
+
         this.objects = [
             this.levelMap,
             this.player,
@@ -65,7 +65,7 @@ export class GameLevel extends Scene {
     // }
 
     update(time, data) {
-        if(!data.hideCursor) data.hideCursor = true;
+        if (!data.hideCursor) data.hideCursor = true;
         else if (this.currentPage !== "main") data.hideCursor = false
 
         if (data.events.mouse.length > 0) {
@@ -98,6 +98,11 @@ export class GameLevel extends Scene {
             }
         }
 
+        let MoveForward = data.gameSettings.keyBindings.MoveForward
+        let MoveBackward = data.gameSettings.keyBindings.MoveBackward
+        let TurnClockwise = data.gameSettings.keyBindings.TurnClockwise
+        let TurnCounterclockwise = data.gameSettings.keyBindings.TurnCounterclockwise
+
         if (data.events.keyboard.length > 0) {
             // console.log('data.events.keyboard: ', data.events.keyboard);
             let event = data.events.keyboard
@@ -111,29 +116,11 @@ export class GameLevel extends Scene {
                     if (this.currentPage === "main") this.changePage("pauseMenu");
                     else this.changePage("main");
                 }
-                if (
-                    event[i].code === "KeyS" ||
-                    event[i].code === "KeyW" ||
-                    event[i].code === "KeyA" ||
-                    event[i].code === "KeyD"
-                ) {
-                    console.log('event: ', event.length);
-                    // this.camera.position.y -= 10;
-                    // this.player.isMoving("y", event[i].type === "keydown" ? 1 : 0)
-                    this.player.onControlButtonEvent(event[i].code, event[i].type === "keyup")
-                }
-                // if (event[i].code === "KeyW") {
-                    // this.camera.position.y += 10;
-                    // this.player.isMoving("y", event[i].type === "keydown" ? -1 : 0)
-                // }
-                // if (event[i].code === "KeyA") {
-                    // this.camera.position.x += 10;
-                    // this.player.isMoving("x", event[i].type === "keydown" ? -1 : 0)
-                // }
-                // if (event[i].code === "KeyD") {
-                    // this.camera.position.x -= 10;
-                    // this.player.isMoving("x", event[i].type === "keydown" ? 1 : 0)
-                // }
+                if (MoveForward.status || MoveBackward.status)
+                    this._hadlePlayerInput("MoveForward", "MoveBackward", data)
+                else this.player.stopMovement()
+                if (TurnClockwise.status || TurnCounterclockwise.status)
+                    this._hadlePlayerInput("TurnClockwise", "TurnCounterclockwise", data)
             }
 
             // console.log('data.events.keyboard: ', data.events.keyboard);
@@ -152,5 +139,28 @@ export class GameLevel extends Scene {
 
     }
 
+    _hadlePlayerInput(nameA, nameB, data) {
+        console.log('nameA: ', nameA);
+        let actionA = data.gameSettings.keyBindings[nameA]
+        let actionB = data.gameSettings.keyBindings[nameB]
+        let type = ""
+
+        if (actionA.status && actionB.status) {
+            if (actionA.lastChange > actionB.lastChange) {
+                type = nameA
+            } else {
+                type = nameB
+            }
+        } else {
+            type = actionA.status ? nameA : nameB
+        }
+
+        this.player.onControlButtonEvent(type, !actionA.status && !actionB.status)
+        console.log('actionA.status: ', actionA.status);
+        console.log('actionB.status: ', actionB.status);
+        console.log('!actionA.status && !actionB.status: ', !actionA.status && !actionB.status);
+        
+        console.log('type: ', type);
+    }
 
 }

@@ -1,6 +1,7 @@
 import { BINDIGS } from "../media/data/common/Bindings.js";
 import { EVENT_LIST } from "../media/data/common/events.js";
 import { SCENES_INFO } from "../media/data/common/scenes_info.js";
+import { Data } from "../media/data/Data.js";
 
 import { Drawer } from "../utils/Drawer.js";
 import { EventHandler } from "../utils/EventHandler.js";
@@ -73,7 +74,12 @@ class TanksGame {
             // console.log('\t___data: ', data);
             this.currentScene = this.currentScene.name === "Game Loading"
                 ? this.sceneChanger.finishScene(this.currentScene, time, this.data.gameSettings)
-                : this.sceneChanger.prepareScene(data.nextScene, time, this.data.gameSettings);
+                : this.sceneChanger.prepareScene(
+                    data.nextScene, time,
+                    this.data.gameSettings,
+                    this.data.changeKeyBinding.bind(this.data),
+                    this.data.changeFullscreenType.bind(this.data)
+                );
             // this.currentScene.onFinish();
             // this.currentScene = null;
         }
@@ -206,9 +212,19 @@ class TanksGame {
         this.drawer = new Drawer(this.SCREEN);
 
         // console.log(">>>>>>>>SETUP>>>>>>>>");
-        this.currentScene = this.sceneChanger.prepareScene("game_menu", 0, this.data.gameSettings);
+        this.currentScene = this.sceneChanger.prepareScene(
+            "game_menu", 0,
+            this.data.gameSettings,
+            this.data.changeKeyBinding.bind(this.data),
+            this.data.changeFullscreenType.bind(this.data)
+        );
 
-        this.eventHandler = new EventHandler(EVENT_LIST, BINDIGS, this.getTime.bind(this));
+        this.eventHandler = new EventHandler(
+            EVENT_LIST,
+            BINDIGS,
+            this.data.changeKeyStatus.bind(this.data),
+            this.getTime.bind(this)
+        );
 
         // console.log('Game.data: ', this.data);
         this._tick();
@@ -220,6 +236,13 @@ class TanksGame {
         setInterval(() => {
             this.timerTime += 1;
         }, 1)
+    }
+    getTime() {
+        return this.timerTime;
+    }
+
+    updateSettings(name, params) {
+        
     }
 
     async save() {
@@ -243,27 +266,24 @@ class TanksGame {
         // this.dataLogged = true;
     }
 
-    getTime() {
-        return this.timerTime;
-    }
-
     createDataObject() {
         // console.log("Create Data >>>>\n\tKey Bindings", BINDIGS);
-        return {
-            player: {},
-            gameSettings: {
-                keyBindings: { ...BINDIGS },
-                events: { ...EVENT_LIST },
-                scenesInfo: { ...SCENES_INFO },
-                settingsFunctions: {
-                    changeBinding: (actionName) => (keyCode) => { 
-                        console.log(this);
-                    },
-                    toggleFullscreenMode: (isOn) => { }
-                }
-            },
-            nextScene: null
-        }
+        return new Data({bindings: BINDIGS, eventList: EVENT_LIST, scenesInfo: SCENES_INFO})
+        // {
+        //     player: {},
+        //     gameSettings: {
+        //         keyBindings: { ...BINDIGS },
+        //         events: { ...EVENT_LIST },
+        //         scenesInfo: { ...SCENES_INFO },
+        //         settingsFunctions: {
+        //             changeBinding: (actionName) => (keyCode) => { 
+        //                 console.log(this);
+        //             },
+        //             toggleFullscreenMode: (isOn) => { }
+        //         }
+        //     },
+        //     nextScene: null
+        // }
     }
 }
 

@@ -34,11 +34,24 @@ export class Player extends Tank {
         // console.log('rotation: ', this.tower.rotation);
     }
 
-    onControlButtonEvent(code, isReleased) {
-        if (code == "KeyW") this.move(isReleased ? 0 : 1)
-        else if (code == "KeyS") this.move(isReleased ? 0 : -1)
-        else if (code == "KeyA") this.turn(isReleased ? 0 : -1)
-        else if (code == "KeyD") this.turn(isReleased ? 0 : 1)
+    onControlButtonEvent(type, isReleased) {
+        if (type == "MoveForward") {
+            this.move(isReleased ? 0 : 1)
+            this.isNotMoving = false
+        }
+        else if (type == "MoveBackward") {
+            this.move(isReleased ? 0 : -1)
+            this.isNotMoving = false
+        }
+        else if (type == "TurnCounterclockwise") this.turn(isReleased ? 0 : -1)
+        else if (type == "TurnClockwise") this.turn(isReleased ? 0 : 1)
+    }
+
+    stopMovement() {
+        if (this.isNotMoving) return
+        this.movement.x = 0
+        this.movement.y = 0
+        this.isNotMoving = true
     }
 
     update(time) {

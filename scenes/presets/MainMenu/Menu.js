@@ -1,5 +1,4 @@
 import { Scene } from "../../Scene.js";
-import { PauseMenu } from "../gameLevel/pages/pauseMenu.js";
 import { KeyBindings } from "./pages/keyBindings.js";
 import { Levels } from "./pages/levels.js";
 import { Settings } from "./pages/Settings.js";
@@ -18,7 +17,7 @@ export class Menu extends Scene {
         this.mainPage = [...this.objects];
         // console.log('Menu.constructor>>>this.objects: ', this.objects);
 
-        this.editKeys = gameSettings.settingsFunctions.changeBinding;
+        // this.editKeys = gameSettings.settingsFunctions.changeBinding;
 
         this.pages = {
             levels: Levels(
@@ -47,7 +46,7 @@ export class Menu extends Scene {
                 () => {
                     // gameSettings.keyBindings["PauseMenu"][0] = ''
                     console.log("ON KEYCHANGE click >>>", this);
-                    this.editKeys()()
+                    // this.editKeys()()
                     this.isKeyEditing = true;
                 }
             )

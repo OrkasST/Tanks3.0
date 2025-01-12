@@ -1,34 +1,44 @@
 export class EventHandler {
-    constructor (
+    constructor(
         eventList = {
             mouse: ["click"]
         },
         keyBindings,
-        timeGetter    
+        statusChangeFunction,
+        timeGetterFunction
     ) {
         this.lastEvents = {};
         this.bindings = {}
-        for (let code in keyBindings) { 
-            console.log('code: ', code);
-            if(keyBindings[code][1]) navigator.keyboard.lock([keyBindings[code][0]])
-                console.log('keyBindings[code][0]: ', keyBindings[code][0]);
-            this.bindings[code] = {
-                status: false,
-                lastChange: 0
-            }
+        for (let action in keyBindings) {
+            if (keyBindings[action].lock) navigator.keyboard.lock([keyBindings[action].code])
+            this.bindings[keyBindings[action].code] = action
         }
         for (let type in eventList) {
             this.lastEvents[type] = [];
             for (let name in eventList[type]) {
                 document.addEventListener(name, (evt) => {
-                    console.log('evt: ', evt.code);
                     this.lastEvents[type].push(evt);
                     if (eventList[type][name]) evt.preventDefault();
+                    if (type === "keyboard") {
+                        if (
+                            this.bindings[evt.code] &&
+                            (
+                                (name === "keydown" && !keyBindings[this.bindings[evt.code]].status) ||
+                                (name === "keyup" && keyBindings[this.bindings[evt.code]].status)
+                            )
+                        ) {
+                            statusChangeFunction(
+                                this.bindings[evt.code],
+                                name === "keydown",
+                                timeGetterFunction()
+                            )
+                        }
+                    }
                     // console.log(timeGetter());
                 })
             }
         }
-        
+
     }
 
     getLastEvents() {
