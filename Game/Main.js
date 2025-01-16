@@ -38,9 +38,9 @@ class TanksGame {
         }, (error) => console.log(error));
 
         this.START_BTN.addEventListener("click", () => {
-            // if (document.fullscreenEnabled) {
-            //     document.documentElement.requestFullscreen();
-            // }
+            if (document.fullscreenEnabled) {
+                document.documentElement.requestFullscreen();
+            }
             this.setup();
             this.START_BTN.disabled = true;
             this.START_BTN.hidden = true;

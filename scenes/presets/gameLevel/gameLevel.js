@@ -1,7 +1,4 @@
-import { Bullet } from "../../../objects/Bullet/Bullet.js";
 import { GameObject } from "../../../objects/GameObject.js";
-import { Button } from "../../../UI/Button.js";
-import { Window } from "../../../UI/Window.js";
 import { ObjectCreator } from "../../../utils/ObjectCreator.js";
 import { Scene } from "../../Scene.js";
 import { PauseMenu } from "./pages/pauseMenu.js";
@@ -48,14 +45,16 @@ export class GameLevel extends Scene {
             this.cursor,
             this.camera,
         ]
-            console.log('objects: ', this.objects);
-            this.mainPage = [...this.objects];
+        
+        this.mainPage = [...this.objects];
         this.pages = {
             pauseMenu: PauseMenu(
                 data,
                 () => {
                     // console.clear()
+                    console.log("YOU HOOOO");
                     this.switchScene("game_menu")
+                    data.hideCursor = false
                     // console.log('switchScene: ', this.switchScene);
                 }
             )
@@ -69,7 +68,9 @@ export class GameLevel extends Scene {
     // }
 
     update(time, data) {
-        if (!data.hideCursor) data.hideCursor = true;
+        super.update(time, data)
+
+        if (!data.hideCursor && this.currentPage === "main") data.hideCursor = true;
         else if (this.currentPage !== "main") data.hideCursor = false
 
         if (data.events.mouse.length > 0) {
@@ -82,7 +83,7 @@ export class GameLevel extends Scene {
                 lastMouseEvent.preventDefault();
             }
 
-            if (lastMouseEvent.type === "click") {
+            if (lastMouseEvent.type === "click" && this.currentPage === "main") {
                 let bullet = this.player.shoot(time, this.creator.create)
                 if (bullet) this.objects.splice(this.objects.length - 2, 0, bullet)
             }
@@ -122,22 +123,30 @@ export class GameLevel extends Scene {
                 if (event[i].code === "Escape") {
                     console.log("ESCAPE");
                 }
-                if (event[i].code === data.gameSettings.keyBindings.PauseMenu[0] && event[i].type === "keyup") {
-                    if (this.currentPage === "main") this.changePage("pauseMenu");
-                    else this.changePage("main");
+                if (event[i].code === data.gameSettings.keyBindings.PauseMenu.code && event[i].type === "keyup") {
+                    if (this.currentPage === "main") {
+                        console.log("TO pause");
+                        this.changePage("pauseMenu");
+                    }
+                    else {
+                        console.log("TO main");
+                        this.changePage("main");
+                    }
                 }
-                if (MoveForward.status || MoveBackward.status)
-                    this._hadlePlayerInput("MoveForward", "MoveBackward", data)
-                else this.player.stopMovement()
-                if (TurnClockwise.status || TurnCounterclockwise.status)
-                    this._hadlePlayerInput("TurnClockwise", "TurnCounterclockwise", data)
-                else this.player.stopHullRotation()
+                if (this.currentPage === "main") {
+                    if (MoveForward.status || MoveBackward.status)
+                        this._hadlePlayerInput("MoveForward", "MoveBackward", data)
+                    else this.player.stopMovement()
+                    if (TurnClockwise.status || TurnCounterclockwise.status)
+                        this._hadlePlayerInput("TurnClockwise", "TurnCounterclockwise", data)
+                    else this.player.stopHullRotation()
+                }
             }
 
             // console.log('data.events.keyboard: ', data.events.keyboard);
         }
-        
-        
+
+
         if (this.creator.deleteDeadObjects(this.objects)) {
             this.objects = [...this.creator.getUpdatedObjectList()]
         }

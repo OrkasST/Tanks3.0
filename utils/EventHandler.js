@@ -11,7 +11,7 @@ export class EventHandler {
         this.bindings = {}
         for (let action in keyBindings) {
             if (keyBindings[action].lock) navigator.keyboard.lock([keyBindings[action].code])
-            this.bindings[keyBindings[action].code] = action
+            if (!Array.isArray(keyBindings[action])) this.bindings[keyBindings[action].code] = action
         }
         for (let type in eventList) {
             this.lastEvents[type] = [];

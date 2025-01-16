@@ -19,7 +19,7 @@ export class Scene {
     },
   */
     data = {},
-    time = 2000,
+    duration = Infinity,
     nextScene = "",
     startTime = 0,
     onFinish = () => { },
@@ -30,7 +30,7 @@ export class Scene {
     this.type = type;
     this.background = background;
     this.objects = objects;
-    this.time = time;
+    this.duration = duration;
     this.isFinished = false;
     this.isFinishing = false;
     this.data = data;
@@ -62,20 +62,19 @@ export class Scene {
     this.data = data;
   }
 
-  update(time) {
-    if (time - this.startTime >= this.time) {
+  update(time, data) {
+    if (time - this.startTime >= this.duration) {
       this.isFinished = true;
     }
     if (this.isFinishing) {
       data.nextScene = this.nextScene;
-      // console.log('data: ', data);
       this.isFinished = true;
       return
     }
   }
 
   switchScene(sceneName) {
-    // console.log('\t___Scene.switchScene >>>>\n\t sceneName: ', sceneName);
+    console.log('\t___Scene.switchScene >>>>\n\t sceneName: ', sceneName);
     this.nextScene = sceneName;
     this.isFinishing = true;
   }

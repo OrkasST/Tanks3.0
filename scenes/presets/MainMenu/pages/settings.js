@@ -1,6 +1,7 @@
 import { Button } from "../../../../UI/Button.js";
 
-export function Settings(data, ...callbacks) {
+export function Settings(data, gameSettings, ...callbacks) {
+    console.log('callbacks: ', callbacks);
     return [
         new Button({
             name: "Return",

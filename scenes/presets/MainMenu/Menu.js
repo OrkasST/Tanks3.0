@@ -12,7 +12,8 @@ export class Menu extends Scene {
             name: "Game Menu",
             objects: StartMenu(data, () => this.changePage("levels"), () => this.changePage("settings")),
             startTime,
-            background: "#000000"
+            background: "#000000",
+
         });
         this.mainPage = [...this.objects];
         // console.log('Menu.constructor>>>this.objects: ', this.objects);
@@ -43,9 +44,9 @@ export class Menu extends Scene {
                 data,
                 gameSettings.keyBindings,
                 () => this.changePage("settings"),
-                () => {
+                (key) => {
                     // gameSettings.keyBindings["PauseMenu"][0] = ''
-                    console.log("ON KEYCHANGE click >>>", this);
+                    console.log("ON KEYCHANGE click >>>", key);
                     // this.editKeys()()
                     this.isKeyEditing = true;
                 }
