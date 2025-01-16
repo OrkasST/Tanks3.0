@@ -1,7 +1,7 @@
 import { GameObject } from "../GameObject.js";
 
 export class Bullet extends GameObject {
-    constructor({ image, sx= 10, sy = 10, rotation, time = 0, lifeTime = 3000, speed = 10 }) {
+    constructor({ image, sx= 10, sy = 10, rotation, time = 0, lifeTime = 4000, speed = 10 }) {
         console.log('BULLET: rotation: ', rotation);
         super({
             type: "projectile",
@@ -21,10 +21,10 @@ export class Bullet extends GameObject {
             height: 128,
             rotation,
             time,
-            // lifeTime,
+            lifeTime,
             speed,
             isStatic: false,
-            // isDestructive: true,
+            isDestructive: true,
             // isCollidable: true
         })
         // this.image[0].frame({deltaTime: 0, rotation: this.rotation})

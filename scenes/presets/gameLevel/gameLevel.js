@@ -136,19 +136,15 @@ export class GameLevel extends Scene {
 
             // console.log('data.events.keyboard: ', data.events.keyboard);
         }
+        
+        
+        if (this.creator.deleteDeadObjects(this.objects)) {
+            this.objects = [...this.creator.getUpdatedObjectList()]
+        }
 
         this.objects.forEach((obj, ind) => {
             if (obj.update) obj.update(time);
-            if (obj.isToBeDestroyed) this.objectsForDestruction.push(ind)
         })
-    
-        this.objectsForDestruction.forEach(ind => {
-            for (let i in this.objects[ind]) {
-                this.objects[ind][i] = null;
-                this.objects[ind][i] = null;
-            }
-        })
-        this.objects = this.objects.filter(el => {if (el) return el})
 
         if (this.isFinished) {
             data.nextScene = this.nextScene;

@@ -41,14 +41,14 @@ export class ObjectCreator {
     // if (objectData.type === "bullet") debugger;
     let object = null;
     switch (objectType) {
-      case "player": object = new Player({...objectData, time}); break;
-      case "levelMap": object = new Map({...objectData, time}); break;
-      case "camera": object = new Camera({...objectData, time}); break;
-      case "spawner": object = new Spawner({...objectData, time}); break;
-      case "bullet": object = new Bullet({...objectData, time}); break;
-      default: object = {...objectData}; break;
+      case "player": object = new Player({ ...objectData, time }); break;
+      case "levelMap": object = new Map({ ...objectData, time }); break;
+      case "camera": object = new Camera({ ...objectData, time }); break;
+      case "spawner": object = new Spawner({ ...objectData, time }); break;
+      case "bullet": object = new Bullet({ ...objectData, time }); break;
+      default: object = { ...objectData }; break;
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////
     // if (objectData.type === "bullet") debugger;
     ////////////////////////////////////////////////////////////////////////////////
@@ -77,12 +77,50 @@ export class ObjectCreator {
       // console.log('objName: ', objName);
       if (objects[objName]) {
         // console.log('objects['+objName+']: ', typeof objects[objName]);
-        if (objName!=="levelMap") objects[objName].appendTexture(img, images[img]);
+        if (objName !== "levelMap") objects[objName].appendTexture(img, images[img]);
         else objects[objName].appendInfo(images[img].mapData);
       } else if (objName === "tiles") {
         objects.levelMap.appendTexture(images[img]);
       }
     }
+  }
+
+  deleteDeadObjects(objects) {
+    let objectsForDestruction = []
+    objects.forEach((obj, ind) => {
+      // if (obj.update) obj.update(time);
+      if (obj.isToBeDestroyed) objectsForDestruction.push(ind)
+    })
+    if (objectsForDestruction.length === 0 ) return false;
+    
+    
+    objectsForDestruction.forEach(ind => {
+      if (Array.isArray(objects[ind].image)) {
+        objects[ind].image.forEach(el => {
+          if (el.isAnimation) el.image.image = null
+          el.image = null          
+        })
+      } else {
+        if (objects[ind].image.isAnimation) objects[ind].image.image = null
+        objects[ind].image = null
+      }
+      for (let i in objects[ind]) {
+        if (Array.isArray(objects[ind][i]) && i !== "image") {
+          this.deleteDeadObjects(objects[ind][i])
+        }
+        objects[ind][i] = null;
+        objects[ind][i] = null;
+      }
+      objects[ind] = null;
+    })
+    this.objects = objects.filter(el => { if (el) return el })
+    // console.log('objects: ', objects);
+
+    return true;
+  }
+
+  getUpdatedObjectList() {
+    return this.objects
   }
 
   destroy(object) {
