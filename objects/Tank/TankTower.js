@@ -15,16 +15,17 @@ export class Tower extends Part {
     
     shoot(time) {
         if(this.isReloading) return;
-        this.image.setColumn(0)
+        console.log('Tower Shot At: ', time);
+        this.image.setFrame(0)
         this.reload(time)
     }
     reload(time) {
         if (this.isReloading) {
             if (time >= this.ReloadStartTime + this.reloadDuration) {
-                this.image.reset()
                 this.image = this.textures["tower"]
-                this.image.setColumn(1)
-                this.image.frame({rotation: this.rotation})
+                this.image.setFrame(1)
+                console.log("TANK TOWER");
+                this.image.update(time, this.rotation)
                 this.isReloading = false
             }
             return;
@@ -32,11 +33,12 @@ export class Tower extends Part {
         this.isReloading = true
         this.ReloadStartTime = time
         this.image = this.textures["tower_reload"]
+        this.image.reset(time)
         this.image.setDuration(this.reloadDuration)
     }
 
     update(x, y, time) {
-        this.rotate({deltaTime: time - this.ReloadStartTime})
+        this.rotate({deltaTime: time})
         if (this.isReloading) this.reload(time)
         super.update(x, y, time)
     }

@@ -115,7 +115,7 @@ class TanksGame {
                     // console.log('RENDER>>>>>>>\n\telement: ', element, '\n\telement.image: ', element.image);
 
                     element.image.forEach((img, ind) => {
-                        // console.log('img: ', img);
+                        // if (img.log) debugger;
 
                         img.image ? this.drawer.image({
                             ...element,
@@ -127,20 +127,25 @@ class TanksGame {
                             x: img.x + this.currentScene.camera.position.x,
                             y: img.y + this.currentScene.camera.position.y
                         })
-                        // this.drawer.rect({
-                        //     x: element.x + this.currentScene.camera.position.x + ind * 3,
-                        //     y: element.y + this.currentScene.camera.position.y + ind * 3,
-                        //     width: element.width - ind * 6,
-                        //     height: element.height - ind * 6,
-                        //     filled: false
-                        // })
+                        this.drawer.rect({
+                            x: element.x + this.currentScene.camera.position.x + ind * 3,
+                            y: element.y + this.currentScene.camera.position.y + ind * 3,
+                            width: element.width - ind * 6,
+                            height: element.height - ind * 6,
+                            color: "#ffffff",
+                            filled: false
+                        })
                     })
-                } else if (element.image) this.drawer.image({
-                    ...element,
-                    x: element.x + this.currentScene.camera.position.x,
-                    y: element.y + this.currentScene.camera.position.y,
-                });
-                else if (element.drawDebug) {
+                } else if (element.image) {
+                    // if (element.image.isAnimation) debugger;
+                    this.drawer.image({
+                        ...element,
+                        image: element.image.isAnimation ? element.image.image : element.image,
+                        x: element.x + this.currentScene.camera.position.x,
+                        y: element.y + this.currentScene.camera.position.y,
+                    });
+                    // if (element.image.isAnimation) console.log("");
+                } else if (element.drawDebug) {
                     if (element.triggerFrame) {
                         this.drawer.rect({
                             x: element.triggerFrame.x1,
@@ -242,7 +247,7 @@ class TanksGame {
     }
 
     updateSettings(name, params) {
-        
+
     }
 
     async save() {
@@ -253,11 +258,11 @@ class TanksGame {
             console.log("Saving...", x);
             x++;
         }, 1000)
-        setTimeout(()=>{
+        setTimeout(() => {
             this.isSaving = false;
             console.log("SAVED");
             clearInterval(saivingAnounce);
-        },20000)
+        }, 20000)
         // let save = this.data;
         // save = JSON.stringify(save);
         // localStorage.clear();
@@ -268,7 +273,7 @@ class TanksGame {
 
     createDataObject() {
         // console.log("Create Data >>>>\n\tKey Bindings", BINDIGS);
-        return new Data({bindings: BINDIGS, eventList: EVENT_LIST, scenesInfo: SCENES_INFO})
+        return new Data({ bindings: BINDIGS, eventList: EVENT_LIST, scenesInfo: SCENES_INFO })
         // {
         //     player: {},
         //     gameSettings: {

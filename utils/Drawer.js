@@ -11,8 +11,9 @@ export class Drawer {
     }
 
     rect({
-        x = 0, y = 0, width = 10, height = 10, color = "#000000", filled = true
+        x = 0, y = 0, width = 10, height = 10, color = "#000000", filled = true, log= false
     }) {
+        // if (log) debugger;
         this.ctx.beginPath();
         this.ctx.fillStyle = color;
         if (!filled) this.ctx.strokeStyle = color;

@@ -8,7 +8,7 @@ export class Part extends GameObject {
         name = "",
         color = "#000000",
         time = 0,
-        rotation = 90
+        rotation = (90 * Math.PI / 180)
     }) {
         super({
             color,

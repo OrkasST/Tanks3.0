@@ -45,31 +45,14 @@ export class ObjectCreator {
       case "levelMap": object = new Map({...objectData, time}); break;
       case "camera": object = new Camera({...objectData, time}); break;
       case "spawner": object = new Spawner({...objectData, time}); break;
+      case "bullet": object = new Bullet({...objectData, time}); break;
       default: object = {...objectData}; break;
     }
-    /*
-    let images = [];
-    for (let i = 0; i < imagesCount; i++) {
-      images[i] = {};
-      images[i].image = document.createElement("canvas");
-      // document.body.appendChild(images[i].image);
-      images[i].image.width = imagesSize[i * 2] || object.data.width;
-      images[i].image.height = imagesSize[i * 2 + 1] || object.data.height;
-      images[i].context = images[i].image.getContext("2d");
-    }
-    textures = textures.map(
-      (el, i) =>
-        new Animation({
-          ...animationData[i],
-          framelist: loaded_textures[el],
-        })
-    );
-    for (let i = 0; i < imagesCount; i++)
-      object.setActiveTexture(i, textures[i]);
-    object.setImage(images, textures);
+    
     ////////////////////////////////////////////////////////////////////////////////
     // if (objectData.type === "bullet") debugger;
     ////////////////////////////////////////////////////////////////////////////////
+    /*
     if (object.isCollidable)
       object.collider = new CollisionBody(
         colisionBodyShape || {
@@ -86,9 +69,6 @@ export class ObjectCreator {
   }
 
   appendImages(images, objects) {
-    // console.log("Object Creator Appender >>>>>>>");
-    // console.log('objects: ', objects);
-    // console.log('images: ', images);
     let img;
     let i;
     for (img in images) {

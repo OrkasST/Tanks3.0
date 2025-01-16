@@ -11,16 +11,16 @@ export class Player extends Tank {
         })
         this.images = {}
         this.isPlayer = true;
-        // console.log("Player params >>>>>>>>\n\t", "w: ",this.width, "\th: ",this.height);
+        console.log("Player params >>>>>>>>\n\t", "x: ",this.x, "\ty: ",this.y);
         // player dev started
     }
 
-    onMouseMove(mouseX, mouseY, modifierX, modifierY) {
+    onMouseMove(mouseX, mouseY, cameraX, cameraY) {
         // console.clear();
         // console.log("ROTATE!!");
-        let distX = mouseX - (this.x + modifierX + this.width / 2);
+        let distX = mouseX - (this.x + cameraX + this.width / 2);
         // console.log('distX: ', distX);
-        let distY = mouseY - (this.y + modifierY + this.height / 2);
+        let distY = mouseY - (this.y + cameraY + this.height / 2);
         // console.log('distY: ', distY);
         if (distX == 0 && distY == 0) return;
         let deg = Math.atan(distY / distX);
