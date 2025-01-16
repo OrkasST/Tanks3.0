@@ -98,9 +98,11 @@ export class GameObject {
   }
 
   update(time) {
+    let delta = time - this.lastUpdateTime
+    delta = delta >= 0 ? delta : 0;
     if (!this.isStatic) {
-      this.x += this.movement.x
-      this.y += this.movement.y
+      this.x += this.movement.x * delta
+      this.y += this.movement.y * delta
     }
 
     if (!time) return;

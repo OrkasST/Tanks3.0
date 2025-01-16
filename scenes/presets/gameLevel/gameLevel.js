@@ -85,7 +85,7 @@ export class GameLevel extends Scene {
 
             if (lastMouseEvent.type === "click" && this.currentPage === "main") {
                 let bullet = this.player.shoot(time, this.creator.create)
-                if (bullet) this.objects.splice(this.objects.length - 2, 0, bullet)
+                if (bullet) this.objects.splice(1, 0, bullet)
             }
 
             for (let i = 0; i < this.objects.length; i++) {

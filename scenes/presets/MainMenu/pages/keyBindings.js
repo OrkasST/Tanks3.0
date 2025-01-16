@@ -23,15 +23,15 @@ export function KeyBindings(data, bindings, ...callbacks) {
         ...bindings.bindingsList.map((el, ind) => {
             return [
                 {
-                        type: "text",
-                        name: "lable",
-                        x: window.innerWidth * 0.15,
-                        y: window.innerHeight * 0.3 + 60 * ind,
-                        isUpdatable: false,
-                        font: "40px TimesNewRoman",
-                        color: "#FFFFFF",
-                        text: `${bindings[el].actionName}:`
-                    },
+                    type: "text",
+                    name: "lable",
+                    x: window.innerWidth * 0.15,
+                    y: window.innerHeight * 0.3 + 60 * ind,
+                    isUpdatable: false,
+                    font: "40px TimesNewRoman",
+                    color: "#FFFFFF",
+                    text: `${bindings[el].actionName}:`
+                },
                 new Button({
                     name: `${bindings[el].actionName}: Button`,
                     text: bindings[el].code,

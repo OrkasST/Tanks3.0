@@ -77,19 +77,17 @@ export class Animation {
         this._changeCurrentFrame(time)
       } else {
         this.isPlaying = false;
-        console.log("Animation ended");
+        // console.log("Animation ended");
       }
     }
     this._draw(rotation)
   }
 
   reset(time) {
-    console.log('time: ', time);
     this.startTime = time;
   }
 
   setDuration(duration) {
-    console.log('duration: ', duration);
     this.duration = duration;
     this.step = this.duration / this.totalFrames
   }
@@ -132,7 +130,6 @@ export class Animation {
   }
 
   setFrame(number) {
-    console.log('number: ', number);
     this._changeCurrentFrame(0, number)
   }
 

@@ -1,20 +1,10 @@
 import { GameObject } from "../GameObject.js";
 
 export class Bullet extends GameObject {
-    constructor({ image, sx= 10, sy = 10, rotation, time = 0, lifeTime = 4000, speed = 10 }) {
-        console.log('BULLET: rotation: ', rotation);
+    constructor({ image, sx= 10, sy = 10, rotation, time = 0, lifeTime = 4000, speed = 0.5 }) {
         super({
             type: "projectile",
             image,
-            // : [{
-            //     x: sx,
-            //     y: sy,
-            //     // log: true,
-            //     width: 5,
-            //     height: 5,
-            //     filled: true,
-            //     color: "#FFFFFF"
-            // }],
             x: sx,
             y: sy,
             width: 128,
@@ -28,11 +18,16 @@ export class Bullet extends GameObject {
             // isCollidable: true
         })
         // this.image[0].frame({deltaTime: 0, rotation: this.rotation})
-        console.log(this);
+        // console.log(this);
+
+        this.movement = {
+            x: this.speed * Math.cos(this.rotation),
+            y: this.speed * Math.sin(this.rotation),
+        }
     }
 
     update(time) {
-        // // this.height   
+        // this.height   
         // console.log('this.height: ', this.height);
         // console.log('this.width: ', this.width);
         // console.log("BULLET UPDATE");
@@ -43,8 +38,8 @@ export class Bullet extends GameObject {
 
     // move(time) {
     //     // console.log(this);
-    //     this.x += this.movement.speed * Math.cos(this.rotation); // * time;
-    //     this.y += this.movement.speed * Math.sin(this.rotation); // * time;
+    //     this.x += this.movement.speed * Math.cos(this.rotation) * time - this.lastUpdateTime;
+    //     this.y += this.movement.speed * Math.sin(this.rotation) * time - this.lastUpdateTime;
     //   }
 
 }

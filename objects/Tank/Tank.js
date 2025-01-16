@@ -4,7 +4,9 @@ import { Hull } from "./TankHull.js";
 import { Tower } from "./TankTower.js";
 
 export class Tank extends GameObject {
-    constructor(data = { color, width, height, isStatic, time, speed, rotation: 90}) {
+    constructor(data = { color, width, height, isStatic, time, speed, rotation: 90, reloadDuration: 2000}) {
+        console.log('height: ', data.height);
+        console.log('width: ', data.width);
         super(data)
         this.hull = new Hull({
             sourceX: this.x, sourceY: this.y,
@@ -20,7 +22,7 @@ export class Tank extends GameObject {
             name: "tower",
             time: this.time,
             rotation: (data.rotation *  Math.PI / 180),
-            reloadDuration: 2000
+            reloadDuration: data.reloadDuration
         });
         this.image = [
             this.hull,
@@ -38,17 +40,16 @@ export class Tank extends GameObject {
 
     shoot(time, createFunction) {
         if (this.tower.isReloading) return;
-        console.log("Tank Shoot At: ", time);
         this.tower.shoot(time)
-        console.log('this.tower.rotation: ', this.tower.rotation);
         return createFunction(
             "bullet",
             {
                 image: new Animation({...this.tower.textures["tower_bullet"], startTime: time}),
-                sx: this.x + this.width/2 + (this.tower.width/2)*Math.sin(this.tower.rotation),
-                sy: this.y + this.height/2 + (this.tower.width/2)*Math.cos(this.tower.rotation),
+                sx: this.x + this.width/2 - 64 + (this.tower.width/2 + 10)*Math.cos(this.tower.rotation),
+                sy: this.y + this.height/2 - 64 + (this.tower.width/2 + 10)*Math.sin(this.tower.rotation),
                 rotation: this.tower.rotation,
-                speed: 1
+                speed: 1,
+                lifeTime: 3000
             },
             time
         )

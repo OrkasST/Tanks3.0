@@ -10,12 +10,11 @@ export class Tower extends Part {
             width: 200,
             height: 40
         })
-        this.reloadDuration = data.reloadDuration
+        this.reloadDuration = data.reloadDuration || 0
     }
     
     shoot(time) {
         if(this.isReloading) return;
-        console.log('Tower Shot At: ', time);
         this.image.setFrame(0)
         this.reload(time)
     }
@@ -24,7 +23,6 @@ export class Tower extends Part {
             if (time >= this.ReloadStartTime + this.reloadDuration) {
                 this.image = this.textures["tower"]
                 this.image.setFrame(1)
-                console.log("TANK TOWER");
                 this.image.update(time, this.rotation)
                 this.isReloading = false
             }
