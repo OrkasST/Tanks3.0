@@ -1,13 +1,14 @@
 import { Tank } from "../Tank/Tank.js";
 
 export class Player extends Tank {
-    constructor({ time, speed = 2, rotation = 270 }) {
+    constructor({ time, speed = 120, rotation = 270, reloadDuration = 2000 }) {
         super({
             color: "#FFFFFF",
-            width: 256, height: 256,
+            width: 200, height: 200,
             isStatic: false,
             time,
-            speed, rotation
+            speed, rotation,
+            reloadDuration
         })
         this.images = {}
         this.isPlayer = true;

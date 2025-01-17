@@ -127,14 +127,14 @@ class TanksGame {
                             x: img.x + this.currentScene.camera.position.x,
                             y: img.y + this.currentScene.camera.position.y
                         })
-                        this.drawer.rect({
-                            x: element.x + this.currentScene.camera.position.x + ind * 3,
-                            y: element.y + this.currentScene.camera.position.y + ind * 3,
-                            width: element.width - ind * 6,
-                            height: element.height - ind * 6,
-                            color: "#ffffff",
-                            filled: false
-                        })
+                        // this.drawer.rect({
+                        //     x: element.x + this.currentScene.camera.position.x + ind * 3,
+                        //     y: element.y + this.currentScene.camera.position.y + ind * 3,
+                        //     width: element.width - ind * 6,
+                        //     height: element.height - ind * 6,
+                        //     color: "#ffffff",
+                        //     filled: false
+                        // })
                     })
                 } else if (element.image) {
                     // if (element.image.isAnimation) debugger;

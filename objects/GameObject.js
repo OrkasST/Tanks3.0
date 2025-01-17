@@ -101,8 +101,9 @@ export class GameObject {
     let delta = time - this.lastUpdateTime
     delta = delta >= 0 ? delta : 0;
     if (!this.isStatic) {
-      this.x += this.movement.x * delta
-      this.y += this.movement.y * delta
+      // if (this.isPlayer) debugger;
+      this.x += this.movement.x * (delta / 1000)
+      this.y += this.movement.y * (delta / 1000)
     }
 
     if (!time) return;

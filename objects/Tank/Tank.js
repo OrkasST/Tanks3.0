@@ -4,25 +4,23 @@ import { Hull } from "./TankHull.js";
 import { Tower } from "./TankTower.js";
 
 export class Tank extends GameObject {
-    constructor(data = { color, width, height, isStatic, time, speed, rotation: 90, reloadDuration: 2000}) {
-        console.log('height: ', data.height);
-        console.log('width: ', data.width);
-        super(data)
+    constructor({ color, width, height, isStatic, time, speed, rotation= 90, reloadDuration= 2000}) {
+        super({color, width, height, isStatic, time, speed, rotation})
         this.hull = new Hull({
             sourceX: this.x, sourceY: this.y,
-            width: data.width, height: data.height,
+            width, height,
             name: "hull",
-            time: this.time,
-            speed: data.speed,
-            rotation: (data.rotation *  Math.PI / 180)
+            time,
+            speed,
+            rotation: (rotation *  Math.PI / 180)
         });
         this.tower = new Tower({
             sourceX: this.x, sourceY: this.y,
-            width: data.width, height: data.height,
+            width, height,
             name: "tower",
-            time: this.time,
-            rotation: (data.rotation *  Math.PI / 180),
-            reloadDuration: data.reloadDuration
+            time,
+            rotation: (rotation *  Math.PI / 180),
+            reloadDuration
         });
         this.image = [
             this.hull,
@@ -33,6 +31,7 @@ export class Tank extends GameObject {
     move(direction) {
         this.hull.drive(direction)
         this.isMoving(this.hull.movementMultiply)
+        console.log('this.hull.movementMultiply: ', this.hull.movementMultiply);
     }
     turn(direction) {
         this.hull.turn(direction)
@@ -48,7 +47,7 @@ export class Tank extends GameObject {
                 sx: this.x + this.width/2 - 64 + (this.tower.width/2 + 10)*Math.cos(this.tower.rotation),
                 sy: this.y + this.height/2 - 64 + (this.tower.width/2 + 10)*Math.sin(this.tower.rotation),
                 rotation: this.tower.rotation,
-                speed: 1,
+                speed: 900,
                 lifeTime: 3000
             },
             time
@@ -70,11 +69,11 @@ s
     }
 
     update(time) {
-        super.update();
+        super.update(time);
         this.hull.update(this.x, this.y, time)
         this.tower.update(this.x, this.y, time)
 
-        this.lastUpdateTime = time;
+        // this.lastUpdateTime = time;
         if (this.lastUpdateTime - this.creationTime >= this.lifeTime) {
             this.isToBeDestroyed = true;
         }
