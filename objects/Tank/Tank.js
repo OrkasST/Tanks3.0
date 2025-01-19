@@ -4,7 +4,7 @@ import { Hull } from "./TankHull.js";
 import { Tower } from "./TankTower.js";
 
 export class Tank extends GameObject {
-    constructor({ color, width, height, isStatic, time, speed, rotation= 90, reloadDuration= 2000}) {
+    constructor({ color = "#FF0011", width = 200, height = 200, isStatic = false, time, speed = 120, rotation= 90, reloadDuration= 2000}) {
         super({color, width, height, isStatic, time, speed, rotation})
         this.hull = new Hull({
             sourceX: this.x, sourceY: this.y,
@@ -26,12 +26,15 @@ export class Tank extends GameObject {
             this.hull,
             this.tower
         ]
+
+        
+        console.log("Creating Tank", this);
     }
 
     move(direction) {
         this.hull.drive(direction)
         this.isMoving(this.hull.movementMultiply)
-        console.log('this.hull.movementMultiply: ', this.hull.movementMultiply);
+        // console.log('this.hull.movementMultiply: ', this.hull.movementMultiply);
     }
     turn(direction) {
         this.hull.turn(direction)

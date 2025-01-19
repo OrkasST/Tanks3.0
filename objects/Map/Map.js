@@ -118,10 +118,13 @@ export class Map extends GameObject {
         else if (layer.name === "PlayerSpawnPoint") {
           this.playerSpawnPoints = this._decodeSpawnPoints(layer);
           this.currentPlayerSpawnPoint = this.playerSpawnPoints[0]
+          console.log('this.currentPlayerSpawnPoint: ', this.currentPlayerSpawnPoint);
         } else if (layer.name === "EnemySpawners") {
           this.enemySpawners = this._decodeSpawnPoints(layer);
+          console.log('this.enemySpawners: ', this.enemySpawners);
         } else if (layer.name === "EnemyPositions") {
           this.enemyDefaultPositions = this._decodeSpawnPoints(layer);
+          console.log('this.enemyDefaultPositions: ', this.enemyDefaultPositions);
         }
       }
     });

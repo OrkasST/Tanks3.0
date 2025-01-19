@@ -1,8 +1,10 @@
 import { Bullet } from "../objects/Bullet/Bullet.js";
+import { Enemy } from "../objects/Enemy/Enemy.js";
 import { Spawner } from "../objects/Enemy/Spawner.js";
 import { GameObject } from "../objects/GameObject.js";
 import { Map } from "../objects/Map/Map.js";
 import { Player } from "../objects/Player/Player.js";
+import { Cursor } from "../objects/special/Cursor.js";
 import { CollisionBody } from "../physics/CollisionBody.js";
 import { Animation } from "./Animation.js";
 import { Camera } from "./Camera.js";
@@ -46,6 +48,8 @@ export class ObjectCreator {
       case "camera": object = new Camera({ ...objectData, time }); break;
       case "spawner": object = new Spawner({ ...objectData, time }); break;
       case "bullet": object = new Bullet({ ...objectData, time }); break;
+      case "enemy": object = new Enemy({ ...objectData, time }); break;
+      case "cursor": object = new Cursor(); break;
       default: object = { ...objectData }; break;
     }
 

@@ -76,7 +76,7 @@ export class Loading extends Scene {
 
         this.loader = new MediaLoader();
         this.loader.setMedia(this.data.sceneImages);
-        // console.log('Loading >>>>>\n\tthis.data.sceneImages: ', this.data.sceneImages);
+        console.log('Loading >>>>>\n\tthis.data.sceneImages: ', this.data.sceneImages);
         if (Array.isArray(this.data.sceneImages[0])) this.loader.loadMedia().then(
             (value) => {
                 // console.log(this.loader.loadedMedia);

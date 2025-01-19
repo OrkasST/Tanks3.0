@@ -1,4 +1,5 @@
 import { GameObject } from "../../../objects/GameObject.js";
+import { Cursor } from "../../../objects/special/Cursor.js";
 import { ObjectCreator } from "../../../utils/ObjectCreator.js";
 import { Scene } from "../../Scene.js";
 import { PauseMenu } from "./pages/pauseMenu.js";
@@ -17,9 +18,9 @@ export class GameLevel extends Scene {
         this.camera = this.objects.camera;
         this.player = this.objects.player;
         this.levelMap = this.objects.levelMap;
+        this.cursor = this.objects.cursor;
         this.creator = new ObjectCreator();
 
-        this.cursor = new GameObject({ type: "UI", color: "#ff00ff", width: 10, height: 10 })
 
         this.player.setPosition(this.levelMap.currentPlayerSpawnPoint)
         this.camera.setModifiers()
@@ -45,7 +46,7 @@ export class GameLevel extends Scene {
             this.cursor,
             this.camera,
         ]
-        
+
         this.mainPage = [...this.objects];
         this.pages = {
             pauseMenu: PauseMenu(
@@ -85,7 +86,10 @@ export class GameLevel extends Scene {
 
             if (lastMouseEvent.type === "click" && this.currentPage === "main") {
                 let bullet = this.player.shoot(time, this.creator.create)
-                if (bullet) this.objects.splice(1, 0, bullet)
+                if (bullet) {
+                    this.objects.splice(1, 0, bullet)
+                    this.cursor.startRefill(this.player.tower.reloadDuration)
+                }
             }
 
             for (let i = 0; i < this.objects.length; i++) {
@@ -100,8 +104,10 @@ export class GameLevel extends Scene {
                 }
             }
             if (lastMouseEvent.type === "mousemove") {
-                this.cursor.x = lastMouseEvent.clientX - this.cursor.width / 2
-                this.cursor.y = lastMouseEvent.clientY - this.cursor.height / 2
+                this.cursor.updatePosition(
+                    lastMouseEvent.clientX - this.cursor.width / 2,
+                    lastMouseEvent.clientY - this.cursor.height / 2
+                )
                 this.player.onMouseMove(
                     lastMouseEvent.clientX, lastMouseEvent.clientY,
                     this.camera.position.x, this.camera.position.y

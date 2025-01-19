@@ -80,7 +80,7 @@ export class GameObject {
 
   rotate({rotation = null, deltaTime = null}) {
     if (rotation) this.rotation = rotation;
-    this.image.update(deltaTime, this.rotation )
+    if (this.image) this.image.update(deltaTime, this.rotation )
     // console.log("GAME OBJECT");
   }
 

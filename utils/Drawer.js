@@ -11,7 +11,7 @@ export class Drawer {
     }
 
     rect({
-        x = 0, y = 0, width = 10, height = 10, color = "#000000", filled = true, log= false
+        x = 0, y = 0, width = 10, height = 10, color = "#000000", filled = true, log= false, lineWidth = 1
     }) {
         // if (log) debugger;
         this.ctx.beginPath();
@@ -42,17 +42,19 @@ export class Drawer {
     }
 
     circle({
-        x = 10, y = 10, r = 10, color = "#000000", filled = true
+        x = 10, y = 10, r = 10, color = "#000000", filled = true, lineWidth = 1, startAt = 0, angle = 2 * Math.PI
     }) {
         this.ctx.beginPath();
+        this.ctx.lineWidth = lineWidth;
         this.ctx.fillStyle = color;
-        this.ctx.arc(x, y, r, 0, 2 * Math.PI);
+        if (!filled) this.ctx.strokeStyle = color;
+        this.ctx.arc(x, y, r, startAt, angle);
         filled ? this.ctx.fill() : this.ctx.stroke();
         this.ctx.closePath();
     }
 
     line({
-        x1 = 0, y1 = 0, x2 = 10, y2 = 10
+        x1 = 0, y1 = 0, x2 = 10, y2 = 10, lineWidth = 1
     }) {
         this.ctx.beginPath();
         this.ctx.moveTo(x1, y1);

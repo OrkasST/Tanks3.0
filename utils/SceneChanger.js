@@ -8,8 +8,9 @@ export class SceneChanger{
     }
 
     prepareScene(sceneName, time, data) {
+        console.log('data: ', data);
         this.nextScene = sceneName;
-        console.groupEnd();
+        // console.groupEnd();
         return new Loading(
             data.scenesInfo[sceneName],
             sceneName,

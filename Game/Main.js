@@ -172,14 +172,27 @@ class TanksGame {
                     x: element.x + this.currentScene.camera.position.x,
                     y: element.y + this.currentScene.camera.position.y
                 });
-            } else if (element.type === "text") this.drawer.text(element);
+            }
+            else if (Array.isArray(element.image)) {
+                element.image.forEach(part => {
+                    if (part.isCircle) this.drawer.circle(part)
+                    else {
+                // debugger;
+                this.drawer.image({...element, image: part});
+                    }
+                })
+            } 
+            else if (element.type === "text") this.drawer.text(element);
             else if (element.type === "button" || element.type === "window") {
+                if (element.name === "AIM") debugger;
                 this.drawer.button(element);
                 // console.log('element: ', element);
             }
             else if (element.color && typeof element.color === 'string') {
                 this.drawer.rect(element);
-            } else this.drawer.image(element);
+            } else {
+                this.drawer.image(element);
+            }
         });
         // debugger;
     }

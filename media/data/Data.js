@@ -16,7 +16,7 @@ export class Data {
         if (!this.gameSettings.keyBindings[key]) return;
         this.gameSettings.keyBindings[key].status = status
         this.gameSettings.keyBindings[key].lastChange = lastChange
-        console.log(`Changed ${key}: `, this.gameSettings.keyBindings[key]);
+        // console.log(`Changed ${key}: `, this.gameSettings.keyBindings[key]);
     }
 
     changeKeyBinding(key, code) {
