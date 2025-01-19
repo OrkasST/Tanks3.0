@@ -10,7 +10,7 @@ export class Hull extends Part {
             width: 200,
             height: 120,
         })
-        console.log("this.rotation", this.rotation);
+        // console.log("this.rotation", this.rotation);
         this.turningSpeed = turningSpeed
         this.movementMultiply = {
             x: 0,
@@ -34,8 +34,8 @@ export class Hull extends Part {
         this.rotateDirection = direction
     }
 
-    update(time) {
-        super.update(time);
+    update(x, y, time) {
+        super.update(x, y, time);
         this.rotation += this.turningSpeed * this.rotateDirection
         if (this.rotation >= this.edges[3]) this.rotation = this.rotation - this.edges[3]
         else if (this.rotation <= 0) this.rotation = this.edges[3] - this.rotation

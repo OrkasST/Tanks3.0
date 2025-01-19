@@ -98,6 +98,8 @@ export class GameObject {
   }
 
   update(time) {
+    // if (this.isEnemy) debugger;
+
     let delta = time - this.lastUpdateTime
     delta = delta >= 0 ? delta : 0;
     if (!this.isStatic) {

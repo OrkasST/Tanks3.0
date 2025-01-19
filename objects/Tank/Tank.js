@@ -28,7 +28,7 @@ export class Tank extends GameObject {
         ]
 
         
-        console.log("Creating Tank", this);
+        // console.log("Creating Tank", this);
     }
 
     move(direction) {

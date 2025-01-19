@@ -26,7 +26,8 @@ export class GameLevel extends Scene {
         this.camera.setModifiers()
         this.camera.setFocus(this.player)
 
-        this.enemies = this.levelMap.enemyDefaultPositions.map(position => {
+        this.enemies = this.levelMap.enemyDefaultPositions.map((position, ind) => {
+            // console.log(ind + ' position: ', position);
             return this.creator.create("enemy", position)
         })
         this.enemySpawners = this.levelMap.enemySpawners.map(position => {
