@@ -11,6 +11,7 @@ export class Tower extends Part {
             height: 40
         })
         this.reloadDuration = data.reloadDuration || 0
+        this.z = 2;
     }
     
     shoot(time) {

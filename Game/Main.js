@@ -7,6 +7,7 @@ import { Drawer } from "../utils/Drawer.js";
 import { EventHandler } from "../utils/EventHandler.js";
 import { MediaLoader } from "../utils/MediaLoader.js";
 import { SceneChanger } from "../utils/SceneChanger.js";
+import { Renderer } from "./Renderer.js";
 
 class TanksGame {
     constructor(data = null) {
@@ -20,6 +21,7 @@ class TanksGame {
 
         this.SCREEN = null;
         this.drawer = null;
+        this.renderer = null;
 
         this.currentScene = null;
 
@@ -88,112 +90,135 @@ class TanksGame {
     }
 
     render(data, time) {
-        this.drawer.clear();
-        if (!this.currentScene) return;
-        if (typeof this.currentScene.background === 'string')
-            this.drawer.rect({
-                x: 0, y: 0, width: this.SCREEN.width, height: this.SCREEN.height, color: this.currentScene.background
-            });
+        this.renderer.draw(this.currentScene)
 
-        else {
-            this.drawer.image({
-                x: 0, y: 0,
-                width: this.SCREEN.width, height: this.SCREEN.height,
-                color: this.currentScene.background
-            });
-        }
+        // this.drawer.clear();
+        // if (!this.currentScene) return;
+        // if (typeof this.currentScene.background === 'string')
+        //     this.drawer.rect({
+        //         x: 0, y: 0, width: this.SCREEN.width, height: this.SCREEN.height, color: this.currentScene.background
+        //     });
+
+        // else {
+        //     this.drawer.image({
+        //         x: 0, y: 0,
+        //         width: this.SCREEN.width, height: this.SCREEN.height,
+        //         color: this.currentScene.background
+        //     });
+        // }
+        // let layers = []
+        // let other = []
+        // this.currentScene.objects.forEach(obj => {
+        //     if (obj.z) {
+        //         if (!layers[obj.z]) layers[obj.z] = []
+        //         else layers[obj.z].push(obj)
+        //     } else if (Array.isArray(obj.image)) {
+        //         obj.image.forEach(im => {
+        //             if (im.z) {
+        //                 if (!layers[im.z]) layers[im.z] = []
+        //                 else layers[im.z].push(im)
+        //             }
+        //         })
+        //     } else {
+        //         others.push(obj)
+        //     }
+        // })
+        // console.log('layers: ', layers);
+
         // console.log('this.currentScene.objects: ', this.currentScene.objects);
-        this.currentScene.objects.forEach(element => {
-            // console.log('element: ', element);
+        // this.currentScene.objects.forEach(element => {
+        //     // console.log('element: ', element);
 
-            if (this.currentScene.name.split("_")[0] === "level" &&
-                (element.type !== "UI" && element.type !== "window" && element.type !== "button")
-            ) {
-                // console.log(element.y + this.currentScene.camera.position.y);
+        //     if (this.currentScene.name.split("_")[0] === "level" &&
+        //         (element.type !== "UI" && element.type !== "window" && element.type !== "button")
+        //     ) {
+        //         // console.log(element.y + this.currentScene.camera.position.y);
 
-                if (element.image && Array.isArray(element.image)) {
-                    // console.log('RENDER>>>>>>>\n\telement: ', element, '\n\telement.image: ', element.image);
+        //         if (element.image && Array.isArray(element.image)) {
+        //             // console.log('RENDER>>>>>>>\n\telement: ', element, '\n\telement.image: ', element.image);
 
-                    element.image.forEach((img, ind) => {
-                        // if (img.log) debugger;
+        //             element.image.forEach((img, ind) => {
+        //                 // if (img.log) debugger;
 
-                        img.image ? this.drawer.image({
-                            ...element,
-                            image: img.image.image,
-                            x: element.x + this.currentScene.camera.position.x,
-                            y: element.y + this.currentScene.camera.position.y,
-                        }) : this.drawer.rect({
-                            ...img,
-                            x: img.x + this.currentScene.camera.position.x,
-                            y: img.y + this.currentScene.camera.position.y
-                        })
-                        // this.drawer.rect({
-                        //     x: element.x + this.currentScene.camera.position.x + ind * 3,
-                        //     y: element.y + this.currentScene.camera.position.y + ind * 3,
-                        //     width: element.width - ind * 6,
-                        //     height: element.height - ind * 6,
-                        //     color: "#ffffff",
-                        //     filled: false
-                        // })
-                    })
-                } else if (element.image) {
-                    // if (element.image.isAnimation) debugger;
-                    this.drawer.image({
-                        ...element,
-                        image: element.image.isAnimation ? element.image.image : element.image,
-                        x: element.x + this.currentScene.camera.position.x,
-                        y: element.y + this.currentScene.camera.position.y,
-                    });
-                    // if (element.image.isAnimation) console.log("");
-                } else if (element.drawDebug) {
-                    if (element.triggerFrame) {
-                        this.drawer.rect({
-                            x: element.triggerFrame.x1,
-                            y: element.triggerFrame.y1,
-                            width: element.triggerFrame.x2 - element.triggerFrame.x1,
-                            height: element.triggerFrame.y2 - element.triggerFrame.y1,
-                            color: "#acf233",
-                            filled: false,
-                        })
-                    }
-                    if (element.startTriggerFrame) {
-                        this.drawer.rect({
-                            x: element.startTriggerFrame.x1,
-                            y: element.startTriggerFrame.y1,
-                            width: element.startTriggerFrame.x2 - element.startTriggerFrame.x1,
-                            height: element.startTriggerFrame.y2 - element.startTriggerFrame.y1,
-                            color: "#38cf68",
-                            filled: false,
-                        })
-                    }
-                }
-                else this.drawer.rect({
-                    ...element,
-                    x: element.x + this.currentScene.camera.position.x,
-                    y: element.y + this.currentScene.camera.position.y
-                });
-            }
-            else if (Array.isArray(element.image)) {
-                element.image.forEach(part => {
-                    if (part.isCircle) this.drawer.circle(part)
-                    else {
-                // debugger;
-                this.drawer.image({...element, image: part});
-                    }
-                })
-            } 
-            else if (element.type === "text") this.drawer.text(element);
-            else if (element.type === "button" || element.type === "window") {
-                if (element.name === "AIM") debugger;
-                this.drawer.button(element);
-                // console.log('element: ', element);
-            }
-            else if (element.color && typeof element.color === 'string') {
-                this.drawer.rect(element);
-            } else {
-                this.drawer.image(element);
-            }
-        });
+        //                 img.image ? this.drawer.image({
+        //                     ...element,
+        //                     image: img.image.image,
+        //                     x: element.x + this.currentScene.camera.position.x,
+        //                     y: element.y + this.currentScene.camera.position.y,
+        //                 }) : this.drawer.rect({
+        //                     ...img,
+        //                     x: img.x + this.currentScene.camera.position.x,
+        //                     y: img.y + this.currentScene.camera.position.y
+        //                 })
+        //                 // this.drawer.rect({
+        //                 //     x: element.x + this.currentScene.camera.position.x + ind * 3,
+        //                 //     y: element.y + this.currentScene.camera.position.y + ind * 3,
+        //                 //     width: element.width - ind * 6,
+        //                 //     height: element.height - ind * 6,
+        //                 //     color: "#ffffff",
+        //                 //     filled: false
+        //                 // })
+        //             })
+        //         } else if (element.image) {
+        //             // if (element.image.isAnimation) debugger;
+        //             this.drawer.image({
+        //                 ...element,
+        //                 image: element.image.isAnimation ? element.image.image : element.image,
+        //                 x: element.x + this.currentScene.camera.position.x,
+        //                 y: element.y + this.currentScene.camera.position.y,
+        //             });
+        //             // if (element.image.isAnimation) console.log("");
+        //         } else if (element.drawDebug) {
+        //             if (element.triggerFrame) {
+        //                 this.drawer.rect({
+        //                     x: element.triggerFrame.x1,
+        //                     y: element.triggerFrame.y1,
+        //                     width: element.triggerFrame.x2 - element.triggerFrame.x1,
+        //                     height: element.triggerFrame.y2 - element.triggerFrame.y1,
+        //                     color: "#acf233",
+        //                     filled: false,
+        //                 })
+        //             }
+        //             if (element.startTriggerFrame) {
+        //                 this.drawer.rect({
+        //                     x: element.startTriggerFrame.x1,
+        //                     y: element.startTriggerFrame.y1,
+        //                     width: element.startTriggerFrame.x2 - element.startTriggerFrame.x1,
+        //                     height: element.startTriggerFrame.y2 - element.startTriggerFrame.y1,
+        //                     color: "#38cf68",
+        //                     filled: false,
+        //                 })
+        //             }
+        //         }
+        //         else this.drawer.rect({
+        //             ...element,
+        //             x: element.x + this.currentScene.camera.position.x,
+        //             y: element.y + this.currentScene.camera.position.y
+        //         });
+        //     }
+        //     else if (Array.isArray(element.image)) {
+        //         element.image.forEach(part => {
+        //             if (part.isCircle) this.drawer.circle(part)
+        //             else {
+        //         // debugger;
+        //         this.drawer.image({...element, image: part});
+        //             }
+        //         })
+        //     } 
+        //     else if (element.type === "text") this.drawer.text(element);
+        //     else if (element.type === "button" || element.type === "window") {
+        //         if (element.name === "AIM") debugger;
+        //         this.drawer.button(element);
+        //         // console.log('element: ', element);
+        //     }
+        //     else if (element.color && typeof element.color === 'string') {
+        //         this.drawer.rect(element);
+        //     } else {
+        //         this.drawer.image(element);
+        //     }
+        // });
+
+        // layers = null
         // debugger;
     }
 
@@ -227,11 +252,12 @@ class TanksGame {
             }                            //Webkit, Safari, Chrome
         });
 
-        this.drawer = new Drawer(this.SCREEN);
+        // this.drawer = new Drawer(this.SCREEN);
+        this.renderer = new Renderer(this.SCREEN)
 
         // console.log(">>>>>>>>SETUP>>>>>>>>");
         this.currentScene = this.sceneChanger.prepareScene(
-            "game_menu", 0,
+            "level_1", 0,//"game_menu", 0,
             this.data.gameSettings,
             this.data.changeKeyBinding.bind(this.data),
             this.data.changeFullscreenType.bind(this.data)

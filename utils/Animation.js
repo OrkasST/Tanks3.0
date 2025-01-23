@@ -69,12 +69,18 @@ export class Animation {
 
   update(time, rotation) {
     if (this.duration > time - this.startTime) {
+      
+    if (this.log) {
+      console.error("ANIMATION LOG");
+      debugger;
+    }
+
       this.isPlaying = true;
-      this.currentFrame = this._changeCurrentFrame(time)
+      if (!this.isPaused) this.currentFrame = this._changeCurrentFrame(time)
     } else if (this.isPlaying) {
       if (this.isInfinit) {
         this.startTime = time;
-        this._changeCurrentFrame(time)
+        if (!this.isPaused) this._changeCurrentFrame(time)
       } else {
         this.isPlaying = false;
         // console.log("Animation ended");
@@ -93,7 +99,7 @@ export class Animation {
   }
 
   _changeCurrentFrame(time = null, frame = null) {
-    // if (this.log) debugger;
+    if (this.log) debugger;
     this.currentFrame = frame || Math.ceil((time - this.startTime) / this.step)
     if (this.currentFrame >= this.totalFrames) this.currentFrame = 0
     if (this.log) console.log('this.currentFrame: ', this.currentFrame);
@@ -131,6 +137,13 @@ export class Animation {
 
   setFrame(number) {
     this._changeCurrentFrame(0, number)
+  }
+
+  pause() {
+    this.isPaused = true;
+  }
+  play() {
+    this.isPaused = false;
   }
 
   _log() {

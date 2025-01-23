@@ -23,11 +23,14 @@ export class Hull extends Part {
             Math.PI * 2      //3
         ]
         this.rotateDirection = 0
+        this.z = 1;
     }
 
     drive(direction = 1) { // 1 -- forward, -1 -- backward, 0 -- stop
         this.movementMultiply.x = 1 * direction * Math.cos(this.rotation)
         this.movementMultiply.y = 1 * direction * Math.sin(this.rotation)
+        if (direction != 0) this.image.play()
+        else this.image.pause()
     }
 
     turn(direction = 1) { // 1 -- clockwise, -1 -- counterclockwise

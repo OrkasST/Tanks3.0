@@ -19,6 +19,7 @@ export class Map extends GameObject {
     this.spawnPoints = null;
     this.hitboxes = null;
     this.name = name;
+    this.z = 0;
   }
 
   // async imageLoaded() {

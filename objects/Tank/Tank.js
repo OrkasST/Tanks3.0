@@ -57,7 +57,8 @@ export class Tank extends GameObject {
         )
     }
 s
-    appendTexture(name, image) {
+    appendTexture(name, image, time = 0) {
+        console.log('time: ', time);
         // console.log('name: ', name);
 
         let nameKeys = name.split("_")
@@ -68,7 +69,7 @@ s
             this.width, this.height
         )
         else if (imageType === "bullet") this.bulletImage = image
-        if (image.update) image.update(0, image.rotation);
+        if (image.update) image.update(time, image.rotation);
     }
 
     update(time) {

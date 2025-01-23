@@ -1,11 +1,11 @@
-import { GameObject } from "../../../objects/GameObject.js";
-import { Cursor } from "../../../objects/special/Cursor.js";
+import { Animation } from "../../../utils/Animation.js";
 import { ObjectCreator } from "../../../utils/ObjectCreator.js";
 import { Scene } from "../../Scene.js";
 import { PauseMenu } from "./pages/pauseMenu.js";
 
 export class GameLevel extends Scene {
     constructor(name, startTime, data) {
+        console.log('GameLevel.constructor>>>>>>>>>>startTime: ', startTime);
         // console.log('GameLevel.constructor>>>>>>>>>>data: ', data);
         // gger;
         super({
@@ -14,6 +14,7 @@ export class GameLevel extends Scene {
             startTime,
             background: data.sceneImages.background
         });
+        // console.log('GameLevel.constructor>>>>>>>>>>data: ', data);
 
         this.camera = this.objects.camera;
         this.player = this.objects.player;
@@ -25,10 +26,16 @@ export class GameLevel extends Scene {
         this.player.setPosition(this.levelMap.currentPlayerSpawnPoint)
         this.camera.setModifiers()
         this.camera.setFocus(this.player)
+        console.log('GameLevel.constructor>>>>>>>>>>data: ', data);
 
         this.enemies = this.levelMap.enemyDefaultPositions.map((position, ind) => {
             // console.log(ind + ' position: ', position);
-            return this.creator.create("enemy", position)
+            let enemy = this.creator.create("enemy", position);
+            // debugger;
+            enemy.appendTexture("enemy_tank_tower", new Animation({...data.sceneImages["enemy_tank_tower"], startTime: 0}), startTime)
+            enemy.appendTexture("enemy_tank_hull", new Animation({...data.sceneImages["enemy_tank_hull"], startTime: 0}), startTime)
+            console.log('enemy: ', enemy.hull.image, enemy.tower.image);
+            return enemy
         })
         this.enemySpawners = this.levelMap.enemySpawners.map(position => {
             return this.creator.create("spawner", {
