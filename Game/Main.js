@@ -66,10 +66,6 @@ class TanksGame {
     }
 
     update(data, time) {
-        // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        // console.log(">>>>>> UPDATE >>>>>>");
-        // console.log('data: ', data);/
-
         if (!this.currentScene) return;
         data.events = this.eventHandler.getLastEvents();
         this.currentScene.update(time, data);
@@ -92,11 +88,9 @@ class TanksGame {
             // this.currentScene = null;
         }
         this.LOGGER.value += 1
-        // console.log("<<<<<<< UPDATE IS FINISHED");
     }
 
     render(data, time) {
-        this.renderer.draw(this.currentScene)
 
         // this.drawer.clear();
         // if (!this.currentScene) return;
@@ -226,6 +220,8 @@ class TanksGame {
 
         // layers = null
         // debugger;
+        
+        this.renderer.draw(this.currentScene)
     }
 
     setup() {

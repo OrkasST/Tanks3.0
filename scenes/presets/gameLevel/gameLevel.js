@@ -32,8 +32,8 @@ export class GameLevel extends Scene {
             // console.log(ind + ' position: ', position);
             let enemy = this.creator.create("enemy", position);
             // debugger;
-            enemy.appendTexture("enemy_tank_tower", new Animation({...data.sceneImages["enemy_tank_tower"], startTime: 0}), startTime)
-            enemy.appendTexture("enemy_tank_hull", new Animation({...data.sceneImages["enemy_tank_hull"], startTime: 0}), startTime)
+            enemy.appendTexture("enemy_tank_tower", new Animation({ ...data.sceneImages["enemy_tank_tower"], startTime: 0 }), startTime)
+            enemy.appendTexture("enemy_tank_hull", new Animation({ ...data.sceneImages["enemy_tank_hull"], startTime: 0 }), startTime)
             console.log('enemy: ', enemy.hull.image, enemy.tower.image);
             return enemy
         })
@@ -46,6 +46,10 @@ export class GameLevel extends Scene {
                 source: this.enemies
             })
         })
+
+        this.FPS = 0
+        this.lastResetTime = startTime
+        this.lastUpdate = startTime
 
         this.objects = [
             this.levelMap,
@@ -63,7 +67,34 @@ export class GameLevel extends Scene {
                 color: "#FFFFFF",
                 text: "Time: 0",
                 update: function (time) {
-                    this.text = `Time: ${time}`.split(".")[0].slice(0, -2)+"00"
+                    this.text = `Time: ${time}`.split(".")[0].slice(0, -2) + "00"
+                }
+            },
+            {
+                type: "text",
+                name: "LiveFPS",
+                x: 93,
+                y: 180,
+                isUpdatable: true,
+                font: "40px TimesNewRoman",
+                color: "#FFFFFF",
+                text: "FPS: 0",
+                frames: [],
+                counter: 0,
+                update: function (time, lastFrame) {
+                    if (this.counter < 5) {
+                        let frame = Math.round(1000 / (time - lastFrame))
+                        this.frames.push(frame)
+                        this.counter++
+                        console.log(this.frames);
+                        // debugger;
+                    } else {
+                        // debugger;
+                        this.counter = 0
+                        let fps = Math.round(this.frames.reduce((a, b) => a + b) / this.frames.length)
+                        this.frames = []
+                        this.text = `FPS__: ${fps}`
+                    }
                 }
             }
         ]
@@ -91,6 +122,8 @@ export class GameLevel extends Scene {
 
     update(time, data) {
         super.update(time, data)
+
+        this.FPS += 1
 
         if (!data.hideCursor && this.currentPage === "main") data.hideCursor = true;
         else if (this.currentPage !== "main") data.hideCursor = false
@@ -180,7 +213,7 @@ export class GameLevel extends Scene {
         }
 
         this.objects.forEach((obj, ind) => {
-            if (obj.update) obj.update(time);
+            if (obj.update) obj.update(time, this.lastUpdate);
         })
 
         if (this.isFinished) {
@@ -188,7 +221,7 @@ export class GameLevel extends Scene {
             data.hideCursor = false;
             // console.log('>>>>>>>>>>>>>>>>>GameLevel.update >>>>>\n\tdata: ', data);
         }
-
+        this.lastUpdate = time
     }
 
     _hadlePlayerInput(nameA, nameB, data) {
