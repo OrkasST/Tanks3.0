@@ -50,11 +50,17 @@ class TanksGame {
 
         this.gameId = null;
         this.deltaTime = 0;
+        this.timeDelay = 0
     }
 
     loop(data, time) {
-        this.update(data, time);
-        this.render(data, time);
+        if (this.isInactive) {
+            this.timeDelay += time - this.lastTime
+            this.isInactive = false
+        }
+        this.deltaTime = time - this.timeDelay
+        this.update(data, this.deltaTime);
+        this.render(data, this.deltaTime);
         this.lastTime = time;
         this.gameId = requestAnimationFrame((time) => this.loop(data, time));
     }
@@ -63,7 +69,7 @@ class TanksGame {
         // console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         // console.log(">>>>>> UPDATE >>>>>>");
         // console.log('data: ', data);/
-        // console.log('time: ', time);
+
         if (!this.currentScene) return;
         data.events = this.eventHandler.getLastEvents();
         this.currentScene.update(time, data);
@@ -251,6 +257,13 @@ class TanksGame {
                 return confirmationMessage;
             }                            //Webkit, Safari, Chrome
         });
+
+        document.addEventListener("visibilitychange", (event) => {
+            if (document.visibilityState !== "visible") {
+                this.isInactive = true
+                console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tab is inactive");
+            }
+          });
 
         // this.drawer = new Drawer(this.SCREEN);
         this.renderer = new Renderer(this.SCREEN)

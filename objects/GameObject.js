@@ -112,6 +112,7 @@ export class GameObject {
     this.lastUpdateTime = time;
     if (this.lastUpdateTime - this.creationTime >= this.lifeTime) {
       this.isToBeDestroyed = true;
+      this.isDying(time)
     }
   }
 
@@ -120,6 +121,7 @@ export class GameObject {
     this.movement.y = this.speed * multiply.y
   }
 
+  isDying(time) { }
   // move() {
   //   if (this.movement.status === "moving") {
   //     switch (this.movement.direction) {

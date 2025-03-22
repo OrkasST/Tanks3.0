@@ -4,15 +4,24 @@ import { Hull } from "./TankHull.js";
 import { Tower } from "./TankTower.js";
 
 export class Tank extends GameObject {
-    constructor({ color = "#FF0011", width = 200, height = 200, isStatic = false, time, speed = 120, rotation= 90, reloadDuration= 2000}) {
+    constructor({
+        color = "#FF0011",
+        width = 200, height = 200, 
+        isStatic = false,
+        time, speed = 120, rotation= 90, turningSpeed,
+        reloadDuration= 2000,
+        collisionBody = null
+    }) {
         super({color, width, height, isStatic, time, speed, rotation})
+        console.log('turningSpeed: ', turningSpeed);
         this.hull = new Hull({
             sourceX: this.x, sourceY: this.y,
             width, height,
             name: "hull",
             time,
             speed,
-            rotation: (rotation *  Math.PI / 180)
+            rotation: (rotation *  Math.PI / 180),
+            turningSpeed
         });
         this.tower = new Tower({
             sourceX: this.x, sourceY: this.y,
@@ -51,7 +60,7 @@ export class Tank extends GameObject {
                 sy: this.y + this.height/2 - 64 + (this.tower.width/2 + 10)*Math.sin(this.tower.rotation),
                 rotation: this.tower.rotation,
                 speed: 900,
-                lifeTime: 3000
+                lifeTime: 1200
             },
             time
         )

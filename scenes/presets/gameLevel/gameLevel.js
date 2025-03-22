@@ -53,6 +53,19 @@ export class GameLevel extends Scene {
             ...this.enemies,
             this.cursor,
             this.camera,
+            {
+                type: "text",
+                name: "TIMER",
+                x: 93,
+                y: 100,
+                isUpdatable: true,
+                font: "40px TimesNewRoman",
+                color: "#FFFFFF",
+                text: "Time: 0",
+                update: function (time) {
+                    this.text = `Time: ${time}`.split(".")[0].slice(0, -2)+"00"
+                }
+            }
         ]
 
         this.mainPage = [...this.objects];
@@ -93,6 +106,7 @@ export class GameLevel extends Scene {
             }
 
             if (lastMouseEvent.type === "click" && this.currentPage === "main") {
+                console.log("SHOOOT");
                 let bullet = this.player.shoot(time, this.creator.create)
                 if (bullet) {
                     this.objects.splice(1, 0, bullet)

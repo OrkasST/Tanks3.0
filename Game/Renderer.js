@@ -65,7 +65,10 @@ export class Renderer {
                 (element.type !== "UI" && element.type !== "window" && element.type !== "button")
             ) {
                 // console.log(element.y + cameraPosition.y);
-
+                if (element.type === "text") {
+                    this.drawer.text(element);
+                    return
+                }
                 if (element.image && Array.isArray(element.image)) {
                     // console.log('RENDER>>>>>>>\n\telement: ', element, '\n\telement.image: ', element.image);
 

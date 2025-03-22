@@ -24,15 +24,23 @@ export class Bullet extends GameObject {
             x: this.speed * Math.cos(this.rotation),
             y: this.speed * Math.sin(this.rotation),
         }
+
+        this.lifeLog = []
+    }
+
+    isDying(time) {
+        // this.lifeLog = this.lifeLog.join("\n\t")
+        let average = this.lifeLog.reduce((pr, cur) => pr+cur)/this.lifeLog.length
+        console.log('average: ', average);
+        let diffs = this.lifeLog.map((el,i) => el > average+0.3 ? `${i}: ${el}` : 0).filter(el => el !== 0)
+        console.log('diffs: ', diffs);
+        
+        console.log("~~~ I'll be back. Bullet ;) ~~~");
     }
 
     update(time) {
-        // this.height   
-        // console.log('this.height: ', this.height);
-        // console.log('this.width: ', this.width);
-        // console.log("BULLET UPDATE");
+        this.lifeLog.push(Number((time - this.lastUpdateTime).toFixed(2)))
         this.image.update(time, this.rotation)
-        // console.log('this.rotation: ', this.rotation);
         super.update(time)
     }
 

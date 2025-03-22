@@ -1,18 +1,20 @@
 import { Tank } from "../Tank/Tank.js";
 
 export class Player extends Tank {
-    constructor({ time, speed = 120, rotation = 270, reloadDuration = 2000 }) {
+    constructor({ time, speed = 120, rotation = 270, reloadDuration = 2000, turningSpeed = 0.001 }) {
+        console.log("___PLAYER");
         super({
             color: "#FFFFFF",
             width: 200, height: 200,
             isStatic: false,
             time,
-            speed, rotation,
+            speed, rotation, turningSpeed,
             reloadDuration
         })
         this.images = {}
         this.isPlayer = true;
         console.log("Player params >>>>>>>>\n\t", "x: ",this.x, "\ty: ",this.y);
+        console.log("___PLAYER___END");
         // player dev started
     }
 

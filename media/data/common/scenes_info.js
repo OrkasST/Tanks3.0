@@ -1,3 +1,5 @@
+import { LEVEL_1 } from "./levels_data/level_1.js";
+
 export const SCENES_INFO = {
     game_menu: {
         sceneImages: [
@@ -5,107 +7,5 @@ export const SCENES_INFO = {
             ["levels", "media/images/menu/levels.jpg"]
         ],
     },
-    level_1: {
-        sceneImages: [
-            ["player_tank_hull", "media/images/game/player/Hull.png", {
-                frameListHeight: 512,
-                frameListWidth: 512,
-                frameWidth: 512,
-                frameHeight: 512,
-                duration: 0,
-                frameX: -256,
-                frameY: -256,
-                offsetX: 0,
-                offsetY: 0,
-                startFrame: 0,
-                isRotating: true,
-                isInfinit: false,
-            }],
-            ["player_tank_tower", "media/images/game/player/Tower_States.png", {
-                frameListHeight: 512,
-                frameListWidth: 1024,
-                frameWidth: 512,
-                frameHeight: 512,
-                duration: 0,
-                frameX: -256,
-                frameY: -256,
-                // frameX: 0,
-                // frameY: 0,
-                startFrame: 1,
-                isRotating: true,
-                isInfinit: false,
-                totalFrames: 2,
-                // log: true
-            }],
-            ["player_tank_tower_reload", "media/images/game/player/Reload_Tiled.png", {
-                frameListHeight: 7680,
-                frameListWidth: 7680,
-                frameWidth: 512,
-                frameHeight: 512,
-                duration: 0,
-                totalFrames: 216,
-                frameX: -256,
-                frameY: -256,
-                startFrame: 1,
-                isRotating: true,
-                isInfinit: false,
-                // log: true
-            }],
-            ["player_tank_tower_bullet", "media/images/game/player/Shot.png", {
-                frameListHeight: 256,
-                frameListWidth: 1920,
-                frameWidth: 128,
-                frameHeight: 128,
-                duration: 208.32,//104.16,
-                totalFrames: 30,
-                frameX: -64,
-                frameY: -64,
-                startFrame: 1,
-                isRotating: true,
-                isInfinit: true,
-                // log: true,
-            }],
-            ["background", "media/images/game/level_01/pexels-johannes-plenio-1114900.jpg"],
-            ["levelMap_01_info", "media/data/levels/Default_map.json"],
-            ["tiles_for_map", "media/images/game/level_01/defaul_map_tiles.png"],
-            ["cursor", "media/images/game/common/Aim_transparent.png"],
-            ["enemy_tank_hull", "media/images/game//enemies/type_01/type_01_Hull.png", {
-                frameListHeight: 512,
-                frameListWidth: 512,
-                frameWidth: 512,
-                frameHeight: 512,
-                duration: 0,
-                frameX: -256,
-                frameY: -256,
-                offsetX: 0,
-                offsetY: 0,
-                startFrame: 0,
-                isRotating: true,
-                isInfinit: false,
-                // log: true
-            }],
-            ["enemy_tank_tower", "media/images/game/enemies/type_01/type_01_Tower.png", {
-                frameListHeight: 512,
-                frameListWidth: 1024,
-                frameWidth: 512,
-                frameHeight: 512,
-                duration: 0,
-                frameX: -256,
-                frameY: -256,
-                // frameX: 0,
-                // frameY: 0,
-                startFrame: 1,
-                isRotating: true,
-                isInfinit: false,
-                totalFrames: 2,
-                // log: true
-            }],
-        ],
-        dataList: [
-            ["player", {}],
-            ["levelMap", "Default_map"],
-            ["camera"],
-            ["cursor"]
-        ]
-    }
+    level_1: LEVEL_1
 }
