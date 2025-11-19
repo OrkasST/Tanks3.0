@@ -130,6 +130,64 @@ export class Renderer {
                     x: element.x + cameraPosition.x,
                     y: element.y + cameraPosition.y
                 });
+
+                if (element.collisionBody) {
+                    // console.log('element: ', element);
+                    element.collisionBody.bodies.forEach(body => {
+                        // this.drawer.rect({
+                        //     x:body.x1+ cameraPosition.x, y: body.y1+ cameraPosition.y,
+                        //     width: body.x2 - body.x1, height: body.y2 - body.y1,
+                        //     color: "#38cf68",
+                        //     filled: false
+                        // })
+                        let color = element.isColliding ? "#FF0000" : "#38cf68"
+                        // console.log('element.isColliding: ', element.isColliding);
+                        this.drawer.text({
+                            font: "14px TimesNewRoman",
+                            x: body.x1 + cameraPosition.x + 10,
+                            y: body.y1 + cameraPosition.y - 14,
+                            text: `x: ${Math.round(body.x1)}, y: ${Math.round(body.y1)}`
+                        })
+
+                        if (body.type == 2) {
+                            let a = 0
+                            for (let i = 1; i <= body.dots.length; i++) {
+                                a = i-1
+                                if (i === body.dots.length) i = 0
+                                this.drawer.line({
+                                    x1: body.dots[a].x + cameraPosition.x, y1: body.dots[a].y + cameraPosition.y,
+                                    x2: body.dots[i].x + cameraPosition.x, y2: body.dots[i].y + cameraPosition.y,
+                                    color
+                                })
+                                if (i === 0) break;
+                            }
+                            
+                            
+                        } else {
+                            this.drawer.line({
+                                x1: body.x1 + cameraPosition.x, y1: body.y1 + cameraPosition.y,
+                                x2: body.x2 + cameraPosition.x, y2: body.y1 + cameraPosition.y,
+                                color
+                            })
+                            this.drawer.line({
+                                x1: body.x2 + cameraPosition.x, y1: body.y1 + cameraPosition.y,
+                                x2: body.x2 + cameraPosition.x, y2: body.y2 + cameraPosition.y,
+                                color
+                            })
+                            this.drawer.line({
+                                x1: body.x2 + cameraPosition.x, y1: body.y2 + cameraPosition.y,
+                                x2: body.x1 + cameraPosition.x, y2: body.y2 + cameraPosition.y,
+                                color
+                            })
+                            this.drawer.line({
+                                x1: body.x1 + cameraPosition.x, y1: body.y2 + cameraPosition.y,
+                                x2: body.x1 + cameraPosition.x, y2: body.y1 + cameraPosition.y,
+                                color
+                            })
+                        }
+                        
+                    })
+                }
             }
             else if (Array.isArray(element.image)) {
                 element.image.forEach(part => {

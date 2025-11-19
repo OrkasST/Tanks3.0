@@ -7,7 +7,8 @@ export class Drawer {
     }
 
     clear() {
-        this.ctx.clearRect(0, 0, this.screen.width, this.screen.height);
+        // this.ctx.clearRect(0, 0, this.screen.width, this.screen.height);
+        this.ctx.reset()
     }
 
     rect({
@@ -54,9 +55,10 @@ export class Drawer {
     }
 
     line({
-        x1 = 0, y1 = 0, x2 = 10, y2 = 10, lineWidth = 1
+        x1 = 0, y1 = 0, x2 = 10, y2 = 10, lineWidth = 1, color = "#FFFFFF"
     }) {
         this.ctx.beginPath();
+        this.ctx.strokeStyle = color;
         this.ctx.moveTo(x1, y1);
         this.ctx.lineTo(x2, y2);
         this.ctx.stroke();

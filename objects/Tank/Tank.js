@@ -12,8 +12,9 @@ export class Tank extends GameObject {
         reloadDuration= 2000,
         collisionBody = null
     }) {
-        super({color, width, height, isStatic, time, speed, rotation})
-        console.log('turningSpeed: ', turningSpeed);
+        super({type: "entity", subtype: "tank", color, width, height, isStatic, time, speed, rotation})
+        // console.log("this.type: ", this.type);
+        // console.log('turningSpeed: ', turningSpeed);
         this.hull = new Hull({
             sourceX: this.x, sourceY: this.y,
             width, height,
@@ -49,25 +50,29 @@ export class Tank extends GameObject {
         this.hull.turn(direction)
     }
 
-    shoot(time, createFunction) {
+    shoot(time, createFunction, addColliderFnction) {
         if (this.tower.isReloading) return;
         this.tower.shoot(time)
-        return createFunction(
+        // debugger;
+        let bullet = createFunction(
             "bullet",
             {
                 image: new Animation({...this.tower.textures["tower_bullet"], startTime: time}),
-                sx: this.x + this.width/2 - 64 + (this.tower.width/2 + 10)*Math.cos(this.tower.rotation),
-                sy: this.y + this.height/2 - 64 + (this.tower.width/2 + 10)*Math.sin(this.tower.rotation),
+                sx: this.x + this.width/2 - 64 + (this.tower.width/2 + 10)*Math.cos(this.tower.rotation), // Dehardcode measures !!!!
+                sy: this.y + this.height/2 - 64 + (this.tower.width/2 + 10)*Math.sin(this.tower.rotation), // of the bullet      !!!!
                 rotation: this.tower.rotation,
                 speed: 900,
                 lifeTime: 1200
             },
             time
         )
+        addColliderFnction(bullet)
+        // debugger
+        return bullet
     }
 s
     appendTexture(name, image, time = 0) {
-        console.log('time: ', time);
+        // console.log('time: ', time);
         // console.log('name: ', name);
 
         let nameKeys = name.split("_")
@@ -85,10 +90,23 @@ s
         super.update(time);
         this.hull.update(this.x, this.y, time)
         this.tower.update(this.x, this.y, time)
+        this.collisionBody.move(this.x, this.y)
+        // console.log('this.collisionBody: ', this.collisionBody);
 
         // this.lastUpdateTime = time;
         if (this.lastUpdateTime - this.creationTime >= this.lifeTime) {
             this.isToBeDestroyed = true;
         }
+    }
+
+    stopMovement() {
+        if (this.isNotMoving) return
+        this.movement.x = 0
+        this.movement.y = 0
+        this.isNotMoving = true
+    }
+
+    stopHullRotation() {
+        this.turn(0)
     }
 }

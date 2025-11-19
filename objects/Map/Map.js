@@ -112,8 +112,9 @@ export class Map extends GameObject {
             x2: obj.x + obj.width,
             y1: obj.y,
             y2: obj.y + obj.height,
-            type: obj.type,
+            type: Number(obj.type),
             id: obj.id,
+            parent: "map"
           }))
         );
         else if (layer.name === "PlayerSpawnPoint") {
@@ -164,6 +165,7 @@ export class Map extends GameObject {
     // this.image.collisionBody = false;
     // this.spawnPoints = spawnPoints;
     this.hitboxes = hitboxes;
+    console.log('this.hitboxes: ', this.hitboxes);
     this.image = this.screen;
     // console.log(this.spawnPoints);
   }

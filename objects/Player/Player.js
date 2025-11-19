@@ -2,7 +2,7 @@ import { Tank } from "../Tank/Tank.js";
 
 export class Player extends Tank {
     constructor({ time, speed = 120, rotation = 270, reloadDuration = 2000, turningSpeed = 0.001 }) {
-        console.log("___PLAYER");
+        // console.log("___PLAYER");
         super({
             color: "#FFFFFF",
             width: 200, height: 200,
@@ -13,8 +13,8 @@ export class Player extends Tank {
         })
         this.images = {}
         this.isPlayer = true;
-        console.log("Player params >>>>>>>>\n\t", "x: ",this.x, "\ty: ",this.y);
-        console.log("___PLAYER___END");
+        // console.log("Player params >>>>>>>>\n\t", "x: ",this.x, "\ty: ",this.y);
+        // console.log("___PLAYER___END");
         // player dev started
     }
 
@@ -48,17 +48,6 @@ export class Player extends Tank {
         }
         else if (type == "TurnCounterclockwise") this.turn(-1)
         else if (type == "TurnClockwise") this.turn(1)
-    }
-
-    stopMovement() {
-        if (this.isNotMoving) return
-        this.movement.x = 0
-        this.movement.y = 0
-        this.isNotMoving = true
-    }
-
-    stopHullRotation() {
-        this.turn(0)
     }
 
     update(time) {

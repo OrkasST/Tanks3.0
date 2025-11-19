@@ -12,8 +12,8 @@ export class Hull extends Part {
         })
         // console.log("this.rotation", this.rotation);
         this.turningSpeed = turningSpeed
-        console.log('turningSpeed: ', turningSpeed);
-        console.log('this.turningSpeed: ', this.turningSpeed);
+        // console.log('turningSpeed: ', turningSpeed);
+        // console.log('this.turningSpeed: ', this.turningSpeed);
         this.movementMultiply = {
             x: 0,
             y: 0

@@ -3,6 +3,7 @@ import { CollisionBody } from "../physics/CollisionBody.js";
 export class GameObject {
   constructor({
     type = "block", //"entity" | "projectile" | "special"
+    subtype = "",
     relation = "ignor", // "fear" | "agressive" | "neutral"
 
     x = 0,
@@ -39,6 +40,7 @@ export class GameObject {
     this.rotation = rotation < 0 ? -1 : rotation; // * Math.PI / 180);
     this.radius = radius;
     this.type = type;
+    this.subtype = subtype;
     this.shape = shape;
 
     this.isSpheric = isSpheric;

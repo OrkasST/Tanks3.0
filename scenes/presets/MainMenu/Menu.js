@@ -1,7 +1,7 @@
 import { Scene } from "../../Scene.js";
 import { KeyBindings } from "./pages/keyBindings.js";
 import { Levels } from "./pages/levels.js";
-import { Settings } from "./pages/Settings.js";
+import { Settings } from "./pages/settings.js";
 import { StartMenu } from "./pages/startMenu.js";
 
 export class Menu extends Scene {

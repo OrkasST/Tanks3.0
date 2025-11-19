@@ -5,7 +5,7 @@ import { PauseMenu } from "./pages/pauseMenu.js";
 
 export class GameLevel extends Scene {
     constructor(name, startTime, data) {
-        console.log('GameLevel.constructor>>>>>>>>>>startTime: ', startTime);
+        // console.log('GameLevel.constructor>>>>>>>>>>startTime: ', startTime);
         // console.log('GameLevel.constructor>>>>>>>>>>data: ', data);
         // gger;
         super({
@@ -26,7 +26,7 @@ export class GameLevel extends Scene {
         this.player.setPosition(this.levelMap.currentPlayerSpawnPoint)
         this.camera.setModifiers()
         this.camera.setFocus(this.player)
-        console.log('GameLevel.constructor>>>>>>>>>>data: ', data);
+        // console.log('GameLevel.constructor>>>>>>>>>>data: ', data);
 
         this.enemies = this.levelMap.enemyDefaultPositions.map((position, ind) => {
             // console.log(ind + ' position: ', position);
@@ -34,7 +34,9 @@ export class GameLevel extends Scene {
             // debugger;
             enemy.appendTexture("enemy_tank_tower", new Animation({ ...data.sceneImages["enemy_tank_tower"], startTime: 0 }), startTime)
             enemy.appendTexture("enemy_tank_hull", new Animation({ ...data.sceneImages["enemy_tank_hull"], startTime: 0 }), startTime)
-            console.log('enemy: ', enemy.hull.image, enemy.tower.image);
+            this.creator.setCollider(enemy)
+            ///////////////////////////////////////////////////////////////////////
+            // console.log('enemy: ', enemy.hull.image, enemy.tower.image);
             return enemy
         })
         this.enemySpawners = this.levelMap.enemySpawners.map(position => {
@@ -86,10 +88,7 @@ export class GameLevel extends Scene {
                         let frame = Math.round(1000 / (time - lastFrame))
                         this.frames.push(frame)
                         this.counter++
-                        console.log(this.frames);
-                        // debugger;
                     } else {
-                        // debugger;
                         this.counter = 0
                         let fps = Math.round(this.frames.reduce((a, b) => a + b) / this.frames.length)
                         this.frames = []
@@ -105,7 +104,7 @@ export class GameLevel extends Scene {
                 data,
                 () => {
                     // console.clear()
-                    console.log("YOU HOOOO");
+                    // console.log("YOU HOOOO");
                     this.switchScene("game_menu")
                     data.hideCursor = false
                     // console.log('switchScene: ', this.switchScene);
@@ -139,8 +138,8 @@ export class GameLevel extends Scene {
             }
 
             if (lastMouseEvent.type === "click" && this.currentPage === "main") {
-                console.log("SHOOOT");
-                let bullet = this.player.shoot(time, this.creator.create)
+                // console.log("SHOOOT");
+                let bullet = this.player.shoot(time, this.creator.create.bind(this.creator), this.creator.setCollider.bind(this.creator))
                 if (bullet) {
                     this.objects.splice(1, 0, bullet)
                     this.cursor.startRefill(this.player.tower.reloadDuration)
@@ -182,15 +181,15 @@ export class GameLevel extends Scene {
 
                 // data.events.keyboard[data.events.keyboard.length-1];
                 if (event[i].code === "Escape") {
-                    console.log("ESCAPE");
+                    // console.log("ESCAPE");
                 }
                 if (event[i].code === data.gameSettings.keyBindings.PauseMenu.code && event[i].type === "keyup") {
                     if (this.currentPage === "main") {
-                        console.log("TO pause");
+                        // console.log("TO pause");
                         this.changePage("pauseMenu");
                     }
                     else {
-                        console.log("TO main");
+                        // console.log("TO main");
                         this.changePage("main");
                     }
                 }
@@ -213,6 +212,21 @@ export class GameLevel extends Scene {
         }
 
         this.objects.forEach((obj, ind) => {
+            if (obj.collisionBody) {
+                obj.isColliding = false
+                for (let i = ind + 1; i < this.objects.length; i++) {
+                    if (!this.objects[i].collisionBody) continue;
+                    let collision = obj.collisionBody.checkCollision(this.objects[i].collisionBody.bodies)
+                    if (collision) {
+                        obj.isColliding = collision;
+                        this.objects[i].isColliding = collision;
+
+                        if (!obj.isStatic) obj.stopMovement()
+                        if (!this.objects[i].isStatic) this.objects[i].stopMovement()
+                    }
+                    // console.log('collision: ', this.player.isColliding);
+                }
+            }
             if (obj.update) obj.update(time, this.lastUpdate);
         })
 

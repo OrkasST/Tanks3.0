@@ -20,7 +20,7 @@ export class MediaLoader {
   
     loadMedia(isSendingImage) {
       for (let i = 0; i < this._loadAmmount; i++) {
-        console.log('this.mediaToLoad[i]: ', this.mediaToLoad[i]);
+        // console.log('this.mediaToLoad[i]: ', this.mediaToLoad[i]);
         this.promises.push(this._setup(this.mediaToLoad[i][0], this.mediaToLoad[i][1], isSendingImage));
       }
       return Promise.all(this.promises);

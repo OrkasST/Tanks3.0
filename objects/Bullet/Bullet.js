@@ -15,7 +15,7 @@ export class Bullet extends GameObject {
             speed,
             isStatic: false,
             isDestructive: true,
-            // isCollidable: true
+            isCollidable: true
         })
         // this.image[0].frame({deltaTime: 0, rotation: this.rotation})
         // console.log(this);
@@ -25,6 +25,7 @@ export class Bullet extends GameObject {
             y: this.speed * Math.sin(this.rotation),
         }
 
+        // this.timeToStop = 100
         this.lifeLog = []
     }
 
@@ -41,6 +42,8 @@ export class Bullet extends GameObject {
     update(time) {
         this.lifeLog.push(Number((time - this.lastUpdateTime).toFixed(2)))
         this.image.update(time, this.rotation)
+        this.collisionBody.move(this.x, this.y)
+        // if (time - this.creationTime >= this.timeToStop) this.stopMovement()
         super.update(time)
     }
 
@@ -49,5 +52,12 @@ export class Bullet extends GameObject {
     //     this.x += this.movement.speed * Math.cos(this.rotation) * time - this.lastUpdateTime;
     //     this.y += this.movement.speed * Math.sin(this.rotation) * time - this.lastUpdateTime;
     //   }
+
+    stopMovement() {
+        if (this.isNotMoving) return
+        this.movement.x = 0
+        this.movement.y = 0
+        this.isNotMoving = true
+    }
 
 }

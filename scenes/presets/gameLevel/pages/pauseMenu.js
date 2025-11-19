@@ -2,7 +2,7 @@ import { Button } from "../../../../UI/Button.js";
 import { Window } from "../../../../UI/Window.js";
 
 export function PauseMenu(data, ...callbacks) {
-    console.log('Pause Menu callbacks: ', callbacks);
+    // console.log('Pause Menu callbacks: ', callbacks);
     return [
         new Window({}),
         new Button({

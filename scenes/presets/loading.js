@@ -5,7 +5,7 @@ import { Scene } from "../Scene.js";
 
 export class Loading extends Scene {
     constructor(data, nextScene, startTime, background) {
-        console.log('loading.constructor >>>>\n\tdata: ', data);
+        // console.log('loading.constructor >>>>\n\tdata: ', data);
         super({
             name: "Game Loading",
             objects: [
@@ -76,7 +76,7 @@ export class Loading extends Scene {
 
         this.loader = new MediaLoader();
         this.loader.setMedia(this.data.sceneImages);
-        console.log('Loading >>>>>\n\tthis.data.sceneImages: ', this.data.sceneImages);
+        // console.log('Loading >>>>>\n\tthis.data.sceneImages: ', this.data.sceneImages);
         if (Array.isArray(this.data.sceneImages[0])) this.loader.loadMedia().then(
             (value) => {
                 // console.log(this.loader.loadedMedia);
@@ -96,6 +96,9 @@ export class Loading extends Scene {
                 this.data.sceneImages = this.loader.loadedMedia;
                 if (this.data.dataList) {
                     this.creator.appendImages(this.loader.loadedMedia, this.data.dataList);
+                    this.creator.setupColliders(this.data.dataList);
+                    
+                ///////////////////////////////////////////////////////////////////////////////////////////////
                     // this.data.dataList.player.setPosition(this.data.dataList.map.currentPlayerSpawnPoint)
                     // this.data.dataList = [this.data.dataList.map, this.data.dataList.player, this.data.dataList.camera]
                     // console.log('LOADING>>>>>>>>>>>\n\tthis.data.dataList: ', this.data.dataList);
